@@ -70,7 +70,7 @@
   (straight-flush? low-ace-straight-flush-hand) => truthy
   (straight-flush? high-ace-straight-flush-hand) => truthy)
 
-(facts "hand-value"
+(facts "value"
   (value high-seven) => 0
   (value pair-hand) => 1
   (value two-pairs-hand) => 2
