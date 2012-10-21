@@ -1,4 +1,4 @@
-(ns p-p-p-pokerface.core)
+(ns p-p-p-pokerface)
 
 (defn rank [card]
   nil)
