@@ -30,7 +30,8 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn straight-flush? [hand]
   nil)
