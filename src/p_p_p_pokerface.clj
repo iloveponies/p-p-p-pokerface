@@ -15,7 +15,7 @@
   nil)
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (contains? (set (vals (frequencies (map rank hand)))) 3))
 
 (defn four-of-a-kind? [hand]
   nil)
