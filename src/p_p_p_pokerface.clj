@@ -30,8 +30,7 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  (and (pair? hand)
-       (three-of-a-kind? hand)))
+  (= '(2 3) (sort (vals (frequencies (map rank hand))))))
 
 (defn straight-flush? [hand]
   nil)
