@@ -27,7 +27,7 @@
   nil)
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
   nil)
