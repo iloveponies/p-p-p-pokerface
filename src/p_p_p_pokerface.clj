@@ -9,7 +9,7 @@
   (str s))
 
 (defn pair? [hand]
-  nil)
+  (contains? (set (vals (frequencies (map rank hand)))) 2))
 
 (defn two-pairs? [hand]
   nil)
