@@ -8,17 +8,20 @@
 (defn suit [[_ s]]
   (str s))
 
+(defn n-of-a-kind? [hand n]
+  (contains? (set (vals (frequencies (map rank hand)))) n))
+
 (defn pair? [hand]
-  (contains? (set (vals (frequencies (map rank hand)))) 2))
+  (n-of-a-kind? hand 2))
 
 (defn two-pairs? [hand]
   nil)
 
 (defn three-of-a-kind? [hand]
-  (contains? (set (vals (frequencies (map rank hand)))) 3))
+  (n-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
-  (contains? (set (vals (frequencies (map rank hand)))) 4))
+  (n-of-a-kind? hand 4))
 
 (defn straight? [hand]
   nil)
