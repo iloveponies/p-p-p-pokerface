@@ -9,22 +9,22 @@
 (defn pair? [hand]
   nil)
 
-(defn two-pairs? [hand]
-  nil)
-
 (defn three-of-a-kind? [hand]
   nil)
 
 (defn four-of-a-kind? [hand]
   nil)
 
-(defn straight? [hand]
-  nil)
-
 (defn flush? [hand]
   nil)
 
 (defn full-house? [hand]
+  nil)
+
+(defn two-pairs? [hand]
+  nil)
+
+(defn straight? [hand]
   nil)
 
 (defn straight-flush? [hand]
