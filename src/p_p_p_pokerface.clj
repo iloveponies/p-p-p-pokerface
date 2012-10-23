@@ -8,10 +8,10 @@
 (defn suit [[_ s]]
   (str s))
 
-(defn n-of-a-kind? [hand n]
+(defn- n-of-a-kind? [hand n]
   (contains? (set (vals (frequencies (map rank hand)))) n))
 
-(defn sorted-rank-sequence [hand]
+(defn- sorted-rank-sequence [hand]
   (sort (vals (frequencies (map rank hand)))))
 
 (defn pair? [hand]
@@ -46,14 +46,12 @@
   (and (straight? hand)
        (flush? hand)))
 
+(defn- high-card? [_] true)
+
 (defn value [hand]
-  (cond
-    (straight-flush? hand)  8
-    (four-of-a-kind? hand)  7
-    (full-house? hand)      6
-    (flush? hand)           5
-    (straight? hand)        4
-    (three-of-a-kind? hand) 3
-    (two-pairs? hand)       2
-    (pair? hand)            1
-    :else                   0))
+  (let [checkers [high-card? pair? two-pairs? three-of-a-kind?
+                  straight? flush? full-house? four-of-a-kind?
+                  straight-flush?]
+        hand-has-value? (fn [value]
+                          ((get checkers value) hand))]
+    (apply max (filter hand-has-value? (range 0 9)))))
