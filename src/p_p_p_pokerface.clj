@@ -1,13 +1,19 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(defn suit [[_ s]]
+  (str s))
 
-(defn suit [card]
-  nil)
+(defn rank [card]
+  (let[[s _] card
+       r {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+    (if(contains? r s)
+      (get r s)
+      (Integer/valueOf (str s)))))
 
 (defn pair? [hand]
-  nil)
+    (if( < 1 (apply max (vals(frequencies(map rank hand)))))
+      true
+      false))
 
 (defn two-pairs? [hand]
   nil)
