@@ -54,4 +54,4 @@
                   straight-flush?]
         hand-has-value? (fn [value]
                           ((get checkers value) hand))]
-    (apply max (filter hand-has-value? (range 0 9)))))
+    (apply max (filter hand-has-value? (range 9)))))
