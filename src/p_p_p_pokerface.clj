@@ -43,7 +43,8 @@
   (= '(2 3) (sorted-rank-sequence hand)))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
   nil)
