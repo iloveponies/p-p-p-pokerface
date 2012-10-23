@@ -11,17 +11,21 @@
 (defn n-of-a-kind? [hand n]
   (contains? (set (vals (frequencies (map rank hand)))) n))
 
+(defn sorted-rank-sequence [hand]
+  (sort (vals (frequencies (map rank hand)))))
+
 (defn pair? [hand]
   (n-of-a-kind? hand 2))
-
-(defn two-pairs? [hand]
-  nil)
 
 (defn three-of-a-kind? [hand]
   (n-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
   (n-of-a-kind? hand 4))
+
+(defn two-pairs? [hand]
+  (or (four-of-a-kind? hand)
+      (= '(1 2 2) (sorted-rank-sequence hand))))
 
 (defn straight? [hand]
   nil)
@@ -30,7 +34,7 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  (= '(2 3) (sort (vals (frequencies (map rank hand))))))
+  (= '(2 3) (sorted-rank-sequence hand)))
 
 (defn straight-flush? [hand]
   nil)
