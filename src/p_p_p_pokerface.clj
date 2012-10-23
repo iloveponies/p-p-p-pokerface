@@ -3,7 +3,7 @@
 (defn rank [[r]]
   (if (Character/isDigit r)
     (Integer/valueOf (str r))
-    (get {\T 10 \J 11 \Q 12 \K 13 \A 14} r)))
+    ({\T 10 \J 11 \Q 12 \K 13 \A 14} r)))
 
 (defn suit [[_ s]]
   (str s))
