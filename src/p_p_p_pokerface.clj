@@ -7,7 +7,7 @@
 
 (defn at-least [n hand]
   (let [ranks (map rank hand)]
-    (boolean (<= n (apply max (vals (frequencies ranks)))))))
+    (<= n (apply max (vals (frequencies ranks))))))
 
 (defn suit [card]
   (let [[_ s] card]
@@ -20,7 +20,8 @@
   (let [ranks (map rank hand)
         ge (fn [x] (>= x 2))
         filtered (filter ge (vals (frequencies ranks)))]
-    (boolean (or (== (count filtered) 2) (== 4 (first filtered))))))
+    (and (not (empty? filtered)) 
+         (or (== (count filtered) 2) (== 4 (first filtered))))))
 
 (defn three-of-a-kind? [hand]
   (at-least 3 hand))
@@ -32,20 +33,25 @@
   (let [ranks (sort (map rank hand))
         rep1 (sort (replace {1 14} ranks))
         rep2 (sort (replace {14 1} ranks))]
-    (boolean (or (= ranks (range (get ranks 0) ((get ranks 0) + 6)))
-             (= rep1 (range (get rep1 0) ((get rep1 0) + 6)))
-             (= rep2 (range (get rep2 0) ((get rep2 0) + 6)))))))
+    (or (= ranks (range (first ranks) (+ (first ranks) 5)))
+             (= rep1 (range (first rep1) (+ (first rep1) 5)))
+             (= rep2 (range (first rep2) (+ (first rep2) 5))))))
 
 (defn flush? [hand]
   (let [suits (map suit hand)]
-    (boolean (== 1 (count (set suits))))))
+    (== 1 (count (set suits)))))
 
 (defn full-house? [hand]
   (let [kinds (vals (frequencies (map rank hand)))]
-    (boolean (== 2 (count kinds)))))
+    (== 2 (count kinds))))
 
 (defn straight-flush? [hand]
-  (boolean (and (straight? hand) (flush? hand))))
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [high-card? (fn [hand] true)
+        checkers [high-card? pair? two-pairs? three-of-a-kind? straight? 
+                   flush? full-house? four-of-a-kind? straight-flush?]
+        hand-has-value? (fn [hand val] ((get checkers val) hand))
+        predicate (fn [x] (hand-has-value? hand x))]
+        (apply max (filter predicate (range 9)))))
