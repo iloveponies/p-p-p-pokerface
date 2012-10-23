@@ -51,7 +51,5 @@
 (defn value [hand]
   (let [checkers [high-card? pair? two-pairs? three-of-a-kind?
                   straight? flush? full-house? four-of-a-kind?
-                  straight-flush?]
-        hand-has-value? (fn [value]
-                          ((get checkers value) hand))]
-    (apply max (filter hand-has-value? (range 9)))))
+                  straight-flush?]]
+    (apply max (filter #((get checkers %) hand) (range 9)))))
