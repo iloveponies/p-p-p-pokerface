@@ -33,10 +33,33 @@
    (< 1 y)))
 
 (defn straight? [hand]
-  )
+  (if (pair? hand)
+    false
+    (let [[x y z t v] (sort (map rank hand))]
+      (if (= 4 (+ (- v t) (- t z) (- z y) (- y x)))
+        true
+        (if (= 4 (+ (- t z) (- z y) (- y x) (- x (- v  13))))
+          true
+          false)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (if (straight-flush? hand)
+    8
+    (if (four-of-a-kind? hand)
+      7
+      (if (full-house? hand)
+        6
+        (if (flush? hand)
+          5
+          (if (straight? hand)
+            4
+            (if (three-of-a-kind? hand)
+              3
+              (if (two-pairs? hand)
+                2
+                (if (pair? hand)
+                  1
+                  0)))))))))
