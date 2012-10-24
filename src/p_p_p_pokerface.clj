@@ -14,11 +14,16 @@
 
 (defn amount-of-certain-amount-of-same-ranks [hand amount]
   (count
-   (filter (fn [asdf] (= asdf amount))
-           (vals (frequencies (map rank hand))))))
+   (filter (fn [freq-vals]
+             (= freq-vals amount))
+    (vals (frequencies
+           (map rank hand))))))
 
 (defn pair? [hand]
   (>= (amount-of-certain-amount-of-same-ranks hand 2) 1))
+
+(defn three-of-a-kind? [hand]
+  (= (amount-of-certain-amount-of-same-ranks hand 3) 1))
 
 (defn four-of-a-kind? [hand]
   (= (amount-of-certain-amount-of-same-ranks hand 4) 1))
@@ -27,15 +32,20 @@
   (or (= (amount-of-certain-amount-of-same-ranks hand 2) 2)
       (four-of-a-kind? hand)))
 
-(defn three-of-a-kind? [hand]
-  (= (amount-of-certain-amount-of-same-ranks hand 3) 1))
+(defn two-map [seqv]
+  (map vector seqv (rest seqv)))
 
 (defn straight? [hand]
-  ;TODO
-  )
-
-(defn straight? [hand]
-  )
+  (let [ranked-hand (map rank hand)
+        diff=1? (fn [[one two]]
+                     (=(- two one) 1))
+        func (fn [handy]
+                 (contains? (set (map diff=1? (two-map (sort handy)))) false))]
+    (if (func ranked-hand)
+      (if (contains? (set ranked-hand) 14)
+        (not (func (replace {14 1} ranked-hand)))
+        false)
+      true)))
 
 (defn flush? [hand]
   (contains? (set (vals (frequencies (map suit hand)))) 5))
@@ -46,10 +56,22 @@
            (= (amount-of-certain-amount-of-same-ranks hand 1) 0)))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
-(defn straight-flush? [hand]
-  nil)
+(def check-this-shit 
+  {pair? 1
+   two-pairs? 2
+   three-of-a-kind? 3
+   straight? 4
+   flush? 5
+   full-house? 6
+   four-of-a-kind? 7
+   straight-flush? 8}
+  )
 
 (defn value [hand]
-  nil)
+  (apply max
+         (map
+          (fn [[func value]]
+            (if (func hand) value 0))
+          check-this-shit)))
