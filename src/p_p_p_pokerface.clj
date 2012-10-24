@@ -17,6 +17,7 @@
 (defn ranks [hand]
   (map rank hand))
 
+<<<<<<< HEAD
 (defn suits [hand]
   (map suit hand))
 
@@ -26,6 +27,8 @@
 (defn pair? [hand]
   (in? (freqs hand) 2))
 
+=======
+>>>>>>> FETCH_HEAD
 (defn three-of-a-kind? [hand]
   (in? (freqs hand) 3))
 
@@ -37,6 +40,7 @@
         (= (get (frequencies (freqs hand)) 2) 2)
         (four-of-a-kind? hand)))
 
+<<<<<<< HEAD
 (defn straight? [hand]
   (let [check (fn [rnks]
                 (and
@@ -45,6 +49,8 @@
         rnks (ranks hand)]
     (or (check rnks) (check (replace {14 1} rnks)))))
 
+=======
+>>>>>>> FETCH_HEAD
 (defn flush? [hand]
   (let [sts (suits hand)]
     (every? (fn [s] (= s (first sts))) (rest sts))))
@@ -53,6 +59,12 @@
   (and
        (in? (freqs hand) 2)
        (in? (freqs hand) 3)))
+
+(defn two-pairs? [hand]
+  nil)
+
+(defn straight? [hand]
+  nil)
 
 (defn straight-flush? [hand]
   (and
