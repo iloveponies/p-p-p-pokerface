@@ -39,12 +39,27 @@
      (full-house? hand) true
      (and (not (three-of-a-kind? hand)) (== 3 (count (frequencies ranks)))) true
      :else false)))
- 
+
 (defn straight? [hand]
-  nil)
+  (let [A-is-14-ranks (sort (map rank hand))
+        A-is-1-ranks (sort (replace {14 1} A-is-14-ranks))
+    	A-is-14-min (first A-is-14-ranks)
+        A-is-1-min (first A-is-1-ranks)
+        A-is-14-straight (range A-is-14-min (+ 5 A-is-14-min))
+        A-is-1-straight (range A-is-1-min (+ 5 A-is-1-min))]
+    (or (= A-is-14-ranks A-is-14-straight)
+          (= A-is-1-ranks A-is-1-straight))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
+
+(defn hand-has-value? [hand value]
+  (let [checkers [high-card? pair? two-pairs? three-of-a-kind? straight?
+                  flush? full-house? four-of-a-kind? straight-flush?]]
+    ((get checkers value) hand)))
 
 (defn value [hand]
-  nil)
+  (apply max (filter (fn [numb] (hand-has-value? hand numb)) (range 0 9))))
