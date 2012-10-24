@@ -53,5 +53,3 @@
        hand-has-value? (fn [hand n] ((get checkers n) hand))
        tr (fn [x](hand-has-value? hand x))]
     (apply max (filter tr (range 0 9)))))
-
-()
