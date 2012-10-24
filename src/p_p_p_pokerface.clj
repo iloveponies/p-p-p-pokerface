@@ -1,31 +1,39 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[fst _] card
+        r {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+    (if (contains? r fst)
+      (get r fst)
+      (Integer/valueOf (str fst)))))
 
 (defn suit [card]
-  nil)
+  (let [[fst snd] card]
+  (str snd)))
 
 (defn pair? [hand]
-  nil)
+   (< 1 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+ (< 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (let [s (vals (frequencies (map suit hand)))]
+  (= (str "(5)") (str s))))
 
 (defn full-house? [hand]
-  nil)
+  (let [[x y] (sort (vals (frequencies (map rank hand))))]
+   (and (== 2 x) (== 3 y))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [[x y] (sort (vals (frequencies (map rank hand))))]
+   (< 1 y)))
 
 (defn straight? [hand]
-  nil)
+  )
 
 (defn straight-flush? [hand]
   nil)
