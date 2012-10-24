@@ -27,12 +27,9 @@
   (let [x (sort(map rank hand))
         y (range (first x)(+ 1 (first(reverse x))))]
 	(reverse x)
-    (if(== 0 (compare (apply str x) (apply str y)))
+    (if(= x y)
       true
-      (if(contains? x "14")
-        ((sort(replace {"14" "1"} x))
-         (== 0 (compare (sort x) (range (first x)(+ 1 (first(reverse x)))))))
-        false))))
+      (= (sort(replace {14 1} x)) (range 1 6)))))
 
 (defn flush? [hand]
   (= 5 (apply max(vals(frequencies(map suit hand))))))
@@ -44,5 +41,17 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
+(defn high-card? [hand]
+  true)
+
 (defn value [hand]
-  nil)
+  (let[checkers [high-card? pair?
+           		  two-pairs? three-of-a-kind?
+        		  straight? flush?
+           		  full-house? four-of-a-kind?
+                  straight-flush?]
+       hand-has-value? (fn [hand n] ((get checkers n) hand))
+       tr (fn [x](hand-has-value? hand x))]
+    (apply max (filter tr (range 0 9)))))
+
+()
