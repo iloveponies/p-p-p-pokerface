@@ -50,17 +50,31 @@
  (= sorted (range (first sorted) (+ (first sorted) 5)))))
 
 (defn straight? [hand]
-  (let [ranks (map rank hand)
-    freqsuit (vals (frequencies (map suit hand)))]
-   (if (not (contains? freqsuit 5)) 
+  (let [ranks (map rank hand)]
    (or (sequentialorder? (replace {14 1} ranks)) 
-    (sequentialorder? ranks))
-   false
-   )))
+    (sequentialorder? ranks))))
 
 (defn straight-flush? [hand]
- (let [ranks (map rank hand)]
-  (and (flush? hand) (sequentialorder? ranks))))
+  (and (flush? hand) (straight? hand)))
+
+(defn high-card? [hand]
+ true)
+
+(defn hand-has-value? [hand value] 
+(let [checkers [high-card? pair? two-pairs? three-of-a-kind? straight?
+               flush? full-house? four-of-a-kind? straight-flush?]]
+  ((get checkers value) hand) ))
 
 (defn value [hand]
-  nil)
+  (cond 
+  (hand-has-value? hand 8) 8  
+  (hand-has-value? hand 7) 7  
+  (hand-has-value? hand 6) 6     
+  (hand-has-value? hand 5) 5   
+  (hand-has-value? hand 4) 4  
+  (hand-has-value? hand 3) 3   
+  (hand-has-value? hand 2) 2  
+  (hand-has-value? hand 1) 1
+  (hand-has-value? hand 0) 0
+  ))
+
