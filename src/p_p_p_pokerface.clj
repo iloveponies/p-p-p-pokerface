@@ -42,14 +42,25 @@
 (defn two-pairs? [hand]
   (let [freq (sort (vals (frequencies (map rank hand))))]
   (or (four-of-a-kind? hand) 
-      (= freq [2 2])))  
+      (= freq [1 2 2])))  
 )
 
+(defn sequentialorder? [hand] 
+ (let [sorted (sort hand)]
+ (= sorted (range (first sorted) (+ (first sorted) 5)))))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+    freqsuit (vals (frequencies (map suit hand)))]
+   (if (not (contains? freqsuit 5)) 
+   (or (sequentialorder? (replace {14 1} ranks)) 
+    (sequentialorder? ranks))
+   false
+   )))
 
 (defn straight-flush? [hand]
-  nil)
+ (let [ranks (map rank hand)]
+  (and (flush? hand) (sequentialorder? ranks))))
 
 (defn value [hand]
   nil)
