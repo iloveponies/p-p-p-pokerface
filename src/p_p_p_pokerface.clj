@@ -52,7 +52,7 @@
   (let [ranks (map rank hand)
         sorted-ranks (sort ranks)
         min-rank (first sorted-ranks)
-        sorted-ranks-ace-as-one (replace {14 1} sorted-ranks)
+        sorted-ranks-ace-as-one (sort (replace {14 1} ranks))
         straight-from-min (range min-rank (+ min-rank 5))]
     (or (= sorted-ranks straight-from-min)
         (= sorted-ranks-ace-as-one (range 1 6)))))
