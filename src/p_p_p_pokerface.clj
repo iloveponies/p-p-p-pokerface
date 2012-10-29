@@ -58,7 +58,17 @@
         (= sorted-ranks-ace-as-one (range 1 6)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [hand-values [(if (pair? hand) 1 0)
+                     (if (two-pairs? hand) 2 0)
+                     (if (three-of-a-kind? hand) 3 0)
+                     (if (straight? hand) 4 0)
+                     (if (flush? hand) 5 0)
+                     (if (full-house? hand) 6 0)
+                     (if (four-of-a-kind? hand) 7 0)
+                     (if (straight-flush? hand) 8 0)]]
+    (apply max hand-values)))
+    
