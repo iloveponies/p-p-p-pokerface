@@ -18,11 +18,18 @@
   (suit "3S") => "S")
 
 (def high-seven ["2H" "3S" "4C" "5C" "7D"])
-(def pair-hand ["2H" "2S" "4C" "5C" "7D"])
+
+(def pair-hands #{["2H" "2S" "4C" "5C" "7D"]
+                  ["2S" "4S" "4C" "9D" "KS"]})
+
 (def two-pairs-hand ["2H" "2S" "4C" "4D" "7D"])
+
 (def three-of-a-kind-hand ["2H" "2S" "2C" "4D" "7D"])
+
 (def four-of-a-kind-hand ["2H" "2S" "2C" "2D" "7D"])
+
 (def straight-hand ["2H" "3S" "6C" "5D" "4D"])
+
 (def low-ace-straight-hand ["2H" "3S" "4C" "5D" "AD"])
 (def high-ace-straight-hand ["TH" "AS" "QC" "KD" "JD"])
 (def flush-hand ["2H" "4H" "5H" "9H" "7H"])
@@ -32,13 +39,13 @@
 (def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
 
 (facts "pair"
-  (pair? pair-hand) => true
+  (every? pair? pair-hands) => true
   (pair? high-seven) => false)
 
 (facts "two-pairs?"
   (two-pairs? two-pairs-hand) => true
-  (two-pairs? pair-hand) => false
-  (two-pairs? four-of-a-kind-hand) => true)
+  (two-pairs? three-of-a-kind-hand) => false
+  (two-pairs? pair-hand) => false)
 
 (facts "three-of-a-kind?"
   (three-of-a-kind? two-pairs-hand) => false
@@ -48,12 +55,16 @@
   (four-of-a-kind? two-pairs-hand) => false
   (four-of-a-kind? four-of-a-kind-hand) => true)
 
-(facts "straight?"
-  (straight? two-pairs-hand) => false
-  (straight? straight-hand) => true
-  (straight? low-ace-straight-hand) => true
-  (straight? ["2H" "2D" "3H" "4H" "5H"]) => false
-  (straight? high-ace-straight-hand) => true)
+(tabular
+ (facts "straight?"
+   (straight? ?hand) => ?result)
+ ?hand                      ?result
+ two-pairs-hand             false
+ straight-hand              true
+ low-ace-straight-hand      true
+ ["2H" "2D" "3H" "4H" "5H"] false
+ ["2H" "3H" "3D" "4H" "6H"] false
+ high-ace-straight-hand     true)
 
 (facts "flush?"
   (flush? pair-hand) => false
@@ -61,6 +72,7 @@
 
 (facts "full-house?"
   (full-house? three-of-a-kind-hand) => false
+  (full-house? four-of-a-kind-hand) => false
   (full-house? full-house-hand) => true)
 
 (facts "straight-flush?"
@@ -72,7 +84,7 @@
 
 (facts "value"
   (value high-seven) => 0
-  (value pair-hand) => 1
+  (every? (partial = 1) (map value pair-hands)) => 1
   (value two-pairs-hand) => 2
   (value three-of-a-kind-hand) => 3
   (value straight-hand) => 4
