@@ -2,7 +2,13 @@
   (:use midje.sweet
         p-p-p-pokerface))
 
-(facts "rank"
+(facts "1 suit"
+  (suit "2H") => "H"
+  (suit "2D") => "D"
+  (suit "2C") => "C"
+  (suit "3S") => "S")
+
+(facts "2 rank"
   (rank "2H") => 2
   (rank "4S") => 4
   (rank "TS") => 10
@@ -10,12 +16,6 @@
   (rank "QS") => 12
   (rank "KS") => 13
   (rank "AS") => 14)
-
-(facts "suit"
-  (suit "2H") => "H"
-  (suit "2D") => "D"
-  (suit "2C") => "C"
-  (suit "3S") => "S")
 
 (def high-seven ["2H" "3S" "4C" "5C" "7D"])
 
@@ -38,25 +38,34 @@
 (def low-ace-straight-flush-hand ["2D" "3D" "4D" "5D" "AD"])
 (def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
 
-(facts "pair"
+(facts "3 pair?"
   (every? pair? pair-hands) => true
   (pair? high-seven) => false)
 
-(facts "two-pairs?"
+(facts "4 three-of-a-kind?"
+  (three-of-a-kind? two-pairs-hand) => false
+  (three-of-a-kind? three-of-a-kind-hand) => true)
+
+(facts "5 four-of-a-kind?"
+  (four-of-a-kind? two-pairs-hand) => false
+  (four-of-a-kind? four-of-a-kind-hand) => true)
+
+(facts "6 flush?"
+  (flush? pair-hand) => false
+  (flush? flush-hand) => true)
+
+(facts "7 full-house?"
+  (full-house? three-of-a-kind-hand) => false
+  (full-house? four-of-a-kind-hand) => false
+  (full-house? full-house-hand) => true)
+
+(facts "8 two-pairs?"
   (two-pairs? two-pairs-hand) => true
   (two-pairs? three-of-a-kind-hand) => false
   (two-pairs? pair-hand) => false)
 
-(facts "three-of-a-kind?"
-  (three-of-a-kind? two-pairs-hand) => false
-  (three-of-a-kind? three-of-a-kind-hand) => true)
-
-(facts "four-of-a-kind?"
-  (four-of-a-kind? two-pairs-hand) => false
-  (four-of-a-kind? four-of-a-kind-hand) => true)
-
 (tabular
- (facts "straight?"
+ (facts "9 straight?"
    (straight? ?hand) => ?result)
  ?hand                      ?result
  two-pairs-hand             false
@@ -66,23 +75,14 @@
  ["2H" "3H" "3D" "4H" "6H"] false
  high-ace-straight-hand     true)
 
-(facts "flush?"
-  (flush? pair-hand) => false
-  (flush? flush-hand) => true)
-
-(facts "full-house?"
-  (full-house? three-of-a-kind-hand) => false
-  (full-house? four-of-a-kind-hand) => false
-  (full-house? full-house-hand) => true)
-
-(facts "straight-flush?"
+(facts "10 straight-flush?"
   (straight-flush? straight-hand) => false
   (straight-flush? flush-hand) => false
   (straight-flush? straight-flush-hand) => true
   (straight-flush? low-ace-straight-flush-hand) => true
   (straight-flush? high-ace-straight-flush-hand) => true)
 
-(facts "value"
+(facts "11 value"
   (value high-seven) => 0
   (every? (partial = 1) (map value pair-hands)) => 1
   (value two-pairs-hand) => 2
