@@ -2,13 +2,15 @@
   (:use midje.sweet
         p-p-p-pokerface))
 
-(facts "1 suit"
+(facts "suit" {:exercise 1
+               :points 1}
   (suit "2H") => "H"
   (suit "2D") => "D"
   (suit "2C") => "C"
   (suit "3S") => "S")
 
-(facts "2 rank"
+(facts "rank" {:exercise 2
+               :points 1}
   (rank "2H") => 2
   (rank "4S") => 4
   (rank "TS") => 10
@@ -18,6 +20,8 @@
   (rank "AS") => 14)
 
 (def high-seven ["2H" "3S" "4C" "5C" "7D"])
+
+(def pair-hand ["2H" "2S" "4C" "5C" "7D"])
 
 (def pair-hands #{["2H" "2S" "4C" "5C" "7D"]
                   ["2S" "4S" "4C" "9D" "KS"]})
@@ -38,34 +42,41 @@
 (def low-ace-straight-flush-hand ["2D" "3D" "4D" "5D" "AD"])
 (def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
 
-(facts "3 pair?"
+(facts "pair?" {:exercise 3
+                :points 1}
   (every? pair? pair-hands) => true
   (pair? high-seven) => false)
 
-(facts "4 three-of-a-kind?"
+(facts "three-of-a-kind?" {:exercise 4
+                           :points 1}
   (three-of-a-kind? two-pairs-hand) => false
   (three-of-a-kind? three-of-a-kind-hand) => true)
 
-(facts "5 four-of-a-kind?"
+(facts "four-of-a-kind?" {:exercise 5
+                          :points 1}
   (four-of-a-kind? two-pairs-hand) => false
   (four-of-a-kind? four-of-a-kind-hand) => true)
 
-(facts "6 flush?"
+(facts "flush?" {:exercise 6
+                 :points 1}
   (flush? pair-hand) => false
   (flush? flush-hand) => true)
 
-(facts "7 full-house?"
+(facts "full-house?" {:exercise 7
+                      :points 1}
   (full-house? three-of-a-kind-hand) => false
   (full-house? four-of-a-kind-hand) => false
   (full-house? full-house-hand) => true)
 
-(facts "8 two-pairs?"
+(facts "two-pairs?" {:exercise 8
+                     :points 1}
   (two-pairs? two-pairs-hand) => true
   (two-pairs? three-of-a-kind-hand) => false
   (two-pairs? pair-hand) => false)
 
 (tabular
- (facts "9 straight?"
+ (facts "straight?" {:exercise 9
+                     :points 1}
    (straight? ?hand) => ?result)
  ?hand                      ?result
  two-pairs-hand             false
@@ -75,14 +86,16 @@
  ["2H" "3H" "3D" "4H" "6H"] false
  high-ace-straight-hand     true)
 
-(facts "10 straight-flush?"
+(facts "straight-flush?" {:exercise 10
+                          :points 1}
   (straight-flush? straight-hand) => false
   (straight-flush? flush-hand) => false
   (straight-flush? straight-flush-hand) => true
   (straight-flush? low-ace-straight-flush-hand) => true
   (straight-flush? high-ace-straight-flush-hand) => true)
 
-(facts "11 value"
+(facts "value" {:exercise 11
+                :points 1}
   (value high-seven) => 0
   (every? (partial = 1) (map value pair-hands)) => 1
   (value two-pairs-hand) => 2
