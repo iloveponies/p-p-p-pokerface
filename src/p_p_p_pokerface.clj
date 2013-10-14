@@ -47,20 +47,44 @@
 (defn two-pairs? [hand]
   (== 2 (count (n-same-ranks hand 2))))
 
-(defn straight? [hand]
-  (let [ranks (sort (map rank hand))]
-    (or
-      (apply < ranks)
-      (and 
-        (== 14 (last ranks))
-        (== 2 (first ranks))
-        (apply < (sort (assoc ranks 4 1)))))))
+(defn straight [eka]
+  (range eka (+ eka 5)))
 
+(defn straight? [hand]
+  (let [sorted (sort (map rank hand))
+        eka (first sorted)
+        vika (last sorted)
+        suora (straight eka)]
+    (or
+      (= sorted suora)
+      (= (straight 1) (sort (replace {14 1} sorted))))))
 
 (defn straight-flush? [hand]
   (and
     (flush? hand)
     (straight? hand)))
 
+;; Hand                  Value
+;; ===========================
+;; High card (nothing)     0
+;; Pair                    1
+;; Two pairs               2
+;; Three of a kind         3
+;; Straight                4
+;; Flush                   5
+;; Full house              6
+;; Four of a kind          7
+;; Straight flush          8
+
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 2
+    :else 0))
+
