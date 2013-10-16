@@ -20,10 +20,7 @@
 
 (defn n-same-ranks [cards n]
   (n-same-cards-by rank cards n))
-  ;; (let [ranks (map rank cards)
-  ;;       freqs (frequencies ranks)
-  ;;       same? (fn [key] (== n (get freqs key)))]
-  ;;   (filter same? (keys freqs))))
+
 (defn n-same-suits [cards n]
   (n-same-cards-by suit cards n))
 
@@ -76,6 +73,9 @@
 ;; Four of a kind          7
 ;; Straight flush          8
 
+(defn high-card? [hand]
+  true)
+
 (defn value [hand]
   (cond
     (straight-flush? hand) 8
@@ -85,6 +85,6 @@
     (straight? hand) 4
     (three-of-a-kind? hand) 3
     (two-pairs? hand) 2
-    (pair? hand) 2
+    (pair? hand) 1
     :else 0))
 
