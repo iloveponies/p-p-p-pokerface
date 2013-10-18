@@ -7,11 +7,23 @@
 (defn suit [[r s]]
   (str s))
 
-(defn suit-occurs-more-often-than? [hand, count]
-  (> (apply max (vals (frequencies (map suit hand)))) count))
+;; helper function
+(defn ranks [hand] (map rank hand))
 
+;; Ridiculously named helper.
+;; Returns frequencies of ranks in hand
+(defn ranks-frequencies [hand]
+  (vals (frequencies (ranks hand))))
+
+;; Ridiculously named helper.
+;; Returns true or false if hand is composed of given composition of ranks i.e. full house [3 2]
+(defn ranks-composition? [hand, rank-composition]
+  (= rank-composition (ranks-frequencies hand)))
+
+;; Ridiculously named helper.
+;; Returns true or false if some rank is found more than given times from the hand i.e. rank 2 is found more than two times from hand {"2H" "2S" "2C" "5S" "AD"}
 (defn rank-occurs-more-often-than? [hand, count]
-  (> (apply max (vals (frequencies (map rank hand)))) count))
+  (> (apply max (ranks-frequencies hand)) count))
 
 (defn pair? [hand]
   (rank-occurs-more-often-than? hand 1))
@@ -23,26 +35,36 @@
   (rank-occurs-more-often-than? hand 3))
 
 (defn flush? [hand]
-  (suit-occurs-more-often-than? hand 4))
-
-(defn are-ranks-composed-of? [hand, rank-composition]
-  (= rank-composition (vals (frequencies (map rank hand)))))
-
-(defn are-suits-composed-of? [hand, suit-composition]
-  (= suit-composition (vals (frequencies (map suit hand)))))
+  (let [suit-occurs-more-often-than? (fn [count]
+          (> (apply max (vals (frequencies (map suit hand)))) count))]
+  (suit-occurs-more-often-than? 4)))
 
 (defn full-house? [hand]
-  (are-ranks-composed-of? hand [3 2]))
+  (ranks-composition? hand [3 2]))
 
 (defn two-pairs? [hand]
-  (are-ranks-composed-of? hand [2 2 1]))
+  (ranks-composition? hand [2 2 1]))
 
 (defn straight? [hand]
-  (def suits (sort (map rank hand)))
-  (= suits (seq [(min suits) (+ (min suits) 5)])))
+  (let [straight-ranks? (fn [ranks]
+                          (def min-rank (apply min ranks))
+                          (def straight-range(range min-rank (+ min-rank 5)))
+                          (= ranks straight-range))]
+    (def hand-ranks (ranks hand))
+    (or (straight-ranks? (sort hand-ranks)) (straight-ranks? (sort (replace {14 1} hand-ranks))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 	7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0
+    ))
