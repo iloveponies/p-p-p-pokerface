@@ -10,7 +10,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Leiningen: midje-grader:midje-grader:0.1.0-20130927.131026-5" level="project" />
+    <orderEntry type="library" name="Leiningen: midje-grader:midje-grader:0.1.0-20131016.225546-6" level="project" />
     <orderEntry type="library" name="Leiningen: midje:midje:1.5.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure:clojure:1.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: bultitude:bultitude:0.1.7" level="project" />
