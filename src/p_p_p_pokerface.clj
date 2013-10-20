@@ -1,34 +1,63 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rnk _] card]
+       (if(Character/isDigit rnk)
+       (Integer/valueOf (str rnk))
+       (get {\T 10, \J 11, \Q 12, \K 13, \A 14} rnk))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+    (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (<= 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (<= 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (<= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (let [sortedfreq (sort (vals (frequencies (sort (map rank hand)))))]
+        (= (range 2 4) sortedfreq)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [sortedfreq (vec (sort (vals (frequencies (sort (map rank hand))))))]
+    (or (four-of-a-kind? hand)
+        (and (<= 3 (count sortedfreq)) (== 2 (get sortedfreq 1) (get sortedfreq 2))))))
+
+; aivan kamalaa koodia ;__;
 
 (defn straight? [hand]
-  nil)
+ (let [sorted-ranks (sort (map rank hand))
+       min (first sorted-ranks)]
+
+   (defn dimstraight? [sorted-ranks2 min2] ;
+     (== 4 (last (map (fn [rank] (- rank min2)) sorted-ranks2))))
+
+   (cond
+    (pair? hand) false
+    :else (or (dimstraight? sorted-ranks min)
+              (dimstraight? (sort (replace {14 1} sorted-ranks)) 1))))) ; replace A
+
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush? hand) 8
+   (four-of-a-kind? hand) 7
+   (full-house? hand) 6
+   (flush? hand) 5
+   (straight? hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs? hand) 2
+   (pair? hand) 1
+   :else 0))
+
