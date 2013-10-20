@@ -1,13 +1,23 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[r _] card
+        mappings {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+     (if(Character/isDigit r)
+       (Integer/valueOf (str r))
+       (Integer/valueOf (str (mappings r)))))
+)
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)
+  )
+)
 
 (defn pair? [hand]
-  nil)
+  (let [rank-values (frequencies (map rank hand))]
+    (not (= 5 (count (vals rank-values)))))
+)
 
 (defn three-of-a-kind? [hand]
   nil)
@@ -32,3 +42,4 @@
 
 (defn value [hand]
   nil)
+
