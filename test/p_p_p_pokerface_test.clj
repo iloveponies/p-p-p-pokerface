@@ -125,3 +125,4 @@
            (hand-has-type? full-house-hand [three-of-a-kind? 3]) => true
            (hand-has-type? full-house-hand [full-house? 6]) => true
            (hand-has-type? full-house-hand [flush? 5]) => false)))
+
