@@ -57,6 +57,19 @@
   (and (straight? hand)
        (flush? hand)))
 
+(defn high-card? [hand]
+  true)
+
 (defn value [hand]
-  nil)
-
+  (let [checkers [{:type high-card? :value 0}
+                  {:type pair? :value 1}
+                  {:type two-pairs? :value 2}
+                  {:type three-of-a-kind? :value 3}
+                  {:type straight? :value 4}
+                  {:type flush? :value 5}
+                  {:type full-house? :value 6}
+                  {:type four-of-a-kind? :value 7}
+                  {:type straight-flush? :value 8}]
+        hand-has-value? (fn [checker-and-value] ((:type checker-and-value) hand))
+        values (fn [chks] (map :value chks))]
+    (apply max (values (filter hand-has-value? checkers)))))
