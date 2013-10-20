@@ -1,10 +1,15 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank-character _] card
+        ten-or-greater {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+  (if (Character/isDigit rank-character)
+    (Integer/valueOf (str rank-character))
+    (get ten-or-greater rank-character))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit-character] card]
+    (str suit-character)))
 
 (defn pair? [hand]
   nil)
@@ -32,3 +37,4 @@
 
 (defn value [hand]
   nil)
+
