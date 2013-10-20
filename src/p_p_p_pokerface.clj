@@ -11,14 +11,20 @@
   (let [[_ suit-character] card]
     (str suit-character)))
 
+(defn n-of-a-kind? [n hand]
+  (let [ranks (map rank hand)
+        counts-of-each-rank (vals (frequencies ranks))
+        max-count-of-single-rank (apply max counts-of-each-rank)]
+    (== n max-count-of-single-rank)))
+
 (defn pair? [hand]
-  nil)
+  (n-of-a-kind? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 4 hand))
 
 (defn flush? [hand]
   nil)
