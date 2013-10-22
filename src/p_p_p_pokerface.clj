@@ -53,7 +53,7 @@
 
 (defn two-pairs? [hand]
   (let [freqs (sort (vals (frequencies (card-ranks hand))))]
-    (== 2 (count (filter (fn [x] (== 2 x)) freqs)))))
+    (= '(1 2 2) freqs)))
 
 
 (defn straight? [hand]
