@@ -49,8 +49,7 @@
 
 (defn full-house? [hand]
  (and (pair? hand)
-           (three-of-a-kind? hand))
-    )
+      (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
  (= [1 2 2] (sort (count-card-frequencies hand))))
@@ -73,9 +72,10 @@
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}]
-    (get checkers hand)
-    ))
-
+   (not (empty?(filter (fn [x] (and ((first x) hand)
+                       (= checker-value (second x)))) checkers)))))
 
 (defn value [hand]
-  )
+  (let [v (range 9)]
+    (apply max (filter (fn [x] (hand-has-value? hand x)) v))))
+
