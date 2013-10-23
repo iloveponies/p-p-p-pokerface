@@ -10,8 +10,11 @@
   (let [[r s] card]
     (str s)))
 
-(defn n-of-a-kind? [hand n]
-  (boolean (some #(>= % n) (vals (frequencies (map rank hand))))))
+(defn- sorted-rank-freqs [hand]
+  (sort (vals (frequencies (map rank hand)))))
+
+(defn- n-of-a-kind? [hand n]
+  (boolean (some #(>= % n) (sorted-rank-freqs hand))))
 
 (defn pair? [hand]
   (n-of-a-kind? hand 2))
@@ -26,10 +29,10 @@
   (= 1 (count (set (map suit hand)))))
 
 (defn full-house? [hand]
-  (= [2 3] (sort (vals (frequencies (map rank hand))))))
+  (= [2 3] (sorted-rank-freqs hand)))
 
 (defn two-pairs? [hand]
-  (= [1 2 2] (sort (vals (frequencies (map rank hand))))))
+  (= [1 2 2] (sorted-rank-freqs hand)))
 
 (defn straight? [hand]
   (let [sorted (sort (map rank hand))
