@@ -73,9 +73,10 @@
 ;; Four of a kind          7
 ;; Straight flush          8
 
-(defn high-card? [hand]
-  true)
-
+;; TODO: 
+;; How can this function return a boolean?
+;; Happens when the hand is a pair.
+;; Run the tests and be square.
 (defn value [hand]
   (cond
     (straight-flush? hand) 8
