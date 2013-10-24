@@ -39,7 +39,6 @@
     (or (= twocount 2) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  (defn straight? [hand]
   (let [values (sort (map rank hand))
         max-value (apply max values)
         min-value (apply min values)]
@@ -47,11 +46,23 @@
       (let [real-min 1
             real-max (nth values 3)]
         (= (sort (replace {14 1} values)) (range real-min (+ real-max 1))))
-      (= ranks (range min-rank (+ max-rank 1)))))))
+      (= values (range min-value (+ max-value 1))))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
+
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush? hand) 8
+   (four-of-a-kind? hand) 7
+   (full-house? hand) 6
+   (flush? hand) 5
+   (straight? hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs? hand) 2
+   (pair? hand) 1
+   :else 0))
+
+
 
