@@ -6,7 +6,7 @@
   (let [[rank _] card]
     (if
       (Character/isDigit rank)
-      rank
+      (Integer/valueOf (str rank))
       (royals rank))))
 
 
@@ -16,28 +16,47 @@
 
 
 (defn pair? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 4))
 
 (defn flush? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map suit hand)))) 5))
 
 (defn full-house? [hand]
-  nil)
+  (= [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= [1 2 2] (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [suurin (apply max (map rank hand))
+        gordid (sort (map rank hand))
+        pienin (apply min (map rank hand))]
+    (if
+      (= suurin 14)
+      (cond
+       (= (range 10 15) gordid) true
+       (= [2 3 4 5 14] gordid) true
+       :else false)
+      (= (range pienin (+ pienin 5)) gordid)))
+  )
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush? hand) 8
+   (four-of-a-kind? hand) 7
+   (full-house? hand) 6
+   (flush? hand) 5
+   (straight? hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs? hand) 2
+   (pair? hand) 1
+   :else 0))
