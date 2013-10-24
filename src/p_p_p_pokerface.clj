@@ -1,10 +1,19 @@
 (ns p-p-p-pokerface)
 
+(def royals {\A 14, \K 13, \Q 12, \J 11, \T 10})
+
 (defn rank [card]
-  nil)
+  (let [[rank _] card]
+    (if
+      (Character/isDigit rank)
+      rank
+      (royals rank))))
+
 
 (defn suit [card]
-  nil)
+ (let [[ranks suit] card]
+   (str suit)))
+
 
 (defn pair? [hand]
   nil)
