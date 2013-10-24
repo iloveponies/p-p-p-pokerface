@@ -70,5 +70,13 @@
        (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [high-card? (fn [x] true)
+        index [0 1 2 3 4 5 6 7 8]
+        checkers [high-card? pair? two-pairs? three-of-a-kind? straight?
+                  flush? full-house? four-of-a-kind? straight-flush?]
+        hand-map (vec (map {true 1, false 0} (map (fn [x] ((checkers x) hand)) index)))]
+
+    (apply max (filter (fn [x] (= 1 (get hand-map x))) index))))
+
+
 
