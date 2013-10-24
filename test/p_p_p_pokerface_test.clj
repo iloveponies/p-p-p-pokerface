@@ -97,7 +97,7 @@
 (facts "value" {:exercise 11
                 :points 1}
   (value high-seven) => 0
-  (every? (partial = 1) (map value pair-hands)) => 1
+  (every? (partial = 1) (map value pair-hands)) => truthy
   (value two-pairs-hand) => 2
   (value three-of-a-kind-hand) => 3
   (value straight-hand) => 4
