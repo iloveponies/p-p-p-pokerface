@@ -2,13 +2,10 @@
 
 (defn rank [card]
   (let [[fst _] card
-        replacements {\T 10, \J 11, \Q 12, \K 13, \A 14}
-        replace (fn[x]
-          (if (not (Character/isDigit x))
-            (get replacements x)
-            (Integer/valueOf(str x))))]
-      (replace fst)
-    ))
+        replacements {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+      (if (Character/isDigit fst)
+        (Integer/valueOf(str fst))
+        (replacements fst))))
 
 (defn suit [card]
   (let [[_ snd] card]
