@@ -36,16 +36,30 @@
           (pair? hand))))
 
 (defn straight? [hand]
-  (let [sorted-ranks (sort (map rank hand))
-        no-friequencies? (== 5 (count (set sorted-ranks)))]
-    (cond
-      (and (no-friequencies?) (== 4 (- (max sorted-ranks) (min sorted-ranks)))) true
-      (and (no-friequencies?) (and (== 14 (max sorted-ranks)) (== 2 (min sorted-ranks)))
-           (== 4 (- (max (sort (replace {14 1} sorted-ranks))) (min (sort (replace {14 1} sorted-ranks)))))) true
-     :else false)))
+  (let [ranks (map rank hand)
+        sorted-ranks (if (and (== 14 (apply max ranks)) (== 2 (apply min ranks)))
+    (sort (replace {14 1} (vec ranks)))
+    (sort ranks))]
+  (= sorted-ranks
+      (range (apply min sorted-ranks) (inc (apply max sorted-ranks))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers [high-card? pair? two-pairs? three-of-a-kind? straight?
+                  flush? full-house? four-of-a-kind? straight-flush?]
+        hand-has-value? (fn [hand i] ((get checkers i) hand))]
+    (cond
+     (hand-has-value? hand 8) 8
+     (hand-has-value? hand 7) 7
+     (hand-has-value? hand 6) 6
+     (hand-has-value? hand 5) 5
+     (hand-has-value? hand 4) 4
+     (hand-has-value? hand 3) 3
+     (hand-has-value? hand 2) 2
+     (hand-has-value? hand 1) 1
+     :else 0)))
