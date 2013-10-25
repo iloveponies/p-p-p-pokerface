@@ -1,15 +1,15 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (let [[fst _] card
+  (let [[rank _] card
         replacements {\T 10, \J 11, \Q 12, \K 13, \A 14}]
-      (if (Character/isDigit fst)
-        (Integer/valueOf(str fst))
-        (replacements fst))))
+      (if (Character/isDigit rank)
+        (Integer/valueOf(str rank))
+        (replacements rank))))
 
 (defn suit [card]
-  (let [[_ snd] card]
-    (str snd)))
+  (let [[_ color] card]
+    (str color)))
 
 (defn hand-contains-x-of-a-kind? [hand x]
   (<= x (apply max (vals (frequencies (map rank hand))))))
