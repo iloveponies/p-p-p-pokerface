@@ -29,15 +29,17 @@
         maat (set arvot)]
     (== 1 (count maat))))
 
-(defn full-house? [hand]
-  (and (two-pairs? hand) (three-of-a-kind? hand) (not (four-of-a-kind? hand))))
-
 (defn two-pairs? [hand]
   (let [arvot (map rank hand)
           jakauma (vals (frequencies arvot))
           samat (filter (fn [x] (> x 1)) jakauma)]
       (or (>= (count samat) 2)
           (and (not (empty? samat)) (== 4 (first samat))))))
+
+(defn full-house? [hand]
+  (and (two-pairs? hand) (three-of-a-kind? hand) (not (four-of-a-kind? hand))))
+
+
 
 (defn straight? [hand]
   (let [arvot (seq (sort (map rank hand)))
