@@ -19,18 +19,20 @@
 (defn four-of-a-kind? [hand]
   (< 3 (apply max(vals (frequencies (map rank hand))))))
 
-
 (defn flush? [hand]
   (< 4 (apply max(vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  )
+  (= (seq [2 3]) (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= (seq [1 2 2]) (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [n (sort (map rank hand))
+        k (first n)
+        l (last n)]
+   (= n (range k (+ k 5)))))
 
 (defn straight-flush? [hand]
   nil)
