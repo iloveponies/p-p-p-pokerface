@@ -1,8 +1,8 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (def replacements {\A 14, \K 13, \Q 12, \J 11, \T 10})
-  (let [[fst _] card]
+  (let [replacements {\A 14, \K 13, \Q 12, \J 11, \T 10}
+        [fst _] card]
     (if (Character/isDigit fst)
       (Integer/valueOf (str fst))
       (replacements fst)
@@ -33,7 +33,7 @@
   nil)
 
 (defn straight? [hand]
-  (def minrank (apply min(map rank hand)))
+  (let [minrank (apply min(map rank hand))]
   (if (or
        (=
         (sort (map rank hand))
@@ -42,7 +42,7 @@
         (sort (map rank hand))
         (sort [2 3 4 5 14])))
     true
-    false))
+    false)))
 
 (defn straight-flush? [hand]
   (if (and
