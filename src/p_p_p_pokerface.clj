@@ -56,8 +56,9 @@
    (three-of-a-kind? hand) 3
    (two-pairs? hand) 2
    (pair? hand) 1
-   :else 0)
-  )
+   :else 0))
 
 (defn value [hand]
-  (why-on-earth-wouldnt-i-use-cond-to-determine-the-value-of-this hand))
+  (why-on-earth-wouldnt-i-use-cond-to-determine-the-value-of-this hand))
+
+
