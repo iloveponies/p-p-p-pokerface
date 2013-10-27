@@ -59,33 +59,27 @@
         true
         false)))
 )
-(defn handranks [hand] 
-  (sort (vec (map rank hand))))
 
-(defn minmaxdif [hand] 
-  (let [ranks (handranks hand)]
-    (- (apply max ranks) (apply min ranks))))
-
-(defn valfqs [hand]
-  (let [ranks (handranks hand)]
-    (sort (vec (vals (frequencies ranks))))))
-
-(defn acereplaced [hand]
-  (sort (replace {14 1} (handranks hand))))
 
 (defn straight? [hand]
-  (let [rephand (acereplaced hand)]
-    (cond (and (= 4 (minmaxdif hand)) 
-               (= 5 (count (vals (frequencies hand))))
-               (< (handranks hand))) true
-          (and (= 4 (minmaxdif rephand))
-               (= 5 (count (valfqs rephand))) 
-               (< (handranks rephand))) true
-          :else   false)))
-
+  (let [minimi (apply min (handranks hand))
+        rephand (acereplaced hand) 
+        handrange (range minimi (+ minimi 5))
+        sorthandranks (sort (map rank hand))]
+      (if (= sorthandranks handrange) true
+          (if (= (sort (replace {14 1} sorthandranks)) (range 1 (+ 1 5))) true
+            false))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond (straight-flush? hand) 8
+        (four-of-a-kind? hand) 7
+        (full-house? hand) 6
+        (flush? hand) 5
+        (straight? hand) 4
+        (three-of-a-kind? hand) 3
+        (two-pairs? hand) 2
+        (pair? hand) 1
+        :else 0))
