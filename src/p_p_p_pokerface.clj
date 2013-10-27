@@ -63,7 +63,6 @@
 
 (defn straight? [hand]
   (let [minimi (apply min (sort (vec (map rank hand))))
-        rephand (acereplaced hand) 
         handrange (range minimi (+ minimi 5))
         sorthandranks (sort (map rank hand))]
       (if (= sorthandranks handrange) true
