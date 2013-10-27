@@ -52,11 +52,30 @@
 )
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        smallest-rank (apply min ranks)]
+    (or
+      (= ranks (range smallest-rank (+ 5 smallest-rank)))
+      (= (sort (replace {14 1} ranks)) (range 1 6))
+    )
+  )
+)
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand))
+)
 
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush? hand) 8
+   (four-of-a-kind? hand) 7
+   (full-house? hand) 6
+   (flush? hand) 5
+   (straight? hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs? hand) 2
+   (pair? hand) 1
+   :else 0
+  )
+)
 
