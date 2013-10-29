@@ -30,12 +30,12 @@
 
 (defn straight? [hand]
   (let [n (sort (map rank hand))
-        k (first n)
-        l (last n)]
-   (= n (range k (+ k 5)))))
+        f (first n)
+        v (map (fn [x] (- x f)) n)]
+  (or (= (seq [1 2 3 4 5]) v ) (= (seq [0 1 2 3 4]) v )(= (seq [2 3 4 5 14]) n) (= (seq [10 11 12 13 14]) n))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
