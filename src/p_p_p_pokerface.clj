@@ -5,6 +5,12 @@
   (let [y (+ x x)]
     (Math/pow y y)))
 
+(defn card [a-card]
+  a-card)
+
+(defn hand [a-hand]
+  a-hand)
+
 
 (defn suit [card]
   (let [[_ st] card]
