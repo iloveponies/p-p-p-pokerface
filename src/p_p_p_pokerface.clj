@@ -34,7 +34,7 @@
   (apply max (freq-vals hand type)))
 
 (defn pair? [hand]
-  (== 2 (max-freq-vals hand rank)))
+  (>= (max-freq-vals hand rank) 2))
 
 (defn three-of-a-kind? [hand]
   (== 3 (max-freq-vals hand rank)))
@@ -49,13 +49,22 @@
   (= (freq-vals hand rank) [3 2]))
 
 (defn two-pairs? [hand]
-  (= (freq-vals hand rank) [2 2 1]))
+  (or (= (freq-vals hand rank) [4 1])
+  (= (freq-vals hand rank) [2 2 1])))
+
+(defn sorted-straight? [ranks]
+  (let [low (first ranks), high (+ low 5)]
+    (= (range low high) ranks)))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        ranks-low (sort (replace {14 1} ranks))]
+    (or (sorted-straight? ranks)
+        (sorted-straight? ranks-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand)
+       (straight? hand)))
 
 (defn value [hand]
   nil)
