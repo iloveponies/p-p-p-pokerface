@@ -24,9 +24,7 @@
     (= 4 (some #{4} freq))))
 
 (defn flush? [hand]
-  (let [suits (map suit hand)
-        st (suit (first hand))]
-    (every? #(= st %) suits)))
+  (= 5 (first (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
   (and (pair? hand) (three-of-a-kind? hand)))
@@ -37,11 +35,14 @@
     (= 2 pair-count)))
 
 (defn straight? [hand]
-  (let [sorted-ranks (sort (map rank hand))
+  (let [ace-replacement (fn [sorted-ranks]
+                          (if (= 2 (first sorted-ranks))
+                            (sort (replace {14 1} sorted-ranks))
+                            sorted-ranks))
+        sorted-ranks (ace-replacement (sort (map rank hand)))
         lb (apply min sorted-ranks)
-        ub (+ 1 (apply max sorted-ranks))]
-    (or (= [2 3 4 5 14] sorted-ranks)
-        (= (range lb ub) sorted-ranks))))
+        ub  (+ 1 (apply max sorted-ranks))]
+    (= (range lb ub) sorted-ranks)))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
