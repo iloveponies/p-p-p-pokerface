@@ -13,30 +13,35 @@
   (let [[_ snd] card]
     (str snd)))
 
+(defn n-of-a-kind [hand n]
+  (not (nil? (some #(= n %) (vals (frequencies (map rank hand)))))))
+
 (defn pair? [hand]
-  (some #(= 2 %) (vals (frequencies (map rank hand)))))
+  (n-of-a-kind hand 2))
 
 (defn three-of-a-kind? [hand]
-  (some #(= 3 %) (vals (frequencies (map rank hand)))))
+  (n-of-a-kind hand 3))
 
 (defn four-of-a-kind? [hand]
-  (some #(= 4 %) (vals (frequencies (map rank hand)))))
+  (n-of-a-kind hand 4))
 
 (defn flush? [hand]
-  (some #(= 5 %) (vals (frequencies (map suit hand)))))
+  (not (nil? (some #(= 5 %) (vals (frequencies (map suit hand)))))))
 
 (defn full-house? [hand]
   (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   (or (four-of-a-kind? hand)
-      (count (filter #(= 2 %) (vals (frequencies (map rank hand)))))))
+      (= 2 (count (filter #(= 2 %) (vals (frequencies (map rank hand))))))))
 
 (defn straight? [hand]
-  nil)
+  )
 
 (defn straight-flush? [hand]
-  nil)
+  (and 
+    (straight? hand)
+    (flush? hand)))
 
 (defn value [hand]
   nil)
