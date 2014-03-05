@@ -36,10 +36,14 @@
       (= 2 (count (filter #(= 2 %) (vals (frequencies (map rank hand))))))))
 
 (defn straight? [hand]
-  (let [r (rank hand)
-        ra1 (replace {14 1} r)]
-    (or (= (sort r) (range (min r) (+ (max r) 1)))
-        (= (sort ra1) (range (min ra1) (+ (max ra1) 1))))))
+  (let [r (sort (map rank hand))
+        ra1 (sort (replace {14 1} r))
+        minv (apply min r)
+        maxv (+ (apply max r) 1)
+        minv1 (apply min ra1)
+        maxv1 (+ (apply max ra1) 1)]    
+    (or (= r (range minv maxv))
+        (= ra1 (range minv1 maxv1)))))
 
 (defn straight-flush? [hand]
   (and 
