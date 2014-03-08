@@ -54,18 +54,6 @@
         suits (map #(second %) hand)]
     (for [x (map #(concat %) (map vector ranks suits))] (apply str x))))
 
-(defn ace-hand-ranks [hand ace-val]
-  (->> hand
-       (map #(str (first %)))
-       (replace {"A", ace-val})
-       (map read-string)))
-
-(defn high-ace-hand-ranks [hand]
-  (ace-hand-ranks hand "14"))
-
-(defn low-ace-hand-ranks [hand]
-  (ace-hand-ranks hand "1"))
-
 (defn straight? [hand]
   (let [high-ace-ranks (map #(rank %) hand)
         low-ace-ranks (replace {14, 1} high-ace-ranks)
@@ -76,8 +64,18 @@
      (= (range (apply min high-ace-ranks) last-high) (sort high-ace-ranks)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (cond (straight-flush? hand)    8
+        (four-of-a-kind? hand)    7
+        (full-house? hand)        6
+        (flush? hand)             5
+        (straight? hand)          4
+        (three-of-a-kind? hand)   3
+        (two-pairs? hand)         2
+        (pair? hand)              1
+        (high-card? hand)         0))
