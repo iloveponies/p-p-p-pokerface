@@ -1,13 +1,16 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(def rank-chars "23456789TJQKA")
+(def ranks (zipmap rank-chars (range 2 15)))
 
-(defn suit [card]
-  nil)
+(defn rank [[rank-char _]]
+  (ranks rank-char))
+
+(defn suit [[_ suit]]
+  (str suit))
 
 (defn pair? [hand]
-  nil)
+  (some #(= % 2) (vals (frequencies hand))))
 
 (defn three-of-a-kind? [hand]
   nil)
