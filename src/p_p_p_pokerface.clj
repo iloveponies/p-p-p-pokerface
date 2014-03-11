@@ -9,29 +9,61 @@
 (defn suit [[_ suit]]
   (str suit))
 
+(defn n-of-a-kind [n hand]
+  (->> hand
+       (map rank)
+       frequencies
+       vals
+       (some #(= % n))
+       boolean))
+
 (defn pair? [hand]
-  (some #(= % 2) (vals (frequencies hand))))
+  (n-of-a-kind 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (->> hand
+       (map rank)
+       frequencies
+       vals
+       (filter (partial = 2))
+       count
+       (= 2)))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-ranks (sort (map rank hand))
+         wrapped-ranks (sort (replace {14 1} sorted-ranks))
+         straight-from (fn [x] (range x (+ x 5)))]
+    (or (= sorted-ranks (straight-from (first sorted-ranks)))
+        (= wrapped-ranks (straight-from (first wrapped-ranks))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (reduce #(and %1 %2)
+          ((juxt flush? straight?) hand)))
+
+(defn high-card? [hand]
+  true)
+
+(def checker-fns [high-card? pair? two-pairs? three-of-a-kind?
+                  straight? flush? full-house? four-of-a-kind?
+                  straight-flush?])
+
+(def checkers (zipmap checker-fns (range)))
 
 (defn value [hand]
-  nil)
+  (->> checkers
+       (filter #((first %) hand))
+       (map second)
+       (apply max)))
