@@ -38,13 +38,24 @@
   )
 
 (defn two-pairs? [hand]
-  nil)
+  (let [is-pair (fn [n] (= 2 n))]
+    (if (four-of-a-kind? hand)
+        true
+        (= 2 (count (filter is-pair (vals (frequencies (map rank hand))))))
+      )
+    )
+  )
 
 (defn straight? [hand]
-  nil)
+  (let [range-from (fn [n] (range n (+ n 5)))]
+    (or (= (range-from (apply min (sort (map rank hand)))) (sort (map rank hand)) )
+    (= (range-from (apply min (sort (replace {14, 1} (map rank hand))))) (sort (replace {14, 1} (map rank hand))) ))
+    )
+  )
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand))
+  )
 
 (defn value [hand]
   nil)
