@@ -25,13 +25,17 @@
   )
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (apply max (vals (frequencies (map rank hand)))))
+  )
 
 (defn flush? [hand]
-  nil)
+  (< 4 (apply max (vals (frequencies (map suit hand)))))
+  )
 
 (defn full-house? [hand]
-  nil)
+  (and (= 3 (apply max (vals (frequencies (map rank hand)))))
+  (= 2 (apply min (vals (frequencies (map rank hand))))))
+  )
 
 (defn two-pairs? [hand]
   nil)
