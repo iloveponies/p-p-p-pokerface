@@ -4,7 +4,10 @@
   nil)
 
 (defn suit [card]
-  nil)
+  (let [[rank suite] card]
+    (str suite)
+    )
+  )
 
 (defn pair? [hand]
   nil)
