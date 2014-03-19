@@ -17,7 +17,8 @@
   )
 
 (defn pair? [hand]
-  nil)
+  (< 1 (apply max (vals (frequencies (map rank hand)))))
+  )
 
 (defn three-of-a-kind? [hand]
   nil)
