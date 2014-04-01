@@ -11,7 +11,7 @@
     (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (keys (frequencies (apply rank hand))))
 
 (defn three-of-a-kind? [hand]
   nil)
