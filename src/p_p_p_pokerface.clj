@@ -10,20 +10,27 @@
   (let [[_ snd] card]
     (str snd)))
 
+(defn n-of-a-kind? [hand n]
+  (if (= n (apply max (vals (frequencies (map rank hand)))))
+    true
+    false))
+
 (defn pair? [hand]
-  (keys (frequencies (apply rank hand))))
+  (n-of-a-kind? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 4))
 
 (defn flush? [hand]
   nil)
 
 (defn full-house? [hand]
-  nil)
+  (if (and (n-of-a-kind? hand 3) (apply (= 2) (vals (frequencies (map rank hand)))))
+    true
+    false))
 
 (defn two-pairs? [hand]
   nil)
