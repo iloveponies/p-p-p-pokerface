@@ -61,7 +61,5 @@
                    [two-pairs? 2]  [three-of-a-kind? 3]
                    [straight? 4]   [flush? 5]
                    [full-house? 6] [four-of-a-kind? 7]
-                   [straight-flush? 8]}
-        second (fn [[_, y]] y)
-        checker (fn [x] ((first x) hand))]
-    (apply max (map second (filter checker checkers)))))
+                   [straight-flush? 8]}]
+    (apply max (map (fn [[checker points]] (if (checker hand) points 0)) checkers))))
