@@ -25,7 +25,10 @@
   (n-of-a-kind? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (let [ranks (map suit hand)]
+    (if (= 5 (nth (vals (frequencies ranks)) 0))
+      true
+      false)))
 
 (defn full-house? [hand]
   (if (and (n-of-a-kind? hand 3) (apply (= 2) (vals (frequencies (map rank hand)))))
@@ -36,7 +39,12 @@
   nil)
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-hand (sort (map rank hand))
+        lowest (nth sorted-hand 0)
+        highest (nth sorted-hand 4)]
+    (if (= highest (+ lowest 4))
+      true
+      false)))
 
 (defn straight-flush? [hand]
   nil)
