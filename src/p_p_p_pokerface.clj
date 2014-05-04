@@ -31,7 +31,7 @@
       false)))
 
 (defn full-house? [hand]
-  (if (and (n-of-a-kind? hand 3) (apply (= 2) (vals (frequencies (map rank hand)))))
+  (if (= [2 3] (sort (vals (frequencies (map rank hand)))))
     true
     false))
 
