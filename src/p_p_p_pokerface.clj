@@ -43,13 +43,20 @@
 (defn straight? [hand]
   (let [sorted-hand (sort (map rank hand))
         lowest (nth sorted-hand 0)
-        highest (nth sorted-hand 4)]
-    (if (= highest (+ lowest 4))
-      true
-      false)))
+        highest (nth sorted-hand 4)
+        replaced-hand (sort (replace {1 14} sorted-hand))
+        lowest-replaced (nth replaced-hand 0)
+        highest-replaced (nth replaced-hand 4)
+        replaced-hand2 (sort (replace {14 1} sorted-hand))
+        lowest-replaced2 (nth replaced-hand2 0)
+        highest-replaced2 (nth replaced-hand2 4)]
+    (and (or (= highest (+ lowest 4))
+             (= highest-replaced (+ lowest-replaced 4))
+             (= highest-replaced2 (+ lowest-replaced2 4)))
+         (= [1 1 1 1 1] (vals (frequencies (map rank hand)))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
