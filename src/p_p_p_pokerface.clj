@@ -36,7 +36,9 @@
     false))
 
 (defn two-pairs? [hand]
-  nil)
+  (if (= [1 2 2] (sort (vals (frequencies (map rank hand)))))
+    true
+    false))
 
 (defn straight? [hand]
   (let [sorted-hand (sort (map rank hand))
