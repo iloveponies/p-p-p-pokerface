@@ -61,10 +61,24 @@
     (or (straight-ranked-hand? ranked-hand)
         (straight-ranked-hand? (replace {14 1} ranked-hand)))))
 
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
 (defn straight-flush? [hand]
   (and
    (straight? hand)
    (flush? hand)))
 
+;; You can now use filter, map and apply max to get the highest value that a hand has. The function second can be useful. Remember to use let to give the intermediate results readable names.
+
 (defn value [hand]
-  nil)
+  (let [checkers
+        #{[high-card? 0] [pair? 1] [two-pairs? 2]  [three-of-a-kind? 3]
+          [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7]
+          [straight-flush? 8]}]
+    (apply max (map second
+                    (filter (fn [checker] ((first checker) hand))
+                            checkers)))))
+
+
+    
