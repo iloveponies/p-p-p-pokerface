@@ -121,14 +121,66 @@
 (flush? flush-hand) ;=> true)
 
 
+;; Exercise 7
+;; Write the function (full-house? hand) that returns true if hand is a full house, and otherwise false.
+;; vector of strings -> bool
+;; Check if a pair and 3-of-kind
 (defn full-house? [hand]
-  nil)
+  ;; Create a frequency map of ranks
+  (let [freq-map (frequencies (map rank hand))]
+    ;; If a pair and 3 of kind, then true, otherwise false
+    (= #{2 3} (set (vals freq-map)))))
+;;
+(full-house? three-of-a-kind-hand) ;=> false
+(full-house? full-house-hand)      ;=> true
 
+
+;; Exercise 8
+;; Write the function (two-pairs? hand) that return true if hand has two pairs, and otherwise false.
+;; Note that a four of a kind is also two pairs.
+;;
+;; vector of strings -> bool
+;; Check if 2 pairs
 (defn two-pairs? [hand]
-  nil)
+  ;; Create a frequency map of ranks
+  (let [freq-map (frequencies (map rank hand))]
+    (or
+     ;; strictly two paris
+     (= [1 2 2] (sort (vals freq-map)))
+     ;; four-of-a-kind is two parirs
+     (four-of-a-kind? hand))))
+;;
+(two-pairs? two-pairs-hand)      ;=> true
+(two-pairs? pair-hand)           ;=> false
+(two-pairs? four-of-a-kind-hand) ;=> true
 
+
+;; Exercise 9
+;; Write the function (straight? hand) that returns true if hand is a straight, and otherwise false.
+;; Note that an ace is accepted both as a rank 1 and rank 14 card in straights.
+;;
+;; vector of strings -> bool
 (defn straight? [hand]
-  nil)
+  (let [;; Ace as 14
+        sorted-hand-a-as-14 (sort (map rank hand))
+        min-14              (first sorted-hand-a-as-14)
+        correspond-seq-14   (range  min-14 (+ 5 min-14))
+        
+        ;; Ace as 1
+        sorted-hand-a-as-1  (sort (replace {14 1} sorted-hand-a-as-14))
+        min-1               (first sorted-hand-a-as-1)
+        correspond-seq-1    (range  min-1 (+ 5 min-1))]
+    ;;
+    (or
+     (= sorted-hand-a-as-1  correspond-seq-1)
+     (= sorted-hand-a-as-14 correspond-seq-14))))
+;;
+(straight? two-pairs-hand)             ;=> false
+(straight? straight-hand)              ;=> true
+(straight? low-ace-straight-hand)      ;=> true
+(straight? ["2H" "2D" "3H" "4H" "5H"]) ;=> false
+(straight? high-ace-straight-hand)     ;=> true
+
 
 (defn straight-flush? [hand]
   nil)
