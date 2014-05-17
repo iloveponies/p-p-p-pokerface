@@ -74,21 +74,52 @@
 (defn pair? [hand]
   ;; Create a frequency map of ranks
   (let [freq-map (frequencies (map rank hand))]
-    ;; Check max, if greater than 1, then true, otherwise false.
-    (> (reduce max (vals freq-map)) 1)))
+    ;; Check max, if 2+, then true, otherwise false.
+    (>= (reduce max (vals freq-map)) 2)))
 ;;
 (pair? pair-hand)  ;=> true
 (pair? high-seven) ;=> false
 
 
+;; Exercise 4
+;; Write the function (three-of-a-kind? hand) that returns true if the hand contains a three of a kind.
+;;
+;; vector of strings -> bool
+;; Check if there are 3 card of the same ranks
 (defn three-of-a-kind? [hand]
-  nil)
+  ;; Create a frequency map of ranks
+  (let [freq-map (frequencies (map rank hand))]
+    ;; Check max, if 3+, then true, otherwise false.
+    (>= (reduce max (vals freq-map)) 3)))
+(three-of-a-kind? two-pairs-hand)       ;=> false
+(three-of-a-kind? three-of-a-kind-hand) ;=> true
 
+
+;; Exercise 5
+;; Write the function (four-of-a-kind? hand) that returns true if the hand contains a four of a kind.
+;;
 (defn four-of-a-kind? [hand]
-  nil)
+  ;; Create a frequency map of ranks
+  (let [freq-map (frequencies (map rank hand))]
+    ;; Check max, if 4+, then true, otherwise false.
+    (>= (reduce max (vals freq-map)) 4)))
+;;
+(four-of-a-kind? two-pairs-hand)      ;=> false
+(four-of-a-kind? four-of-a-kind-hand) ;=> true
 
+
+;; Exercise 6
+;; Write the function (flush? hand) that returns true if the hand is a flush.
+;;
+;; vector of strings -> bool
+;; Check if all five cards are of the same suit
 (defn flush? [hand]
-  nil)
+  ;; if all suits are equal that is flush
+  (apply = (map suit hand)))
+;;
+(flush? pair-hand)  ;=> false
+(flush? flush-hand) ;=> true)
+
 
 (defn full-house? [hand]
   nil)
