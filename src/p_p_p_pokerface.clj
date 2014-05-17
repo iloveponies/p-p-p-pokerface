@@ -182,8 +182,64 @@
 (straight? high-ace-straight-hand)     ;=> true
 
 
+;; Exercise 10
+;; Write the function (straight-flush? hand) which returns true if the hand is a straight flush, that is both a straight and a flush, and otherwise false.
+;;
+;; vector of strings -> bool
+;; Check flush? AND straight?
 (defn straight-flush? [hand]
-  nil)
+  (and
+   (flush?    hand)
+   (straight? hand)))
+;;
+(straight-flush? straight-hand)                ;=> false
+(straight-flush? flush-hand)                   ;=> false
+(straight-flush? straight-flush-hand)          ;=> true
+(straight-flush? low-ace-straight-flush-hand)  ;=> true
+(straight-flush? high-ace-straight-flush-hand) ;=> true
 
+
+
+;; Exercise 11
+;; Write the function (value hand), which returns the value of a hand according to the table above.
+;;
+;; vector of strings -> integer
+;; Assess hand for score
+;; implementation with cond
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush?  hand) 8
+   (four-of-a-kind?  hand) 7
+   (full-house?      hand) 6
+   (flush?           hand) 5
+   (straight?        hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs?       hand) 2
+   (pair?            hand) 1
+   :else                   0))
+;;
+(value high-seven)           ;=> 0
+(value pair-hand)            ;=> 1
+(value two-pairs-hand)       ;=> 2
+(value three-of-a-kind-hand) ;=> 3
+(value straight-hand)        ;=> 4
+(value flush-hand)           ;=> 5
+(value full-house-hand)      ;=> 6
+(value four-of-a-kind-hand)  ;=> 7
+(value straight-flush-hand)  ;=> 8
+;;
+;; The example below checks for all patters, cond will short-circuit, and is more efficient.
+;;
+;; It might be helpful to add a checker (high-card? hand):
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+;; You can create a sequence of [matcher value] pairs like so:
+;; (let [checkers #{[high-card? 0]  [pair? 1]
+;;                  [two-pairs? 2]  [three-of-a-kind? 3]
+;;                  [straight? 4]   [flush? 5]
+;;                  [full-house? 6] [four-of-a-kind? 7]
+;;                  [straight-flush? 8]}]
+;;   ...)
+;; You can now use filter, map and apply max to get the highest value that a hand has. The function second can be useful. Remember to use let to give the intermediate results readable names.
+(second [:i :am :a :sequence]) ;=> :am
+(second [two-pairs? 2])        ;=> 2
