@@ -18,11 +18,15 @@
 ;;
 ;; string -> integer
 ;; Get first element, assess digit or character, return as digit if digit, convert to digit if chracter
-(defn rank [card]
-  (let [c-rank (first card)]
+(defn rank
+  "Convert character rank to integer rank."
+  [card]  
+  (let [c-rank      (first card)
+        replace-map {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+    ;;
     (if (Character/isDigit c-rank)
       (Integer/valueOf (str c-rank))
-      (get {\T 10, \J 11, \Q 12, \K 13, \A 14} c-rank))))
+      (get replace-map c-rank))))
 ;;
 (rank "2H") ;=> 2
 (rank "4S") ;=> 4
@@ -46,8 +50,36 @@
 (suit "3S") ;=> "S"
 
 
+;; hands
+(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
+(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
+(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
+(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
+(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
+(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
+(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
+(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
+(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
+(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
+(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
+
+
+;; Exercise 3
+;; Write the function (pair? hand) that returns true if there is a pair in hand and false if there is no pair in hand.
+;;
+;; vector of strings -> bool
+;; check rank of each card, and return true if duplications
 (defn pair? [hand]
-  nil)
+  ;; Create a frequency map of ranks
+  (let [freq-map (frequencies (map rank hand))]
+    ;; Check max, if greater than 1, then true, otherwise false.
+    (> (reduce max (vals freq-map)) 1)))
+;;
+(pair? pair-hand)  ;=> true
+(pair? high-seven) ;=> false
+
 
 (defn three-of-a-kind? [hand]
   nil)
