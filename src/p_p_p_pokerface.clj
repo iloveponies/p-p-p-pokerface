@@ -20,7 +20,7 @@
 (defn suit [[_ s]]
   (str s))
 
-(defn times-of-a-kind [num hand]
+(defn- times-of-a-kind [num hand]
   (= num (apply max
      (vals (frequencies (map rank hand))))))
 
@@ -42,13 +42,37 @@
      (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [cards (sort (vals (frequencies (map rank hand))))]
+    (or (= '(1 2 2) cards)
+        (= '(1 4) cards))))
+
+(defn- range-of-five? [card-ranks]
+  (let [min-rank (first card-ranks)
+        max-rank (last card-ranks)]
+    (= card-ranks (range min-rank (+ min-rank 5)))))
+
+(defn- low-ace-card-straight? [card-ranks]
+  (let [low-ace-card-ranks (sort (replace {14 1} card-ranks))]
+    (range-of-five? low-ace-card-ranks)))
 
 (defn straight? [hand]
-  nil)
+  (let [card-ranks (sort (map rank hand))]
+    (or (range-of-five? card-ranks)
+        (low-ace-card-straight? card-ranks))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
+
+(defn- high-card? [hand]
+  true) ; All hands have a high card.
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max
+           (map second
+                (filter #((first %) hand) checkers)))))
