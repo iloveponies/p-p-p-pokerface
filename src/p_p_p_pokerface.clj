@@ -40,20 +40,21 @@
     true
     false))
 
+(defn is-subsequent-collection [ranks i]
+  (if (= i 4)
+    true    
+    (if (not= (+ (nth ranks i) 1) (nth ranks (+ i 1)))
+      false
+      (recur ranks (+ i 1)))
+    ))
+
 (defn straight? [hand]
-  (let [sorted-hand (sort (map rank hand))
-        lowest (nth sorted-hand 0)
-        highest (nth sorted-hand 4)
-        replaced-hand (sort (replace {1 14} sorted-hand))
-        lowest-replaced (nth replaced-hand 0)
-        highest-replaced (nth replaced-hand 4)
-        replaced-hand2 (sort (replace {14 1} sorted-hand))
-        lowest-replaced2 (nth replaced-hand2 0)
-        highest-replaced2 (nth replaced-hand2 4)]
-    (and (or (= highest (+ lowest 4))
-             (= highest-replaced (+ lowest-replaced 4))
-             (= highest-replaced2 (+ lowest-replaced2 4)))
-         (= [1 1 1 1 1] (vals (frequencies (map rank hand)))))))
+  (let [sorted-ranks (sort (map rank hand))
+        replaced-hand (sort (replace {1 14} sorted-ranks))
+        replaced-hand2 (sort (replace {14 1} sorted-ranks))]
+    (or (is-subsequent-collection sorted-ranks 0)
+        (is-subsequent-collection replaced-hand 0)
+        (is-subsequent-collection replaced-hand2 0))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
