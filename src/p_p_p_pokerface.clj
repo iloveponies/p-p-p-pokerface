@@ -66,8 +66,10 @@
                  [two-pairs? 2] [three-of-a-kind? 3]
                  [straight? 4] [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}]
-    (apply max (map second (filter (fn [e] (= ((first e) hand) true)) checkers)))))
+                 [straight-flush? 8]}
+        true-checkers (fn [e] (= ((first e) hand) true))
+        found-values (map second (filter true-checkers checkers))]
+    (apply max found-values)))
 
 (defn hand [a-hand]
   a-hand)
