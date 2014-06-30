@@ -1,0 +1,4 @@
+(boolean nil)
+(boolean true)
+(first [1 2)
+(first [1 2])
