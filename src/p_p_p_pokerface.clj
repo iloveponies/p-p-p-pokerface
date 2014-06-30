@@ -51,10 +51,26 @@
   ( = 2 (count (pairs hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [ ranks (map rank hand)
+        ranks (replace (if (some #( = % 2) ranks ) {14 1} {14 14}) ranks)
+        [first _ _ _ last] (sort ranks)]
+    (and (not (or (pair? hand)
+              (three-of-a-kind? hand)
+              (four-of-a-kind? hand)))
+         (=  4 (- last first)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+   (straight-flush? hand) 8
+   (four-of-a-kind? hand) 7
+   (full-house? hand) 6
+   (flush? hand) 5
+   (straight? hand) 4
+   (three-of-a-kind? hand) 3
+   (two-pairs? hand) 2
+   (pair? hand) 1
+   :else 0))
