@@ -4,13 +4,13 @@
 
 (defn rank [card]
   (let [[rank _] card]
-  (if (Character/isDigit rank)
-    (Integer/valueOf (str rank))
-    (replacements rank))))
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (replacements rank))))
 
 (defn suit [card]
   (let [[_ suit] card]
-  (str suit)))
+    (str suit)))
 
 (defn hand-frequencies [hand attribute]
   (vals (frequencies (map attribute hand))))
@@ -64,7 +64,7 @@
                    [two-pairs? 2]  [three-of-a-kind? 3]
                    [straight? 4]   [flush? 5]
                    [full-house? 6] [four-of-a-kind? 7]
-                   [straight-flush? 8]}]
-    (let [matching-checkers (filter #((first %) hand) checkers)]
-      (let [matching-scores (map second matching-checkers)]
-        (apply max matching-scores)))))
+                   [straight-flush? 8]}
+        matching-checkers (filter #((first %) hand) checkers)
+        matching-scores (map second matching-checkers)]
+    (apply max matching-scores)))
