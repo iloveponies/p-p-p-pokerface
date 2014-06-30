@@ -1,10 +1,10 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(defn rank [[card-rank card-suit]]
+  card-rank)
 
-(defn suit [card]
-  nil)
+(defn suit [[card-rank card-suit]]
+  card-suit)
 
 (defn pair? [hand]
   nil)
