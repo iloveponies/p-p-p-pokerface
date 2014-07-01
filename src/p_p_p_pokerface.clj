@@ -51,5 +51,5 @@
                    [straight? 4]   [flush? 5]
                    [full-house? 6] [four-of-a-kind? 7]
                    [straight-flush? 8]}
-        hands (filter (fn [checker points] (if (checker hand) points)) checkers)]
+        hands (filter (fn  [[checker points]] (if (checker hand) points)) checkers)]
     (apply max (map second hands))))
