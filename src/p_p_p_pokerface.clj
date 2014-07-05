@@ -11,8 +11,19 @@
 (defn suit [[card-rank card-suit]]
   (str card-suit))
 
+;(defn has-combo-of-size? [hand size]
+;  )
+
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-freqs-map (frequencies ranks)    ; ranks->frequency count
+        rank-freqs (vals rank-freqs-map)      ; just frequencies of ranks
+        combos-freqs (frequencies rank-freqs) ; frequencies of rank combinations
+        ]
+    ; A pair is a combination of exactly 2 cards with the same rank
+    (contains? (set (keys combos-freqs)) 2)))
+        
+    
 
 (defn three-of-a-kind? [hand]
   nil)
