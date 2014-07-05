@@ -30,7 +30,8 @@
   (has-combo-of-size? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (let [suit-frequencies (frequencies (map suit hand))]
+    (= (count suit-frequencies) 1)))
 
 (defn full-house? [hand]
   (and (pair? hand) (three-of-a-kind? hand)))
