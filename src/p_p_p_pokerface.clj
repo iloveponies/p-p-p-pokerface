@@ -1,10 +1,15 @@
 (ns p-p-p-pokerface)
 
+(def rank-map {\T 10 \J 11 \Q 12 \K 13 \A 14})
+
 (defn rank [[card-rank card-suit]]
-  card-rank)
+  (cond
+    (Character/isDigit card-rank) (Integer/valueOf (str card-rank))
+    :else (get rank-map card-rank)))
+    
 
 (defn suit [[card-rank card-suit]]
-  card-suit)
+  (str card-suit))
 
 (defn pair? [hand]
   nil)
