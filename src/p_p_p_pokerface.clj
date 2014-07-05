@@ -11,12 +11,18 @@
 (defn suit [[card-rank card-suit]]
   (str card-suit))
 
-(defn has-combo-of-size? [hand size]
+; Get map of the frequencies of different combinations
+; (how many pairs, how many three-of-a-kinds, etc.)
+(defn combo-frequencies [hand]
   (let [ranks (map rank hand)
         rank-freqs-map (frequencies ranks)    ; ranks->frequency count
         rank-freqs (vals rank-freqs-map)      ; just frequencies of ranks
         combos-freqs (frequencies rank-freqs) ; frequencies of rank combinations
         ]
+    combos-freqs))
+
+(defn has-combo-of-size? [hand size]
+  (let [combos-freqs (combo-frequencies hand)]
     ; See if there is a combo of exactly size
     (contains? (set (keys combos-freqs)) size)))
 
@@ -37,7 +43,8 @@
   (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [combos-freqs (combo-frequencies hand)]
+    (= (get combos-freqs 2) 2)))
 
 (defn straight? [hand]
   nil)
