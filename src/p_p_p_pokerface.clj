@@ -46,11 +46,20 @@
   (let [combos-freqs (combo-frequencies hand)]
     (= (get combos-freqs 2) 2)))
 
+; Test vector of ranks to see if it is a straight. 
+(defn straight-ranks? [ranks]
+  (let [ranks-sorted (sort ranks)
+        start (first ranks-sorted)
+        size (count ranks)]
+    (= ranks-sorted (range start (+ start size)))))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        ranks-ace-low (replace {14 1} ranks)]
+    (or (straight-ranks? ranks) (straight-ranks? ranks-ace-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
