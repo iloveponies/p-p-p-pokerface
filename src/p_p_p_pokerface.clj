@@ -23,7 +23,9 @@
   (= 1 (count (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (let [freq (vals (frequencies (map rank hand)))]
+    (and (= 3 (apply max freq))
+      (= 2 (apply min freq)))))
 
 (defn two-pairs? [hand]
   nil)
