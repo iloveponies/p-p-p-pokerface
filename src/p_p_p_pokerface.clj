@@ -20,7 +20,7 @@
   (>= (apply max (vals (frequencies (map rank hand)))) 4))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
   nil)
