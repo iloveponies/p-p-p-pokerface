@@ -1,10 +1,14 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[value _] card]
+  (if (Character/isDigit value)
+  (Integer/valueOf (str value))
+  ({\T 10 \J 11 \Q 12 \K 13 \A 14} value))))
 
 (defn suit [card]
-  nil)
+  (let [[_ color] card]
+  (str color)))
 
 (defn pair? [hand]
   nil)
