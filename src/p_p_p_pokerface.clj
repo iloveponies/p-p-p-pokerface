@@ -33,7 +33,10 @@
       (= 3 (count freq)))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        diff (- (apply max ranks) (apply min ranks))]
+    (or (= ranks (range (apply min ranks) (+ 1 (apply max ranks))))
+      (= ranks [2 3 4 5 14]))))
 
 (defn straight-flush? [hand]
   nil)
