@@ -39,7 +39,7 @@
       (= ranks [2 3 4 5 14]))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
 
 (defn value [hand]
   nil)
