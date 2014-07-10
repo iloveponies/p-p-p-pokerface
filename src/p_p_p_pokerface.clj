@@ -1,5 +1,4 @@
-(ns p-p-p-pokerface
-  (:require [test-data :refer :all]))
+(ns p-p-p-pokerface)
 
 (defn suit [card]
   (let [[_ snd] card] (str snd)))
