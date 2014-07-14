@@ -48,13 +48,38 @@
       false)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [rank-frequencies (vals (frequencies (map rank hand)))]
+    (if (or
+         (= (seq [1 2 2]) (sort rank-frequencies))
+         (four-of-a-kind? hand))
+      true
+      false)))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-ranks (sort (map rank hand))
+        sorted-ranks-ace-low (sort (replace {14 1} sorted-ranks))
+        first-rank (first sorted-ranks)
+        straight (range first-rank (+ first-rank 5))
+        straight-ace-low (range (first sorted-ranks-ace-low) (+ (first sorted-ranks-ace-low) 5))]
+    (if (or (= sorted-ranks straight)
+            (= sorted-ranks-ace-low straight-ace-low))
+    true
+    false)))
 
 (defn straight-flush? [hand]
-  nil)
+  (if (and (straight? hand)
+           (flush? hand))
+    true
+    false))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0] [pair? 1]
+                   [two-pairs? 2] [three-of-a-kind? 3]
+                   [straight? 4] [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        checker-applies (fn [[f _]] (f hand))]
+    (apply max (map second (filter checker-applies checkers)))))
