@@ -49,7 +49,12 @@
                             rank-val))))))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-hand (sort (map rank hand))
+        sorted-low-hand (sort (replace {14 1} sorted-hand))
+        first-sorted-hand (first sorted-hand)
+        first-sorted-low-hand (first sorted-low-hand)]
+    (or (= sorted-hand (range first-sorted-hand (+ first-sorted-hand 5)))
+        (= sorted-low-hand (range first-sorted-low-hand (+ first-sorted-low-hand 5))))))
 
 (defn straight-flush? [hand]
   nil)
