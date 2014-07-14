@@ -18,10 +18,12 @@
     (str s)))
 
 (defn n-of-a-kind? [n hand]
-  (== n
-      (apply max (vals
-                  (frequencies
-                   (map rank hand))))))
+  (contains? (into #{}
+                   (vals
+                    (frequencies
+                     (map rank hand)))
+                   )
+             n))
 
 (defn pair? [hand]
   (n-of-a-kind? 2 hand))
