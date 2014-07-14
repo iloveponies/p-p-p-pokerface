@@ -43,7 +43,10 @@
    (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [rank-val (vals (frequencies (map rank hand)))]
+    (or (four-of-a-kind? hand)
+        (= 2 (count (filter #(= 2 %)
+                            rank-val))))))
 
 (defn straight? [hand]
   nil)
