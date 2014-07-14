@@ -38,7 +38,9 @@
   (= 1 (count (frequencies (map suit hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (and
+   (pair? hand)
+   (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
