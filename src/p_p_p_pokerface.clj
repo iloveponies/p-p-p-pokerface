@@ -57,7 +57,7 @@
         (= sorted-low-hand (range first-sorted-low-hand (+ first-sorted-low-hand 5))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
