@@ -1,7 +1,17 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[r _] card
+        is-digit? (Character/isDigit r)
+        clothed-map {\T 10
+                     \J 11
+                     \Q 12
+                     \K 13
+                     \A 14
+                     }]
+    (if is-digit?
+      (Integer/valueOf (str r))
+      (get clothed-map r))))
 
 (defn suit [card]
   (let [[_ s] card]
