@@ -45,13 +45,25 @@
     (apply = suits)))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [freq (vals (frequencies (map #(rank %) hand)))]
+    (if (some #(= 4 %) freq) true
+      (if (some #(= 0 (mod % 2)) (vals (frequencies freq))) true false))))
+
+(defn sorted-ranks [hand]
+  (sort (map #(rank %) hand)))
+
+(defn replace-rank [hand]
+  (let [ranks (map #(rank %) hand)]
+    (if (some #(= 2 %) ranks) (replace {14 1} ranks) ranks)))
 
 (defn straight? [hand]
-  nil)
+  (let [sort-ranks (sort (replace-rank hand))
+        fst (first sort-ranks)
+        straight (range fst (+ fst 5))]
+    (= sort-ranks straight)))
 
 (defn straight-flush? [hand]
   nil)
