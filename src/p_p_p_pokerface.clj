@@ -3,8 +3,13 @@
 (defn rank [card]
   nil)
 
+
+;; takes a singe card and returns the suit of the card as a one character string.
+
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
+
 
 (defn pair? [hand]
   nil)
