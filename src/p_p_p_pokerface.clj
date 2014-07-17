@@ -42,7 +42,7 @@
 
 (defn two-pairs? [hand]
   (let [wart (map rank hand)]
-  (if (and (= 2 (apply max (vals (frequencies wart)))) (= 2 (apply max (rest (vals (frequencies wart))))))
+  (if (and (= 2 (apply max (vals (frequencies wart)))) (= 2 (apply max (butlast(sort (vals (frequencies wart)))))))
   true
   false))) 
 
