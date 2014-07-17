@@ -18,8 +18,12 @@
     (str s)))
 
 
+;; returns true if there is a pair in hand and false if there is no pair in hand.
+
 (defn pair? [hand]
-  nil)
+  (let [fq (frequencies (map rank hand))]
+    (not (not-any? #(= % 2) (vals fq)))))
+
 
 (defn three-of-a-kind? [hand]
   nil)
