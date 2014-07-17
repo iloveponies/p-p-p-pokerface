@@ -48,13 +48,37 @@
 
 (defn straight? [hand]
  (let [wart (map rank hand)
-      zakres (range (apply min wart) (+ 1 (apply max wart)))]
- (if (and (= zakres (range (apply min wart) (+ 5 (apply min wart)))) (not (pair? hand)))
+      wartlow (replace {14 1} wart)
+      wmin (apply min wart)
+      wminlow (apply min wartlow)
+      wmax (apply max wart)
+      wmaxlow (apply max wartlow)
+      zakres (range wmin (+ 1 wmax))
+      zakreslow (range wminlow (+ 1 wmaxlow))
+      ]
+ (if (= wmax 14) 
+  (do 
+  (if (and (not (pair? hand)) (not (three-of-a-kind? hand)) (or 
+  (= zakres (range wmin (+ 5 wmin))) 
+  (= zakreslow (range wminlow (+ 5 wminlow)))))
   true
-  false)))
+  false))
+  (do (if(and (= zakres (range wmin (+ 5 wmin))) (not (pair? hand)))
+  true
+  false)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand) ))
 
 (defn value [hand]
-  nil)
+  (cond 
+  (straight-flush? hand) 8
+  (four-of-a-kind? hand) 7
+  (full-house? hand) 6
+  (flush? hand) 5
+  (straight? hand) 4
+  (three-of-a-kind? hand) 3
+  (two-pairs? hand) 2
+  (pair? hand) 1
+  :otherwise 0)
+)
