@@ -21,13 +21,22 @@
       false)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [rank-counts (frequencies (map rank hand))]
+    (if (> (apply max (vals rank-counts)) 2)
+      true
+      false)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [rank-counts (frequencies (map rank hand))]
+    (if (> (apply max (vals rank-counts)) 3)
+      true
+      false)))
 
 (defn flush? [hand]
-  nil)
+  (let [hand-suits (frequencies (map suit hand))]
+    (if (> (apply max (vals hand-suits)) 4)
+      true
+      false)))
 
 (defn full-house? [hand]
   nil)
@@ -45,7 +54,7 @@
   nil)
 
 ; TESTING DEFS!
-; (def high-seven ["2H" "3S" "4C" "5C" "7D"])
+;(def high-seven ["2H" "3S" "4C" "5C" "7D"])
 ;(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
 ;(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
 ;(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
