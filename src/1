@@ -27,9 +27,6 @@
 (defn contains-x-same-ranks [x hand]
   (contains? (set (rank-values hand)) x))
 
-(defn high-card? [hand]
-  true)
-
 (defn pair? [hand]
   (contains-x-same-ranks 2 hand))
 
