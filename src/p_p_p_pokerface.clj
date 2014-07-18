@@ -63,14 +63,12 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
-(defn check [checker hand]
-  (if ((first checker) hand) (last checker) nil))
-
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
                  [two-pairs? 2]  [three-of-a-kind? 3]
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}]
+                 [straight-flush? 8]}
+        check (fn [checker hand] (if ((first checker) hand) (last checker) nil))]
     (reduce max (filter (fn [x] (not (= nil x))) (map (fn [x] (check x hand)) checkers)))))
 
