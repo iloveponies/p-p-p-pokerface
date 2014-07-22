@@ -39,8 +39,12 @@
     (not (not-any? #(= % 4) (vals fq)))))
 
 
+;;  that returns true if the hand is a flush.
+
 (defn flush? [hand]
-  nil)
+  (let [fq (frequencies (map suit hand))]
+    (not (not-any? #(= % 5) (vals fq)))))
+
 
 (defn full-house? [hand]
   nil)
