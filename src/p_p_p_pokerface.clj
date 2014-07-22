@@ -32,8 +32,12 @@
     (not (not-any? #(= % 3) (vals fq)))))
 
 
+;;  returns true if the hand contains a four of a kind
+
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [fq (frequencies (map rank hand))]
+    (not (not-any? #(= % 4) (vals fq)))))
+
 
 (defn flush? [hand]
   nil)
