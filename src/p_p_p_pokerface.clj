@@ -25,8 +25,12 @@
     (not (not-any? #(= % 2) (vals fq)))))
 
 
+;; returns true if the hand contains a three of a kind.
+
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [fq (frequencies (map rank hand))]
+    (not (not-any? #(= % 3) (vals fq)))))
+
 
 (defn four-of-a-kind? [hand]
   nil)
