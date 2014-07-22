@@ -76,11 +76,35 @@
         (= result (range first-el (+ 5 first-el)))))
 
 
+;; returns true if the hand is a straight flush, that is both a straight and a flush,
+;; and otherwise false
+
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand)
+       (straight? hand)))
+
+
+;; High card (nothing)	0
+;; Pair	                1
+;; Two pairs	          2
+;; Three of a kind	    3
+;; Straight	            4
+;; Flush	              5
+;; Full house	          6
+;; Four of a kind	      7
+;; Straight flush	      8
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0))
 
 
 
