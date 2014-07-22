@@ -53,8 +53,14 @@
        (three-of-a-kind? hand)))
 
 
+;; return true if hand has two pairs, and otherwise false
+
 (defn two-pairs? [hand]
-  nil)
+  (let [fq (frequencies (map rank hand))
+        fq2 (frequencies (vals fq))]
+    (or (= 2 (get fq2 2))
+        (= 1 (get fq2 4)))))
+
 
 (defn straight? [hand]
   nil)
@@ -64,3 +70,27 @@
 
 (defn value [hand]
   nil)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
