@@ -46,8 +46,12 @@
     (not (not-any? #(= % 5) (vals fq)))))
 
 
+;; returns true if hand is a full house, and otherwise false
+
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
+
 
 (defn two-pairs? [hand]
   nil)
