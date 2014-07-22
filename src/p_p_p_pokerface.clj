@@ -34,12 +34,19 @@
                    (map rank hand))))4) true
    :else false))
 
+;(defn flush? [hand]
+;  (cond
+;  (= (apply max
+;            (vals (frequencies
+;                   (map suit hand))))5) true
+;  :else false))
+
+
 (defn flush? [hand]
-  (cond
-  (= (apply max
-            (vals (frequencies
-                   (map suit hand))))5) true
-  :else false))
+  (apply = (map second hand)))
+
+
+
 
 (defn full-house? [hand]
   (cond
@@ -61,21 +68,30 @@
             [1 4] ) true
    :else false))
 
+;(defn straight? [hand]
+;   (or
+;   (= (sort
+;            (map rank hand))
+;      (range 2 (+ 2 5)))
+;    (= (sort
+;        (vals (frequencies
+;            (map rank hand))))
+;      (take 5(cycle [1])))
+;   ))
+
+
 (defn straight? [hand]
-   (cond
-   (= (sort
-            (map rank hand))
-      (range 2 (+ 2 5))) true
-    (= (sort
-        (vals (frequencies
-            (map rank hand))))
-      (take 5(cycle [1]))) true
-   :else false))
+  (let [ sorted (sort (map rank hand))
+         smallest (first sorted)
+         sorted-alt (sort (replace {14 1} sorted))
+         smallest-alt (first sorted-alt)]
+    (or
+     (= sorted (range smallest (+ smallest 5)))
+     (= sorted-alt (range smallest-alt (+ smallest-alt 5))))))
+
 
 (defn straight-flush? [hand]
-  (cond
-   (and (straight? hand) (flush? hand)) true
-   :else false))
+   (and (straight? hand) (flush? hand)))
 
 (defn high-card? [hand]
   true)
