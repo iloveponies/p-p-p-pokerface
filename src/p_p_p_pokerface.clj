@@ -62,8 +62,19 @@
         (= 1 (get fq2 4)))))
 
 
+;; returns true if hand is a straight, and otherwise false
+
 (defn straight? [hand]
-  nil)
+  (let [fq (map rank hand)
+        fq-set (into #{} fq)
+        low-ace (and (contains? fq-set 2)
+                     (contains? fq-set 14))
+        result (sort (if low-ace
+                       (replace {14 1} fq)
+                       fq))
+        first-el (first result)]
+        (= result (range first-el (+ 5 first-el)))))
+
 
 (defn straight-flush? [hand]
   nil)
