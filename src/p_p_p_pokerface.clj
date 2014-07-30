@@ -26,7 +26,8 @@
   (same-type? suit hand 5))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
