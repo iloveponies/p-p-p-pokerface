@@ -8,7 +8,8 @@
       (get nobility  rank_char))))
 
 (defn suit [card]
-  nil)
+  (let [[_  suit_char] card]
+    (str suit_char)))
 
 (defn pair? [hand]
   nil)
