@@ -10,9 +10,11 @@
 (defn suit [card]
   (let [[_  suit_char] card]
     (str suit_char)))
+(defn same-rank? [hand count]
+  (contains? (set (vals (frequencies (map rank hand)))) count))
 
 (defn pair? [hand]
-  (contains? (set (vals (frequencies (map rank hand)))) 2))
+  (same-rank? hand 2))
 
 (defn three-of-a-kind? [hand]
   nil)
