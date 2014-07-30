@@ -17,10 +17,10 @@
   (same-rank? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (same-rank? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (same-rank? hand 4))
 
 (defn flush? [hand]
   nil)
