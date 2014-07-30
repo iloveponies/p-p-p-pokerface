@@ -23,7 +23,7 @@
   (same-type? rank hand 4))
 
 (defn flush? [hand]
-  nil)
+  (same-type? suit hand 5))
 
 (defn full-house? [hand]
   nil)
