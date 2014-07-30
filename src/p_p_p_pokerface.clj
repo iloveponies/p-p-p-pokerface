@@ -12,7 +12,7 @@
     (str suit_char)))
 
 (defn pair? [hand]
-  nil)
+  (contains? (set (vals (frequencies (map rank hand)))) 2))
 
 (defn three-of-a-kind? [hand]
   nil)
