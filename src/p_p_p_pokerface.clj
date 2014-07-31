@@ -1,5 +1,4 @@
 (ns p-p-p-pokerface)
-(require 'clojure.tools.trace)
 
 (defn suit [card]
   (let [ [_ s] card
@@ -39,7 +38,7 @@
   (>= (apply + (filter (fn [x] (>= x 2)) (vals (frequencies (map rank hand))))) 4)
   )
 
-(defn ^:dynamic straight? [hand]
+(defn  straight? [hand]
   (let [ace-low {14 1}
         sorted-hand-ranks (sort (map rank hand))
         hand-min (first sorted-hand-ranks)
