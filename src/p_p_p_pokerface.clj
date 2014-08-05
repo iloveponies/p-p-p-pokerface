@@ -32,7 +32,9 @@
        (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (or 
+   (= 2 (count (filter #(= % 2) (number-of-type rank hand))))
+   (four-of-a-kind? hand)))
 
 (defn straight? [hand]
   nil)
