@@ -37,15 +37,15 @@
    (four-of-a-kind? hand)))
 
 (defn straight? [hand]
-  (let [lover-ranks (sort (map rank hand))
-        upper-ranks (sort (replace {14 1} (map rank hand)))
-        match? (fn [sorted-hand]
-                (let [start (apply min sorted-hand)
-                      end (+ 1 (apply max sorted-hand))]
+  (let [ranks (map rank hand)
+        match? (fn [ranks]
+                 (let [sorted-hand (sort ranks)
+                       start (apply min sorted-hand)
+                       end (+ 1 (apply max sorted-hand))]
                   (= sorted-hand
                      (range start end))))]
-    (or (match? lover-ranks)
-        (match? upper-ranks))))
+    (or (match? ranks)
+        (match? (replace {14 1} ranks)))))
 
 (defn straight-flush? [hand]
   nil)
