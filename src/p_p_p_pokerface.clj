@@ -15,6 +15,9 @@
 (defn same-type? [type hand count]
   (contains? (set (number-of-type type hand)) count))
 
+(defn high-card? [hand]
+  true)
+
 (defn pair? [hand]
   (same-type? rank hand 2))
 
@@ -52,4 +55,11 @@
        (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}
+        hand? #((get % 0) hand)
+        get-value #(get % 1)]
+    (apply max (map get-value (filter hand? checkers)))))
