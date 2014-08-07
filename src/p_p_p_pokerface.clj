@@ -32,12 +32,20 @@
        (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  (or 
+  (or
    (= 2 (count (filter #(= % 2) (number-of-type rank hand))))
    (four-of-a-kind? hand)))
 
 (defn straight? [hand]
-  nil)
+  (let [lover-ranks (sort (map rank hand))
+        upper-ranks (sort (replace {14 1} (map rank hand)))
+        match? (fn [sorted-hand]
+                (let [start (apply min sorted-hand)
+                      end (+ 1 (apply max sorted-hand))]
+                  (= sorted-hand
+                     (range start end))))]
+    (or (match? lover-ranks)
+        (match? upper-ranks))))
 
 (defn straight-flush? [hand]
   nil)
