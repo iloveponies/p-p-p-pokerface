@@ -28,7 +28,9 @@
   (pair-of? 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)
+        freqs (vals (frequencies suits))]
+  (= (apply max freqs) 5)))
 
 (defn full-house? [hand]
   nil)
