@@ -13,10 +13,13 @@
 (defn suit [[_ s]]
   (str s))
 
-(defn pair? [hand]
+(defn pair-of? [n hand]
   (let [ranks (map rank hand)
         freqs (vals (frequencies ranks))]
-    (>= (apply max freqs) 2)))
+    (>= (apply max freqs) n)))
+
+(defn pair? [hand]
+  (pair-of? 2 hand))
 
 (defn three-of-a-kind? [hand]
   nil)
