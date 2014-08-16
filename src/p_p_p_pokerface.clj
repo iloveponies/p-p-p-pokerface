@@ -44,7 +44,11 @@
         (= '(1 4) freqs))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        low   (first ranks)
+        high  (last  ranks)]
+    (or (= ranks '(2 3 4 5 14))
+        (= ranks (range low (+ high 1))))))
 
 (defn straight-flush? [hand]
   nil)
