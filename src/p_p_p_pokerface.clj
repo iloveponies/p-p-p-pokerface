@@ -22,10 +22,10 @@
   (pair-of? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (pair-of? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (pair-of? 4 hand))
 
 (defn flush? [hand]
   nil)
