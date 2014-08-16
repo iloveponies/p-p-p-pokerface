@@ -33,7 +33,9 @@
   (= (apply max freqs) 5)))
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (= '(2 3) (sort freqs))))
 
 (defn two-pairs? [hand]
   nil)
