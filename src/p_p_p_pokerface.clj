@@ -1,7 +1,14 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(defn rank [[r _]]
+  (let [rank-values {\T 10
+                     \J 11
+                     \Q 12
+                     \K 13
+                     \A 14}]
+    (if (Character/isDigit r)
+      (Integer/valueOf (str r))
+      (rank-values r))))
 
 (defn suit [[_ s]]
   (str s))
