@@ -69,7 +69,7 @@
                      (= 14 (nth mranks 4))
                      (not= 13 (nth mranks 3)))
                   (seq (replace {14 1} mranks))
-                  (seq mranks)))
+                  (do mranks)))
         min (apply min ranks)
         mirror (range min (+ min 5))]
      (= ranks mirror)))
@@ -77,5 +77,25 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
+(defn high-card? [hand]
+  (not(or (straight-flush? hand)
+          (straight? hand)
+          (two-pairs? hand)
+          (full-house? hand)
+          (flush? hand)
+          (four-of-a-kind? hand)
+          (three-of-a-kind? hand)
+          (pair? hand))))
+
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2]
+                   [three-of-a-kind? 3] [four-of-a-kind? 7] [straight? 4]
+                   [flush? 5] [full-house? 6] [straight-flush? 8]}
+        matching (map (fn [[fun vl]] (
+                                      if (fun hand)
+                                        (do vl)
+                                        (do -1))) checkers)]
+    (apply max matching)))
+
+
+
