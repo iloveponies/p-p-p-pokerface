@@ -25,7 +25,7 @@
 (defn n-of-a-kind
   "Checks whether the hand is EXACTLY an n-of-a-kind."
   [hand n]
-  (= (apply max (vals (frequencies (ranks hand)))) n))
+  (contains? (set(vals (frequencies (ranks hand)))) n))
 
 (defn pair? [hand]
   (n-of-a-kind hand 2))
@@ -59,4 +59,13 @@
        (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand)  8
+    (four-of-a-kind? hand)  7
+    (full-house? hand)      6
+    (flush? hand)           5
+    (straight? hand)        4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand)       2
+    (pair? hand)            1
+    :else                   0))
