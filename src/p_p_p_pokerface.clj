@@ -70,6 +70,7 @@
 (defn high-card? [hand]
   true) ; All hands have a high card.
 
+;; Uses the checkers map given in the example
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
                    [two-pairs? 2]  [three-of-a-kind? 3]
