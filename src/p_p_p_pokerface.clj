@@ -35,12 +35,11 @@
   (and (flush? hand) (straight? hand)))
 
 (defn value [hand]
-  (let [high-card? (fn [hand] true)
-        checkers #{[pair? 1]
+  (let [checkers #{[pair? 1]
                    [two-pairs? 2]  [three-of-a-kind? 3]
                    [straight? 4]   [flush? 5]
                    [full-house? 6] [four-of-a-kind? 7]
                    [straight-flush? 8]}
-        hand-value (fn [[fun value]]
-          (if (fun hand) value 0))]
+        hand-value (fn [[checker value]]
+          (if (checker hand) value 0))]
     (apply max (map hand-value checkers))))
