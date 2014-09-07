@@ -16,7 +16,7 @@
   (>= (apply max (vals (frequencies (map rank hand)))) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 4))
 
 (defn flush? [hand]
   nil)
