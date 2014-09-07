@@ -25,7 +25,9 @@
   (= [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (sort (vals (frequencies (map rank hand))))]
+    (or (= [1 2 2] ranks)
+        (= [1 4] ranks))))
 
 (defn straight? [hand]
   nil)
