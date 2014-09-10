@@ -1,0 +1,110 @@
+(defn rank [card]
+  (let [[v _] card]
+    (if (Character/isDigit v)
+      (Integer/valueOf v)
+      (get {\T 10 \J 11 \Q 12 \K 13 \A 14} v))))
+(rank "1H")
+(defn rank [card]
+  (let [[v _] card]
+    (if (Character/isDigit v)
+      (Integer/valueOf (str v))
+      ({\T 10 \J 11 \Q 12 \K 13 \A 14} v))))
+(defn suit [card]
+  (let [[_ s] card] (str s)))
+(defn ranks [cards]
+  (map rank cards))
+(defn pair? [hand]
+  (vals (frequencies (ranks hand))))
+(ranks ["7H" "TS" "AD"])
+(defn rank [card]
+  (let [[v _] card]
+    (if (Character/isDigit v)
+      (Integer/valueOf (str v))
+      ({\T 10 \J 11 \Q 12 \K 13 \A 14} v))))
+(defn suit [card]
+  (let [[_ s] card] (str s)))
+(defn ranks [cards]
+  (map rank cards))
+(defn has-frequency-of? [hand freq]
+  (not (empty? (filter #(= freq %) (vals (frequencies (ranks hand)))))))
+(defn pair? [hand]
+  (has-frequency-of? hand 2))
+(defn three-of-a-kind? [hand]
+  (has-frequency-of? hand 3))
+(defn four-of-a-kind? [hand]
+  (has-frequency-of? hand 4))
+(defn flush? [hand]
+  (= 1 (count (set (map suit hand)))))
+(defn full-house? [hand]
+  (and (pair? hand) (three-of-a-kind? hand)))
+(defn two-pairs? [hand]
+  (= [2 2] (vals (frequencies (ranks hand)))))
+(vals (frequencies (ranks ["7H" "9D"])))
+(range 1 2)
+(range 1 3)
+(range 1 4)
+[3 4 5 6 7]
+(def a [3 4 5 6 7])
+(first a)
+(last a)
+(set (range (first a) (inc (last a))))
+(defn straight? [hand]
+  (let [rs (sort (ranks hand))]
+    (= (set (range (first rs) (inc (last rs)))) (set rs))))
+(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
+(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
+(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
+(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
+(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
+(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
+(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
+(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
+(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
+(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
+(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
+(straight? high-seven)
+(straight? straight-hand)
+(straight? pair-hand)
+(straight? two-pairs-hand)
+(straight? three-of-a-kind-hand)
+(straight? four-of-a-kind-hand)
+(straight? low-ace-straight-hand)
+(set (range (first (set (range (first rs) (inc (last rs)))u) (inc (last rs)))
+(defn x [hand]
+  (let [rs (sort (ranks hand))]
+    (set (range (first rs) (inc (last rs))))))
+(x ["TH" "AS" "QC" "KD" "JD"])
+(defn y [hand]
+  (let [rs (sort (ranks hand))]
+    (set rs)))
+(y ["TH" "AS" "QC" "KD" "JD"])
+(x ["TS" "AS" "QS" "KS" "JS"])
+(y ["TS" "AS" "QS" "KS" "JS"])
+(x ["TS" "AS" "QS" "KS" "JS"])
+(y ["TS" "AS" "QS" "KS" "JS"])
+(x ["2H" "3H" "6H" "5H" "4H"])
+(y ["2H" "3H" "6H" "5H" "4H"])
+(x ["2H" "5D" "2D" "2C" "5S"])
+(y ["2H" "5D" "2D" "2C" "5S"])
+(y ["2H" "4H" "5H" "9H" "7H"])
+(x ["2H" "4H" "5H" "9H" "7H"])
+(x ["TH" "AS" "QC" "KD" "JD"])
+(y ["TH" "AS" "QC" "KD" "JD"])
+(x ["2H" "2S" "2C" "2D" "7D"])
+(y ["2H" "2S" "2C" "2D" "7D"])
+(x ["2H" "2S" "2C" "4D" "7D"])
+(y ["2H" "2S" "2C" "4D" "7D"])
+(x ["2H" "2S" "4C" "4D" "7D"])
+(defn straight? [hand]
+  (let [rs (sort (ranks hand))
+        range (set (range (first rs) (inc (last rs))))]
+    (and (= 5 (count range)) (= range (set rs)))))
+(straight?  ["2H" "3S" "4C" "5C" "7D"])
+(straight? ["2H" "2S" "4C" "5C" "7D"])
+(straight?  ["2H" "2S" "4C" "4D" "7D"])
+(straight?  ["2H" "2S" "2C" "4D" "7D"])
+(straight? ["2H" "2S" "2C" "2D" "7D"])
+(straight?  ["2H" "3S" "6C" "5D" "4D"])
+(straight?  ["2H" "3S" "4C" "5D" "AD"])
