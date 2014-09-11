@@ -1,0 +1,67 @@
+(defn rank [card]
+  (let [[a _] card] 
+    (cond 
+     (= \T a) 10
+     (= \J a) 11
+     (= \Q a) 12
+     (= \K a) 13
+     (= \A a) 14
+     :else (Integer/valueOf (str a))
+     )))
+(defn suit [card]
+  (str (let [[_ a] card] a)))
+(defn pair? [hand]
+  (contains? 
+(def pair-hand ["2H" "2S" "4C" "5C" "7D"])
+(frequencies (map rank pair-hand)
+)
+(frequencies (map rank pair-hand))
+(vals (frequencies (map rank pair-hand)))
+(vector (vals (frequencies (map rank pair-hand))))
+(set (vals (frequencies (map rank pair-hand))))
+(defn pair? [hand]
+  (contains? 
+   (set (vals (frequencies (map rank hand)))) 2))
+(pair? pair-hand)
+(= (1 2 3) (2 1 3))
+(= (1, 2, 3) (2, 1, 3))
+(def abc (vals (frequencies (map rank pair-hand))))
+abc
+(= abc abc)
+(def pair-hand2 ["2H" "2S" "4C" "5C" "7D"])
+(def abc2 (vals (frequencies (map rank pair-hand2))))
+(= abc abc2)
+abc
+abc2
+(def pair-hand2 ["2H" "4S" "2C" "5C" "7D"])
+(def abc2 (vals (frequencies (map rank pair-hand2))))
+abc2
+(def pair-hand2 ["2H" "4S" "2C" "4C" "7D"])
+(def abc2 (vals (frequencies (map rank pair-hand2))))
+abc2
+(seq? abc2)
+(def two-pairs-hand ["2H" "2S" "4C" "4D" "7D"])
+(vals (frequencies (map rank two-pairs-hand)))
+(= (vals (frequencies (map rank two-pairs-hand))) (seq [2 2 1]))
+(def full-house-hand ["2H" "5D" "2D" "2C" "5S"])
+(vals (frequencies (map rank full-house-hand)))
+(defn straight? [hand]
+  (let [v (sort (map rank hand))
+        m (apply min v)]
+    (= (range m (+ m 5)) v)))
+(def straight-hand ["2H" "3S" "6C" "5D" "4D"])
+(straight? straight-hand)
+(def high-ace-straight-hand ["TH" "AS" "QC" "KD" "JD"])
+(straight? high-ace-straight-hand)
+(defn straight? [hand]
+  (let [v (sort (map rank hand))
+        m (apply min v)]
+    (if (= (range m (+ m 5)) v) true
+      (and (= 2 m) (= (apply max v) 14)))))
+(straight? high-ace-straight-hand)
+(straight? straight-hand)
+(straight? low-ace-straight-hand)
+(def low-ace-straight-flush-hand ["2D" "3D" "4D" "5D" "AD"])
+(straight? low-ace-straight-hand)
+(def low-ace-straight-hand ["2H" "3S" "4C" "5D" "AD"])
+(straight? low-ace-straight-hand)
