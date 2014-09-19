@@ -5,9 +5,18 @@
   (let [[_ s] card]
     (str s)))
 
+(def face-value-map
+  {\T 10
+   \J 11
+   \Q 12
+   \K 13
+   \A 14})
 
 (defn rank [card]
-  nil)
+  (let [[f _] card]
+    (if (Character/isDigit f)
+      (Integer/valueOf (str f))
+      (get face-value-map f))))
 
 
 (defn pair? [hand]
