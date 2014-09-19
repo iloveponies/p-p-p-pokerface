@@ -1,10 +1,14 @@
 (ns p-p-p-pokerface)
 
+
+(defn suit [card]
+  (let [[_ s] card]
+    (str s)))
+
+
 (defn rank [card]
   nil)
 
-(defn suit [card]
-  nil)
 
 (defn pair? [hand]
   nil)
