@@ -45,9 +45,9 @@
 
 (defn two-pairs? [hand]
   (let [rank-freqs (rank-freqs hand)
-        pair2 (some (fn [x] (= x 2)) rank-freqs)
+        pair2 (filter (fn [x] (= x 2)) rank-freqs)
         pair4 (some (fn [x] (= x 4)) rank-freqs)]
-    (or pair2 pair4 false)))
+    (or (>= (count pair2) 2) pair4 false)))
 
 (defn straight? [hand]
   (let [
