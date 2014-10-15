@@ -1,13 +1,19 @@
 (ns p-p-p-pokerface)
 
+(def face-map {\A 14, \K 13, \Q 12, \J 11, \T 10})
+
 (defn rank [card]
-  nil)
+  (let [[value _] card]
+    (if (Character/isDigit value)
+          (Integer/valueOf (str value))
+          (face-map value))))
 
 (defn suit [card]
-  nil)
+  (let [[_ st] card]
+    (str st)))
 
 (defn pair? [hand]
-  nil)
+  (contains? (vals (frequencies (map rank hand)) 2)))
 
 (defn three-of-a-kind? [hand]
   nil)
