@@ -1,10 +1,12 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rnk _] card]
+  (let rnknum (if (Character/isDigit rnk) (Integer/valueOf (str rnk)))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+  (str suit)))
 
 (defn pair? [hand]
   nil)
