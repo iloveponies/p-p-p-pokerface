@@ -13,19 +13,20 @@
     (str st)))
 
 (defn pair? [hand]
-  (contains? (vals (frequencies (map rank hand)) 2)))
+  (contains? (set (vals (frequencies(map rank hand))))2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (contains? (set (vals (frequencies(map rank hand))))3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (contains? (set (vals (frequencies(map rank hand))))4))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (distinct(map suit hand)))))
+  
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)  (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
