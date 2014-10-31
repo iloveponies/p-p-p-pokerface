@@ -41,7 +41,10 @@
     (or (rawstraight? ace-high) (rawstraight? ace-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
   nil)
