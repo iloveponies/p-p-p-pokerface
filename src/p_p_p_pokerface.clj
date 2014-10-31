@@ -33,7 +33,12 @@
   (contains? #{[1 2 2] [2 3] [1 4] [5]} (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [ace-high (sort (map rank hand))
+        ace-low (sort (replace {14 1} ace-high ))
+        rawstraight? (fn [h]
+                      (let [lowest (apply min h)]
+                        (= h (range lowest (+ lowest 5)))))]
+    (or (rawstraight? ace-high) (rawstraight? ace-low))))
 
 (defn straight-flush? [hand]
   nil)
