@@ -30,7 +30,7 @@
   (=  [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (contains? #{[1 2 2] [2 3] [1 4] [5]} (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
   nil)
