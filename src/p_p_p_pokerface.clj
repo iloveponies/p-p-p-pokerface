@@ -27,7 +27,7 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (=  [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
   nil)
