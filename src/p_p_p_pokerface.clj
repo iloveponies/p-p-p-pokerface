@@ -29,10 +29,12 @@
   (and (pair? hand)  (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
-
+  ( = 2 (count (filter #(= % 2) (vals (frequencies(map rank hand)))))))
+                    
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (seq (map rank hand)))]
+    ( =  sorted  (range (first sorted) (inc (last sorted))))))
+
 
 (defn straight-flush? [hand]
   nil)
