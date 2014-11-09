@@ -30,7 +30,9 @@
    (contains? (set (vals (frequencies (map rank hand)))) 2)))
 
 (defn two-pairs? [hand]
-  nil)
+  (=
+   (first (frequencies (vals (frequencies (map rank hand)))))
+   [2 2]))
 
 (defn straight? [hand]
   (cond
@@ -52,7 +54,7 @@
     (range (first (sort (map rank hand))) (+ 5 (first (sort (map rank hand))))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
 
 
 (defn value [hand]
