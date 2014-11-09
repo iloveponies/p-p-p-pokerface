@@ -11,7 +11,12 @@
     (str snd)))
 
 (defn pair? [hand]
-   (= 2 (apply max (vals (frequencies (map rank hand))))))
+   (and
+    (contains?
+    (set (frequencies (vals (frequencies (map rank hand)))))
+    [2 1])
+    (not (contains?
+          (set (frequencies (vals (frequencies (map rank hand))))) [3 1]))))
 
 (defn three-of-a-kind? [hand]
   (and
@@ -22,7 +27,7 @@
   (= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  (= 5 (first (vals (frequencies (map suit hand))))))
+    (= 5 (first (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
   (and
@@ -58,4 +63,14 @@
 
 
 (defn value [hand]
-  nil)
+  (cond
+   (pair? hand) 1
+   (two-pairs? hand) 2
+   (three-of-a-kind? hand) 3
+   (and (straight? hand) (straight-flush? hand)) 8
+   (straight? hand) 4
+   (flush? hand) 5
+   (full-house? hand) 6
+   (four-of-a-kind? hand) 7
+   (straight-flush? hand) 8
+   :else 0))
