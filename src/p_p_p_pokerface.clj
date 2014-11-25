@@ -28,16 +28,28 @@
      (< 4 (apply max vals))))
 
 (defn full-house? [hand]
-  nil)
+  (let [vals (vals (frequencies (map rank hand)))]
+  (= [2 3] (sort vals))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [vals (vals (frequencies (map rank hand)))]
+    (or (= [1 2 2] (sort vals)) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [high-ace-ranks (sort (map rank hand))
+        min-high-ace (apply min high-ace-ranks)
+        max-high-ace (apply max high-ace-ranks)
+        high-range (range min-high-ace (+ 1 max-high-ace))
+        high-straight (= high-ace-ranks high-range)
+        low-ace-ranks (sort (replace {14 1} (map rank hand)))
+        min-low-ace (apply min low-ace-ranks)
+        max-low-ace (apply max low-ace-ranks)
+        low-range (range min-low-ace (+ 1 max-low-ace))
+        low-straight (= low-ace-ranks low-range)]
+    (or low-straight high-straight)))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
