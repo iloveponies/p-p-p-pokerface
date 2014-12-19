@@ -7,7 +7,7 @@
       (rankOfChar fst))))
 
 (defn suit [[_ snd]]
-  snd)
+  (str snd))
 
 (defn freqs [hand]
   (vals (frequencies (map rank hand))))
