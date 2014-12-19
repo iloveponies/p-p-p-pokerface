@@ -1,11 +1,5 @@
 (ns p-p-p-pokerface)
 
-(defn hand [a-hand]
-  (map card a-hand))
-
-(defn card [a-card]
-  {:rank (rank a-card) :suit (suit a-card)})
-
 (defn rank [[fst _]]
   (let [rankOfChar (fn [x] (get {\T 10, \J 11, \Q 12, \K 13, \A 14} x))]
     (if (Character/isDigit fst)
