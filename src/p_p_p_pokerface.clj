@@ -16,9 +16,11 @@
   (let [[_ suit] card]
     (str suit)))
 
+(defn rank-counts [hand]
+  (vals (frequencies (map rank hand))))
+
 (defn has-rank-with-arity? [hand arity]
-  (let [rank-counts (vals (frequencies (map rank hand)))]
-    (<= arity (apply max rank-counts))))
+  (<= arity (apply max (rank-counts hand))))
 
 (defn pair? [hand]
   (has-rank-with-arity? hand 2))
@@ -33,7 +35,10 @@
   (== 1 (count (set (map suit hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (let [rank-count-set (set (rank-counts hand))]
+    (and
+      (contains? rank-count-set 2)
+      (contains? rank-count-set 3))))
 
 (defn two-pairs? [hand]
   nil)
