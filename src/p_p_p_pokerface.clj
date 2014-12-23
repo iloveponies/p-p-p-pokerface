@@ -45,8 +45,21 @@
    (<= 2 (count (filter (fn [cnt] (== cnt 2)) (rank-counts hand))))
    (four-of-a-kind? hand)))
 
+(defn straight-ranks [lowest-rank]
+  (range lowest-rank (+ lowest-rank 5)))
+
+(defn straight-range? [sorted-hand]
+  (let [lowest-rank (first sorted-hand)
+        potential-straight (straight-ranks lowest-rank)]
+    (= sorted-hand potential-straight)))
+
 (defn straight? [hand]
-  nil)
+  (let [ranked-hand (map rank hand)
+        sorted-hand (sort ranked-hand)
+        sorted-low-ace-hand (sort (replace {14 1} ranked-hand))]
+    (or
+      (straight-range? sorted-hand)
+      (straight-range? sorted-low-ace-hand))))
 
 (defn straight-flush? [hand]
   nil)
