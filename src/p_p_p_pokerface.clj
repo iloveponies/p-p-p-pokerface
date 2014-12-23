@@ -30,7 +30,7 @@
   (has-rank-with-arity? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (== 1 (count (set (map suit hand)))))
 
 (defn full-house? [hand]
   nil)
