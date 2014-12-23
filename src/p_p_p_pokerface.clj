@@ -41,7 +41,9 @@
       (contains? rank-count-set 3))))
 
 (defn two-pairs? [hand]
-  nil)
+  (or
+   (<= 2 (count (filter (fn [cnt] (== cnt 2)) (rank-counts hand))))
+   (four-of-a-kind? hand)))
 
 (defn straight? [hand]
   nil)
