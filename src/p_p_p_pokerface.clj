@@ -16,15 +16,18 @@
   (let [[_ suit] card]
     (str suit)))
 
-(defn pair? [hand]
+(defn has-rank-with-arity? [hand arity]
   (let [rank-counts (vals (frequencies (map rank hand)))]
-    (<= 2 (apply max rank-counts))))
+    (<= arity (apply max rank-counts))))
+
+(defn pair? [hand]
+  (has-rank-with-arity? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (has-rank-with-arity? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (has-rank-with-arity? hand 4))
 
 (defn flush? [hand]
   nil)
