@@ -33,6 +33,9 @@
     (sort (vals rank-freqs))))
 
 
+(defn high-card? [hand]
+  true)
+
 (defn pair? [hand]
   (>= (max-of-a-kind hand) 2))
 
@@ -57,10 +60,25 @@
       (= sorted-cs [1 4]))))
 
 (defn straight? [hand]
-  nil)
+  (let [hand-ranks (map rank hand)
+        sorted-ranks (sort hand-ranks)
+        smallest-rank (first sorted-ranks)
+        ref-straight (range smallest-rank (+ smallest-rank 5))
+        sorted-ranks-ace-as-one (sort (replace {14 1} hand-ranks))
+        ref-straight-ace-as-one (range 1 6)]
+    (or
+      (= sorted-ranks ref-straight)
+      (= sorted-ranks-ace-as-one ref-straight-ace-as-one))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        found-hands (filter (fn [checker] ((first checker) hand)) checkers)
+        values (map second found-hands)]
+    (apply max values)))
