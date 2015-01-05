@@ -14,7 +14,7 @@
     (str suut)))
 
 (defn pair? [hand]
-  nil)
+  (== 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
   nil)
