@@ -13,14 +13,18 @@
   (let [[_ suut] card]
     (str suut)))
 
+(defn num-of-a-kind? [n hand]
+  (let [ranks (map rank hand)]
+    (== n (apply max (vals (frequencies ranks))))))
+
 (defn pair? [hand]
-  (== 2 (apply max (vals (frequencies (map rank hand))))))
+  (num-of-a-kind? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  (== 3 (apply max (vals (frequencies (map rank hand))))))
+  (num-of-a-kind? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  (== 4 (apply max (vals (frequencies (map rank hand))))))
+  (num-of-a-kind? 4 hand))
 
 (defn flush? [hand]
   nil)
