@@ -17,7 +17,7 @@
   (== 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (== 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
   nil)
