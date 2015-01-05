@@ -13,9 +13,12 @@
   (let [[_ suut] card]
     (str suut)))
 
+(defn frequency-vals [aseq]
+  (vals (frequencies aseq)))
+
 (defn num-of-a-kind? [n hand]
   (let [ranks (map rank hand)]
-    (== n (apply max (vals (frequencies ranks))))))
+    (== n (apply max (frequency-vals ranks)))))
 
 (defn pair? [hand]
   (num-of-a-kind? 2 hand))
@@ -29,10 +32,13 @@
 (defn flush? [hand]
   (let [hand-size (count hand)
         suits (map suit hand)]
-    (== hand-size (apply max (vals (frequencies suits))))))
+    (== hand-size (apply max (frequency-vals suits)))))
 
 (defn full-house? [hand]
-  nil)
+  (let [full-house (seq [2 3])
+        ranks (map rank hand)]
+    (= (sort (frequency-vals ranks))
+       full-house)))
 
 (defn two-pairs? [hand]
   nil)
