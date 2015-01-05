@@ -27,7 +27,9 @@
   (num-of-a-kind? 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (let [hand-size (count hand)
+        suits (map suit hand)]
+    (== hand-size (apply max (vals (frequencies suits))))))
 
 (defn full-house? [hand]
   nil)
