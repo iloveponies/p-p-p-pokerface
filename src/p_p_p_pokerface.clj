@@ -1,7 +1,13 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [replacements {\T 10 \J 11 \Q 12 \K 13 \A 14}
+        digit? (fn [c] (Character/isDigit c))
+        int-value (fn [c] (Integer/valueOf (str c)))
+        [rnk _] card]
+    (if (digit? rnk)
+      (int-value rnk)
+      (replacements rnk))))
 
 (defn suit [card]
   (let [[_ suut] card]
