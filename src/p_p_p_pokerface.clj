@@ -41,7 +41,10 @@
        full-house)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [two-pairs [1 2 2]
+        ranks (map rank hand)]
+    (or (= two-pairs (sort (frequency-vals ranks)))
+        (four-of-a-kind? hand))))
 
 (defn straight? [hand]
   nil)
