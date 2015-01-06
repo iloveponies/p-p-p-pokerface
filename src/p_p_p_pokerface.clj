@@ -35,7 +35,7 @@
     (== hand-size (apply max (frequency-vals suits)))))
 
 (defn full-house? [hand]
-  (let [full-house (seq [2 3])
+  (let [full-house [2 3]
         ranks (map rank hand)]
     (= (sort (frequency-vals ranks))
        full-house)))
