@@ -18,7 +18,7 @@
 
 (defn num-of-a-kind? [n hand]
   (let [ranks (map rank hand)]
-    (== n (apply max (frequency-vals ranks)))))
+    (<= n (apply max (frequency-vals ranks)))))
 
 (defn pair? [hand]
   (num-of-a-kind? 2 hand))
