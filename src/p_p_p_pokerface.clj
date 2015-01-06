@@ -56,7 +56,7 @@
         (= low-ace-hand low-ace-straight))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
