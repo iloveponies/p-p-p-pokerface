@@ -58,5 +58,7 @@
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
+(defn high-card? [hand] true)
+
 (defn value [hand]
   nil)
