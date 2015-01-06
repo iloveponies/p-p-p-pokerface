@@ -47,7 +47,13 @@
         (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [card-ranks (sort (map rank hand))
+        smallest-card (first card-ranks)
+        straight (range smallest-card (+ smallest-card 5))
+        low-ace-straight (range 1 6)
+        low-ace-hand (sort (replace {14 1} card-ranks))]
+    (or (= card-ranks straight)
+        (= low-ace-hand low-ace-straight))))
 
 (defn straight-flush? [hand]
   nil)
