@@ -10,19 +10,23 @@
   (let [[_ s] card]
     (str s)))
 
-(rank "TS")
+(defn card [a-card]
+  (a-card))
 
-(defn get-rank-frequencies [hand]
+(defn hand [a-hand]
+  (a-hand))
+
+(defn rank-frequencies [hand]
   (vals (frequencies
          (map (fn [card] (rank card)) hand))))
 
-(defn get-suit-frequencies [hand]
+(defn suit-frequencies [hand]
   (vals (frequencies
          (map (fn [card] (suit card)) hand))))
 
 
 (defn pattern-occured? [hand pattern times]
-  (== (count (filter (fn [combi] (== combi pattern)) (get-rank-frequencies hand))) times))
+  (== (count (filter (fn [combi] (== combi pattern)) (rank-frequencies hand))) times))
 
 (defn pair? [hand]
   (pattern-occured? hand 2 1))
@@ -34,7 +38,7 @@
   (pattern-occured? hand 4 1))
 
 (defn flush? [hand]
-  (== (count (get-suit-frequencies hand)) 1))
+  (== (count (suit-frequencies hand)) 1))
 
 (defn full-house? [hand]
   (and (three-of-a-kind? hand)
@@ -51,7 +55,7 @@
             (== 12 (-
                     (apply max (map (fn [card] (rank card)) hand))
                     (apply min (map (fn [card] (rank card)) hand)))))
-       (== (count (get-rank-frequencies hand)) 5)))
+       (== (count (rank-frequencies hand)) 5)))
 
 
 
