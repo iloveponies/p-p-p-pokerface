@@ -12,28 +12,39 @@
     (str suit)))
 
 (defn pair? [hand]
-  (< 1 (apply max (vals (frequencies (map rank hand))))))
+  (== 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  (< 2 (apply max (vals (frequencies (map rank hand))))))
+  (== 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  (< 3 (apply max (vals (frequencies (map rank hand))))))
+  (== 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
   (== 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (= [3 2] (vals (frequencies (map rank hand)))))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (= [4 1] (vals (frequencies (map rank hand)))) 
+      (= [2 2 1] (vals (frequencies (map rank hand))))
+      (full-house? hand)))
 
 (defn straight? [hand]
-  nil)
+  (let [new-hand-high (replace {1 14} (map rank hand))
+        new-hand-low (replace {14 1} (map rank hand))
+        sorted-hand-high (sort new-hand-high)
+        sorted-hand-low (sort new-hand-low)
+        first-card-high (first sorted-hand-high)
+        last-card-high (last sorted-hand-high)
+        first-card-low (first sorted-hand-low)
+        last-card-low (last sorted-hand-low)]
+    (or (= (range first-card-high (+ 1 last-card-high)) sorted-hand-high)
+        (= (range first-card-low (+ 1 last-card-low)) sorted-hand-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
