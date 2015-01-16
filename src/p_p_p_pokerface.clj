@@ -1,22 +1,27 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [face-map {\A 14, \K 13, \Q 12, \J 11, \T 10}
+        [rank _] card]
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (get face-map rank))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+    (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (== 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (== 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (== 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+   (== 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
   nil)
