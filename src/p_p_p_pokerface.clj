@@ -49,5 +49,15 @@
   (and (straight? hand)
        (flush? hand)))
 
+(defn- high-card? [hand] true)
+
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card?      0] [pair?            1]
+                   [two-pairs?      2] [three-of-a-kind? 3]
+                   [straight?       4] [flush?           5]
+                   [full-house?     6] [four-of-a-kind?  7]
+                   [straight-flush? 8]}
+        valid-hands (filter #((first %) hand) checkers)
+        scores (map second valid-hands)
+        result (apply max scores)]
+    result))
