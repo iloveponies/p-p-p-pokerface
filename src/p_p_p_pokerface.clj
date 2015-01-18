@@ -10,16 +10,18 @@
   (let [[_ suit] card]
     (str suit)))
 
-(defn pair? [hand]
+(defn- n-of-a-kind [hand n]
   (let [ranks (map rank hand)]
-    (= 2 (apply max (vals (frequencies ranks))))))
+    (= n (apply max (vals (frequencies ranks))))))
+
+(defn pair? [hand]
+  (n-of-a-kind hand 2))
 
 (defn three-of-a-kind? [hand]
-  (let [ranks (map rank hand)]
-    (= 3 (apply max (vals (frequencies ranks))))))
+  (n-of-a-kind hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind hand 4))
 
 (defn flush? [hand]
   nil)
