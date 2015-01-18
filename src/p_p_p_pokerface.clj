@@ -32,7 +32,7 @@
   (= '(2 3) (sort (rank-freqs hand))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= '(1 2 2) (sort (rank-freqs hand))))
 
 (defn straight? [hand]
   nil)
