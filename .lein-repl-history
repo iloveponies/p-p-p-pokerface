@@ -1,0 +1,324 @@
+(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
+(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
+(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
+(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
+(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
+(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
+(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
+(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
+(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
+(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
+(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
+(use 'p-p-p-pokerface)
+(pair? two-paris-hand)
+(defn rank [card]
+  (let [face-map {\A 14, \K 13, \Q 12, \J 11, \T 10}
+        [rank _] card]
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (get face-map rank))))
+(defn suit [card]
+  (let [[_ suit] card]
+    (str suit)))
+(defn pair? [hand]
+  (== 2 (apply max (vals (frequencies (map rank hand))))))
+(defn three-of-a-kind? [hand]
+  (== 3 (apply max (vals (frequencies (map rank hand))))))
+(defn four-of-a-kind? [hand]
+  (== 4 (apply max (vals (frequencies (map rank hand))))))
+(defn flush? [hand]
+   (== 5 (apply max (vals (frequencies (map suit hand))))))
+(defn full-house? [hand]
+  (= [2 3] (sort (vals (frequencies (map rank hand))))))
+(defn two-pairs? [hand]
+  (or
+   (four-of-a-kind? hand)
+   (= [1 2 2] (sort (vals (frequencies (map rank hand)))))))
+(defn straight? [hand]
+  (let [hand-rank (map rank hand)
+        sorted-rank-high (sort hand-rank)
+        sorted-rank-low (sort (replace {14 1} hand-rank))
+        low-card-rank-high (first sorted-rank-high)
+        low-card-rank-low (first sorted-rank-low)]
+    (or
+     (= (range low-card-rank-high (+ low-card-rank-high 5)) sorted-rank-high)
+     (= (range low-card-rank-low (+ low-card-rank-low 5)) sorted-rank-low))))
+(defn straight-flush? [hand]
+  (and
+   (straight? hand)
+   (flush? hand)))
+(pair? pair-hand)
+(defn high-card? [hand]
+true)
+(def checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]})
+checkers
+(map str [1 2 3 4 5])
+(map boolean [1 2 3 4 5])
+(def x {["hello" "world"] ["hi" "me"] ["test" "string"]})
+(def x #{["hello" "world"] ["hi" "me"] ["test" "string"]})
+x
+(map (let [destruct (fn [a b] (b))] (destruct x)))
+(def destruct (fn [a b] (b)))
+(destruct x)
+(map destruct x)
+x
+(let [[x y z] [1 2 3 4 5 6]]
+(str x y z))
+x
+([a b] x)
+(let [[a b] [x]]
+x
+)
+(defn stuff [[a b]]
+(str a b))
+(stuff ["hello" "world"])
+(defn stuff [[a b]]
+(str b))
+(stuff ["hello" "world"])
+(map stuff #{[hello world]})
+(map stuff #{["hello" "world"]})
+(map stuff #{["hello" "world"], ["banana" "man"]})
+checkers
+(defn stuff [[func val]]
+(map func (checkers)))
+(defn stuff [[func val] data]
+(map func (data))
+)
+(stuff checkers)
+(defn stuff [[func val] hand]
+(map func (hand)))
+(stuff checkers hand)
+(stuff checkers high-seven)
+high-seven
+(stuff checkers pair-hand)
+(defn stuff [[func val]]
+func)
+(defn stuff [[func val] hand]
+(func hand))
+(map stuff two-pairs-hand)
+(map stuff checkers two-pairs-hand)
+(defn stuff [[func val]]
+(func))
+(stuff checkers)
+(map stuff (checkers))
+(apply stuff checkers)
+(defn stuff [[func val] [hand]]
+(func hand))
+(stuff [two-pairs? 0] two-paris-hand)
+(stuff [two-pairs? 0] two-pairs-hand)
+(stuff (two-pairs? 0) two-pairs-hand)
+(stuff [two-pairs? 0] two-pairs-hand)
+([two-paris? 0])
+([two-pairs? 0])
+(two-pairs?)
+(two-pairs? two-pair-hand)
+(two-pairs? two-pairs-hand)
+checkers
+(def test [high-card? pair? two-pairs?])
+test
+(map two-pairs-hand test)
+(map test two-pairs-hand)
+test
+(defn stuff [func]
+func)
+(defn stuff [func]
+func)
+(defn stuff [func]
+func)
+(defn stuff [func hand]
+(func hand))
+(stuff two-pairs? two-pairs-hand) 
+(map stuff (test))
+(map stuff (test) two-pairs-hand)
+(map stuff (test two-pairs-hand))
+(map stuff ([test two-pairs-hand]))
+(defn stuff [[func _]]
+(func))
+(map stuff test)
+(map stuff checkers)
+(filter (apply two-pairs-hand (map stuff checkers))
+)
+(apply map vector checkers)
+(apply map checkers)
+(map (fn [checker] (let [[func value] checker]
+(if
+(func two-pairs-hand)
+value
+0)
+)
+(defn checker [func val]
+(if func)
+)
+(defn checker [[func val] hand]
+if (func hand)
+val
+0)
+(defn checker [[func val] hand]
+(if (func hand)
+val
+0
+)
+(map checker checkers)
+(defn checker [[func val]]
+(if (func two-pairs-hand)
+val
+0
+))
+(map checker checkers)
+(defn value [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (max (map match (checkers))))
+)
+value
+(value two-pairs-hand)
+(defn value2 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (max (map match (checkers))))
+)
+(value2 two-pairs-hand)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (map match (checkers))))
+(value1 two-pairs-hand)
+checkers
+(let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))]
+(map match checkers))
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+(if (func two-pairs-hand) val 0)))
+(map match checkers))
+(let [match (fn [checker]
+(let [[func val] checker]
+(if (func two-pairs-hand) val 0))
+(map match checkers))
+)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (map match (checkers))))
+(value1 two-pairs-hand)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (map match checkers)))
+(value1 two-pairs-hand)
+(value1 two-pairs-hand)(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (max (map match checkers))))
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (max (map match checkers))))
+(value1 two-pairs-hand)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (filter (func hand) checker)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (map match checkers)))
+(value1 two-pairs-hand)
+(filter true [1 2 3])
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  (if (func hand) val 0)))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map match checkers))))
+(value1 two-pairs-hand)
+(value1 straight-flush-hand)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  func hand))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (filter match checkers)))
+(value 1 two-pairs-hand)
+(value1 two-pairs-hand)
+(defn value1 [hand]
+  (let [match (fn [checker]
+                (let [[func val] checker]
+                  func hand))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map second (filter match checkers)))))
+(value1 two-pairs-hand)
+(defn value1 [hand]
+  (let [match (fn [[func _]]
+                (func hand))
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map second (filter match checkers)))))
+(value1 two-pairs-hand)
