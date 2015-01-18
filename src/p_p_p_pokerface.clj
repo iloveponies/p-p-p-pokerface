@@ -10,9 +10,11 @@
   (let [[_ suit] card]
     (str suit)))
 
+(defn- rank-freqs [hand]
+  (vals (frequencies (map rank hand))))
+
 (defn- n-of-a-kind [hand n]
-  (let [ranks (map rank hand)]
-    (= n (apply max (vals (frequencies ranks))))))
+  (= n (apply max (rank-freqs hand))))
 
 (defn pair? [hand]
   (n-of-a-kind hand 2))
@@ -27,7 +29,7 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (= '(2 3) (sort (rank-freqs hand))))
 
 (defn two-pairs? [hand]
   nil)
