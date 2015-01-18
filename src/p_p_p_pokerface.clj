@@ -15,11 +15,11 @@
 (defn hand->freqset [hand]
   (set (vals (frequencies (map rank hand)))))
 
-(defn high-card? [hand]
-  (not (pair? hand)))
-
 (defn pair? [hand]
   (contains? (hand->freqset hand) 2))
+
+(defn high-card? [hand]
+  (not (pair? hand)))
 
 (defn three-of-a-kind? [hand]
   (contains? (hand->freqset hand) 3))
@@ -47,11 +47,16 @@
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
+(defn testers [hand]
+  (let [check [pair? 0]]
+    (if ((first check) hand) 0 1)))
+
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
                  [two-pairs? 2]  [three-of-a-kind? 3]
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}
-        hands (map (fn [check] ((if ((first check) hand) (second check) (0)))) checkers)]
-    (max hands)))
+        checky (fn [check] (if ((first check) hand) (second check) 0))
+        hands (map checky checkers)]
+    (apply max hands)))
