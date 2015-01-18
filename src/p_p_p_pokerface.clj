@@ -34,8 +34,16 @@
 (defn two-pairs? [hand]
   (= '(1 2 2) (sort (rank-freqs hand))))
 
+(defn- adjacent? [ranks]
+  (let [sorted (sort ranks)
+        lowest (first sorted)
+        expected (range lowest (+ lowest 5))]
+    (= sorted expected)))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (or (adjacent? (replace {14 1} ranks))
+        (adjacent? ranks))))
 
 (defn straight-flush? [hand]
   nil)
