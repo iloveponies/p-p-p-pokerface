@@ -39,14 +39,12 @@
       1))
 
 (defn full-house? [hand]
-  (let [hand-counts (rank-counts hand)
-        max-count   (apply max hand-counts)
-        min-count   (apply min hand-counts)]
-    (and (== max-count 3)
-         (== min-count 2))))
+  (= '(2 3)
+     (sort (rank-counts hand))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= '(1 2 2)
+     (sort (rank-counts hand))))
 
 (defn straight? [hand]
   nil)
