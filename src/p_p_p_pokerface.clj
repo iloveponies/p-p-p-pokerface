@@ -1,10 +1,20 @@
 (ns p-p-p-pokerface)
 
+(def high-rank
+  {\T 10
+   \J 11
+   \Q 12
+   \K 13
+   \A 14})
+
 (defn rank [card]
-  nil)
+  (let [[r _] card]
+    (or (get high-rank r)
+        (Integer/valueOf (str r)))))
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
 
 (defn pair? [hand]
   nil)
