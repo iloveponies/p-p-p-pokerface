@@ -16,17 +16,27 @@
   (let [[_ s] card]
     (str s)))
 
+(defn rank-freqs [hand]
+  (frequencies (map rank hand)))
+
+(defn rank-counts [hand]
+  (vals (rank-freqs hand)))
+
 (defn pair? [hand]
-  nil)
+  (== (apply max (rank-counts hand))
+      2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (== (apply max (rank-counts hand))
+      3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (== (apply max (rank-counts hand))
+      4))
 
 (defn flush? [hand]
-  nil)
+  (== (count (frequencies (map suit hand)))
+      1))
 
 (defn full-house? [hand]
   nil)
