@@ -62,4 +62,13 @@
   true) ; All hands have a high card.
 
 (defn value [hand]
-  nil)
+  (let [checkers          #{[high-card? 0]  [pair? 1]
+                            [two-pairs? 2]  [three-of-a-kind? 3]
+                            [straight? 4]   [flush? 5]
+                            [full-house? 6] [four-of-a-kind? 7]
+                            [straight-flush? 8]}
+        checker->bool     (fn [chkr] [(apply (first chkr) [hand]) (second chkr)])
+        mapped-checkers   (map checker->bool checkers)
+        filtered-checkers (filter first mapped-checkers)
+        filtered-values   (map second filtered-checkers)]
+    (apply max filtered-values)))
