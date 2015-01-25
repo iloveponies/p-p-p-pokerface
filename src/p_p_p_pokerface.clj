@@ -47,7 +47,9 @@
         (= ace-high-sorted (range ace-high-lowest-rank (+ ace-high-lowest-rank 5)))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and
+    (flush? hand)
+    (straight? hand)))
 
 (defn value [hand]
   nil)
