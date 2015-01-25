@@ -12,22 +12,24 @@
 
 (defn pair? [hand]
   (let [ranks (map rank hand)]
-    (= 2 (apply max (vals (frequencies ranks))))))
+    (contains? (set (vals (frequencies ranks))) 2)))
 
 (defn three-of-a-kind? [hand]
   (let [ranks (map rank hand)]
-    (= 3 (apply max (vals (frequencies ranks))))))
+    (contains? (set (vals (frequencies ranks))) 3)))
 
 (defn four-of-a-kind? [hand]
   (let [ranks (map rank hand)]
-    (= 4 (apply max (vals (frequencies ranks))))))
+    (contains? (set (vals (frequencies ranks))) 4)))
 
 (defn flush? [hand]
   (let [suits (map suit hand)]
     (apply = suits)))
 
 (defn full-house? [hand]
-  nil)
+  (and
+    (pair? hand)
+    (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
