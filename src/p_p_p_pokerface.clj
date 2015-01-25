@@ -11,13 +11,16 @@
   (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (= 2 (apply max (vals (frequencies ranks))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (= 3 (apply max (vals (frequencies ranks))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (= 4 (apply max (vals (frequencies ranks))))))
 
 (defn flush? [hand]
   nil)
