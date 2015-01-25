@@ -32,7 +32,10 @@
     (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [frqs (frequencies (vals (frequencies (map rank hand))))]
+    (or
+      (= 2 (get frqs 2))
+      (= 1 (get frqs 4)))))
 
 (defn straight? [hand]
   nil)
