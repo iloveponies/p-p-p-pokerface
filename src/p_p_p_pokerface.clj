@@ -39,7 +39,11 @@
       1))
 
 (defn full-house? [hand]
-  nil)
+  (let [hand-counts (rank-counts hand)
+        max-count   (apply max hand-counts)
+        min-count   (apply min hand-counts)]
+    (and (== max-count 3)
+         (== min-count 2))))
 
 (defn two-pairs? [hand]
   nil)
