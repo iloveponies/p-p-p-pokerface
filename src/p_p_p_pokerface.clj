@@ -58,5 +58,8 @@
   (and (straight? hand)
        (flush? hand)))
 
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
 (defn value [hand]
   nil)
