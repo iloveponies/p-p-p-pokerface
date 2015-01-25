@@ -38,7 +38,13 @@
       (= 1 (get frqs 4)))))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (map rank hand))
+        lowest-rank (first sorted)]
+    (or
+      (= sorted (range lowest-rank (+ lowest-rank 5)))
+      (let [ace-high-sorted (sort (replace {14 1} sorted))
+            ace-high-lowest-rank (first ace-high-sorted)]
+        (= ace-high-sorted (range ace-high-lowest-rank (+ ace-high-lowest-rank 5)))))))
 
 (defn straight-flush? [hand]
   nil)
