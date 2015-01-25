@@ -47,7 +47,12 @@
      (sort (rank-counts hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks    (sort (map rank hand))
+        min-rank (apply min ranks)]
+    (or (= (range min-rank (+ 5 min-rank))
+           ranks)
+        (= '(2 3 4 5 14)
+           ranks))))
 
 (defn straight-flush? [hand]
   nil)
