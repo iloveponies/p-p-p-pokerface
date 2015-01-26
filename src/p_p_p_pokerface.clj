@@ -1,15 +1,9 @@
 (ns p-p-p-pokerface)
 
-(def high-rank
-  {\T 10
-   \J 11
-   \Q 12
-   \K 13
-   \A 14})
-
 (defn rank [card]
-  (let [[r _] card]
-    (or (get high-rank r)
+  (let [[r _]    card
+        rank-map {\T 10, \J 11, \Q 12, \K 13, \A 14}}]
+    (or (get rank-map r)
         (Integer/valueOf (str r)))))
 
 (defn suit [card]
