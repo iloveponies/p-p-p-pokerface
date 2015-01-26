@@ -61,7 +61,7 @@
                             [straight? 4]   [flush? 5]
                             [full-house? 6] [four-of-a-kind? 7]
                             [straight-flush? 8]}
-        checker->bool     (fn [chkr] [(apply (first chkr) [hand]) (second chkr)])
+        checker->bool     (fn [chkr] [((first chkr) hand) (second chkr)])
         mapped-checkers   (map checker->bool checkers)
         filtered-checkers (filter first mapped-checkers)
         filtered-values   (map second filtered-checkers)]
