@@ -1,28 +1,41 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[r _] card]
+    (Integer/valueOf
+     (str
+      (if (Character/isDigit r)
+        r
+        (let [replacements {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+          (replacements r)))))))
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
 
 (defn pair? [hand]
-  nil)
+  (== 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (== 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (== 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (== 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (let [frekvenssit (vals (frequencies (map rank hand)))]
+    (and
+     (== 2 (count frekvenssit))
+     (== 3 (apply max frekvenssit))
+     (== 2 (apply min frekvenssit)))))
 
+; fix this when no pair present
 (defn two-pairs? [hand]
-  nil)
+  (let [frekvenssit (vals (frequencies (map rank hand)))]
+    (== 2 ((frequencies frekvenssit) 2))))
 
 (defn straight? [hand]
   nil)
