@@ -27,15 +27,14 @@
 
 (defn full-house? [hand]
   (let [frekvenssit (vals (frequencies (map rank hand)))]
-    (and
-     (== 2 (count frekvenssit))
-     (== 3 (apply max frekvenssit))
-     (== 2 (apply min frekvenssit)))))
+    (= [2 3] (sort frekvenssit))))
 
 ; fix this when no pair present
 (defn two-pairs? [hand]
   (let [frekvenssit (vals (frequencies (map rank hand)))]
-    (== 2 ((frequencies frekvenssit) 2))))
+    (if (four-of-a-kind? hand)
+      true
+      (= [1 2 2] (sort frekvenssit)))))
 
 (defn straight? [hand]
   nil)
