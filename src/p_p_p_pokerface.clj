@@ -2,7 +2,7 @@
 
 (defn rank [card]
   (let [[r _]    card
-        rank-map {\T 10, \J 11, \Q 12, \K 13, \A 14}}]
+        rank-map {\T 10, \J 11, \Q 12, \K 13, \A 14}]
     (or (get rank-map r)
         (Integer/valueOf (str r)))))
 
