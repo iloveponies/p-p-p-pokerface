@@ -29,18 +29,27 @@
   (let [frekvenssit (vals (frequencies (map rank hand)))]
     (= [2 3] (sort frekvenssit))))
 
-; fix this when no pair present
 (defn two-pairs? [hand]
   (let [frekvenssit (vals (frequencies (map rank hand)))]
-    (if (four-of-a-kind? hand)
-      true
-      (= [1 2 2] (sort frekvenssit)))))
+    (or
+     (four-of-a-kind? hand)
+     (= [1 2 2] (sort frekvenssit)))))
 
+;if is probably unnecessary...
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))]
+    (let [pienin (first ranks)]
+      (or
+       (= ranks (range pienin (+ pienin 5)))
+       (if (== 14 (apply max ranks))
+         (= (sort (replace {14 1} ranks)) (range 1 6))
+         false)))))
+
 
 (defn straight-flush? [hand]
-  nil)
+  (and
+   (straight? hand)
+   (flush? hand)))
 
 (defn value [hand]
   nil)
