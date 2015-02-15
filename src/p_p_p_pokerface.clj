@@ -49,7 +49,8 @@
         (= 4 (- (apply max (replace {14 1} (map rank hand))) (apply min (replace {14 1} (map rank hand)))))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
   nil)
