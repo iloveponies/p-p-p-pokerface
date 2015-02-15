@@ -45,8 +45,8 @@
     (and
       (= 1 (max-frekvens hand))
       (or
-        (= 4 (- (min handverdier) (max handverdier)))
-        (= 4 (- (min handverdier-b) (max handverdier-b)))))))
+        (= 4 (- (apply max (map rank hand)) (apply min (map rank hand))))
+        (= 4 (- (apply max (replace {14 1} (map rank hand))) (apply min (replace {14 1} (map rank hand)))))))))
 
 (defn straight-flush? [hand]
   nil)
