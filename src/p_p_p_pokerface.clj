@@ -46,10 +46,22 @@
   (= [1 2 2] (sorted-rank-freqs hand)))
 
 (defn straight? [hand]
-  nil)
+  (let [_ranks (sort (map rank hand))
+        _ace? (= 14 (last _ranks))
+        _two? (= 2 (first _ranks))
+        ; If the hand contains an ace and two,
+        ; replace the trailing ace with
+        ; the leading one
+        _ranks (if (and _two? _ace?)
+                 (cons 1 (take 4 _ranks))
+                 _ranks)
+        _first (first _ranks)
+        _expected (range _first (+ _first 5))
+        ]
+    (= _ranks _expected)))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
