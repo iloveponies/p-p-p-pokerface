@@ -12,7 +12,7 @@
     (str suit)))
 
 (defn rank-freqs [hand]
-   (let [_ranks (map rank hand)
+  (let [_ranks (map rank hand)
         _freq (frequencies _ranks)
         _vals (vals _freq)]
     _vals))
@@ -36,13 +36,14 @@
     (= 1 _count)))
 
 (defn sorted-rank-freqs [hand]
-  (sort (rank-freqs hand))
+  (sort (rank-freqs hand)))
 
 (defn full-house? [hand]
   (= [2 3] (sorted-rank-freqs hand)))
 
+; If there are two pairs - the last card is a single occurence
 (defn two-pairs? [hand]
-  nil)
+  (= [1 2 2] (sorted-rank-freqs hand)))
 
 (defn straight? [hand]
   nil)
