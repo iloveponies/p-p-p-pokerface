@@ -1,34 +1,80 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank _] card
+        replacements {\T 10 \J 11 \Q 12 \K 13 \A 14}]
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (replacements rank))))
+
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+    (str suit)))
+
+
+(defn f-freqs [hand f]
+  (sort
+   (vals
+    (frequencies
+     (map f hand)))))
+
+(defn rank-freqs [hand]
+  (f-freqs hand rank))
+
+(defn suit-freqs [hand]
+  (f-freqs hand suit))
+
+(defn max-count-of-rank [hand]
+  (apply max (rank-freqs hand)))
+
+(defn countfinder [hand exp-count]
+  (fn [] (== (max-count-of-rank hand) exp-count)))
 
 (defn pair? [hand]
-  nil)
+  ((countfinder hand 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  ((countfinder hand 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  ((countfinder hand 4)))
 
 (defn flush? [hand]
-  nil)
+  (== (count (suit-freqs hand)) 1))
 
 (defn full-house? [hand]
-  nil)
+  (= (rank-freqs hand) [2 3]))
 
 (defn two-pairs? [hand]
-  nil)
+  (= (rank-freqs hand) [1 2 2]))
+
+(defn in-order [hand]
+  (let [ranks (map rank hand)
+        max-rank (apply max ranks)
+        min-rank (apply min ranks)]
+    (= max-rank (+ min-rank 4))))
 
 (defn straight? [hand]
-  nil)
+  (and (= (rank-freqs hand) [1 1 1 1 1])
+       (or (in-order hand)
+           (in-order (replace {"AD" "1D"
+                               "AH" "1H"
+                               "AC" "1C"
+                               "AS" "1S"} hand)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
+
+(defn high-card? [hand]
+  true) ; All hands have a high card.
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply max (map second (filter #((first %) hand) checkers)))))
+
+
