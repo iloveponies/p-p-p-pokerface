@@ -19,6 +19,9 @@
   (>= (apply max (vals (frequencies (map rank h))))
       n))
 
+(defn high-card? [hand]
+  true)
+
 (defn pair? [hand]
   (more-n? 2 hand))
 
@@ -40,15 +43,29 @@
      (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  (and (not (pair? hand))
-       (let [ace-high (sort (map rank hand))
-             ace-low  (sort (replace {14 1} (map rank hand)))
-             ordered? #(= % (range (first %) (last %)))]
-         (or (ordered? ace-high)
-             (ordered? ace-low)))))
+  (let [ace-high (sort (map rank hand))
+        ace-low  (sort (replace {14 1} (map rank hand)))
+        ordered? #(= % (range (first %) (+ 5 (first %))))]
+    (or (ordered? ace-high)
+        (ordered? ace-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand)
+       (straight? hand)))
 
 (defn value [hand]
-  nil)
+  (apply max
+         (map (fn [hand [pred score]]
+                (if (pred hand)
+                  score
+                  0))
+              (repeat 9 hand)
+              [[high-card? 0]
+               [pair? 1]
+               [two-pairs? 2]
+               [three-of-a-kind? 3]
+               [straight? 4]
+               [flush? 5]
+               [full-house? 6]
+               [four-of-a-kind? 7]
+               [straight-flush? 8]])))
