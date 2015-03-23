@@ -40,11 +40,12 @@
      (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  (let [ace-high (sort (map rank hand))
-        ace-low  (sort (replace {14 1} (map rank hand)))
-        ordered? #(= % (range (first %) (last %)))]
-    (or (ordered? ace-high)
-        (ordered? ace-low))))
+  (and (not (pair? hand))
+       (let [ace-high (sort (map rank hand))
+             ace-low  (sort (replace {14 1} (map rank hand)))
+             ordered? #(= % (range (first %) (last %)))]
+         (or (ordered? ace-high)
+             (ordered? ace-low)))))
 
 (defn straight-flush? [hand]
   nil)
