@@ -18,16 +18,36 @@
   )
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (if (<= 2 (apply max (vals (frequencies ranks))))
+      true
+      false)
+    )
+  )
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (if (<= 3 (apply max (vals (frequencies ranks))))
+      true
+      false)
+    )
+  )
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (if (<= 4 (apply max (vals (frequencies ranks))))
+      true
+      false)
+    )
+  )
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)]
+    (if (= 5 (apply max (vals (frequencies suits))))
+      true
+      false)
+    )
+  )
 
 (defn full-house? [hand]
   nil)
