@@ -50,10 +50,22 @@
   )
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        full (sort (range 2 4))]
+    (if (= full (sort (vals (frequencies ranks))))
+      true
+      false)
+    )
+  )
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        val-freqs (vals (frequencies ranks))]
+    (if (or (= val-freqs '(4 1)) (= val-freqs '(2 2 1)))
+      true
+      false)
+    )
+  )
 
 (defn straight? [hand]
   nil)
