@@ -68,10 +68,37 @@
   )
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        lowest (apply min ranks)
+        highest (apply max ranks)
+        low-ace [2 3 4 5 14]]
+    (if (= (range lowest (inc highest)) (sort ranks) )
+           true
+           (if (= (sort ranks) low-ace )
+             true
+             false))
+    )
+  )
 
 (defn straight-flush? [hand]
-  nil)
+  (let [straight (straight? hand)
+        is-flush (flush? hand)]
+    (if (= true straight is-flush)
+      true
+      false)
+    )
+  )
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6 
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0
+    )
+  )
