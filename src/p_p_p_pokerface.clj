@@ -18,8 +18,7 @@
   (= times (apply max (vals (frequencies (map suit hand))))))
 
 (defn pair? [hand]
-  (repeats-rank? hand 2)
-)
+  (repeats-rank? hand 2))
 
 (defn three-of-a-kind? [hand]
   (repeats-rank? hand 3))
@@ -43,8 +42,7 @@
         min-r2 (apply min r2)]
     (or
      (= (range min-r1 (+ 5 min-r1)) r1)
-     (= (range min-r2 (+ 5 min-r2)) r2)))
-  )
+     (= (range min-r2 (+ 5 min-r2)) r2))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
@@ -56,7 +54,5 @@
                    [full-house? 6] [four-of-a-kind? 7]
                    [straight-flush? 8]}
         trues (filter #((first %) hand) checkers)
-        values (cons 0  (map second trues))
-        ]
-    (apply max values)
-    ))
+        values (cons 0  (map second trues))]
+    (apply max values)))
