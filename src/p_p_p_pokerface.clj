@@ -23,13 +23,15 @@
   (= (apply max (vals (frequencies (map suit hand)))) 5))
 
 (defn full-house? [hand]
-  nil)
+  (= (sort (vals (frequencies (map rank hand)))) [2 3]))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (= (sort (vals (frequencies (map rank hand)))) [1 2 2])
+      (= (sort (vals (frequencies (map rank hand)))) [1 4])))
 
 (defn straight? [hand]
-  nil)
+  (= (sort (keys (frequencies (map rank hand)))) (range (apply min (map rank hand)) (+ 1 (apply max (map rank hand)))))
+
 
 (defn straight-flush? [hand]
   nil)
