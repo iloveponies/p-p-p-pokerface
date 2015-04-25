@@ -32,20 +32,31 @@
           5) true false))
 
 (defn full-house? [hand]
-  (let [[c1 c2 c3 c4 c5] hand]
-      (sort hand)
-         (cond
-          ((pair?[c1 c2])(three-of-a-kind?[c3 c4 c5])) true
-          ((pair?[c1 c2 c3])(three-of-a-kind?[c3 c4])) true
-          :else (false))))
-
+  (let [ srt (sort hand)
+    [c1 c2 c3 c4 c5] srt]
+    (cond
+          (and (pair? [c1 c2])(three-of-a-kind? [c3 c4 c5])) true
+          (and (pair? [c4 c5])(three-of-a-kind? [c1 c2 c3])) true
+          :else false)))
 
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ srt (sort hand)
+       [c1 c2 c3 c4 c5] srt]
+    (cond
+       (and (pair? [c1 c2])(pair? [c3 c4])) true
+       (and (pair? [c1 c2])(pair? [c4 c5])) true
+       (and (pair? [c2 c3])(pair? [c4 c5])) true
+       (four-of-a-kind? hand) true
+     :else false)))
+
 
 (defn straight? [hand]
-  nil)
+  (let [ srt (sort hand)
+         [c1 c2 c3 c4 c5] srt
+         ]
+
+    ))
 
 (defn straight-flush? [hand]
   nil)
