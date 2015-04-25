@@ -50,6 +50,6 @@
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}]
 
-
+(apply max (map second (filter (fn [x] ((first x) hand)) checkers)))
 
     ))
