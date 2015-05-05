@@ -4,7 +4,8 @@
   nil)
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
 
 (defn pair? [hand]
   nil)
