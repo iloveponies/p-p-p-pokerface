@@ -20,7 +20,8 @@
     (not (empty? (filter two? (vals (frequencies (map rank hand))))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [three? (fn [i] (= i 3))]
+    (not (empty? (filter three? (vals (frequencies (map rank hand))))))))
 
 (defn four-of-a-kind? [hand]
   nil)
