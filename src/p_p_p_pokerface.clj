@@ -39,7 +39,9 @@
     (= 2 (count (filter two? (vals (frequencies (map rank hand))))))))
 
 (defn straight? [hand]
-  nil)
+  (let [m {14 1}]
+    (or (apply < (sort (map rank hand)))
+        (apply < (sort (replace m (map rank hand)))))))
 
 (defn straight-flush? [hand]
   nil)
