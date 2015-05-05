@@ -24,7 +24,8 @@
     (not (empty? (filter three? (vals (frequencies (map rank hand))))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [four? (fn [i] (= i 4))]
+    (not (empty? (filter four? (vals (frequencies (map rank hand))))))))
 
 (defn flush? [hand]
   nil)
