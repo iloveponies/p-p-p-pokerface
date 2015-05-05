@@ -28,7 +28,8 @@
     (not (empty? (filter four? (vals (frequencies (map rank hand))))))))
 
 (defn flush? [hand]
-  nil)
+  (let [five? (fn [i] (= i 5))]
+    (not (empty? (filter five? (vals (frequencies (map suit hand))))))))
 
 (defn full-house? [hand]
   nil)
