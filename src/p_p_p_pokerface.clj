@@ -16,7 +16,8 @@
     (str s)))
 
 (defn pair? [hand]
-  nil)
+  (let [two? (fn [i] (= i 2))]
+    (not (empty? (filter two? (vals (frequencies (map rank hand))))))))
 
 (defn three-of-a-kind? [hand]
   nil)
