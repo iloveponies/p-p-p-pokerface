@@ -74,5 +74,5 @@
 	has-value? (fn [check-box] ((first check-box) hand))
 	success-checks (filter has-value? checkers)
 	values (map second success-checks)]
-	(apply max values)))
+	(max values)))
 
