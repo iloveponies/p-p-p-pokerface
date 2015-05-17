@@ -69,7 +69,10 @@
          (or (straight-high-ace? ranks) (straight-low-ace? ranks)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (let [suit-freq-count (count (frequencies (map suit hand)))
+        ranks (map rank hand)]
+    (and (= suit-freq-count 1)
+         (or (straight-high-ace? ranks) (straight-low-ace? ranks)))))
 
 (defn value [hand]
   nil)
