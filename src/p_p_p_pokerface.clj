@@ -10,25 +10,30 @@
   (let [[_ suit] card]
   (str suit)))
 
+(defn max-freq [a-seq]
+  (apply max (vals (frequencies a-seq))))
+
 (defn pair? [hand]
-  (= (apply max (vals (frequencies (map rank hand)))) 2))
+  (= (max-freq (map rank hand)) 2))
 
 (defn three-of-a-kind? [hand]
-    (= (apply max (vals (frequencies (map rank hand)))) 3))
+    (= (max-freq (map rank hand)) 3))
 
 (defn four-of-a-kind? [hand]
-    (= (apply max (vals (frequencies (map rank hand)))) 4))
+    (= (max-freq (map rank hand)) 4))
 
 (defn flush? [hand]
-  (= (apply max (vals (frequencies (map suit hand)))) 5))
+  (= (max-freq (map suit hand)) 5))
+
+(defn sorted-freq [hand]
+  (sort (vals (frequencies (map rank hand)))))
 
 (defn full-house? [hand]
-  (= (sort (vals (frequencies (map rank hand)))) [2 3]))
+  (= (sorted-freq hand) [2 3]))
 
 (defn two-pairs? [hand]
-  (let [sorted-freq (fn [hand] (sort (vals (frequencies (map rank hand)))))]
-  (or (= (sorted-freq hand) [1 2 2])
-      (= (sorted-freq hand) [1 4]))))
+    (or (= (sorted-freq hand) [1 2 2])
+      (= (sorted-freq hand) [1 4])))
 
 (defn straight? [hand]
  (or (= (sort (keys (frequencies (map rank hand))))
@@ -45,11 +50,9 @@
 
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
-                 [two-pairs? 2]  [three-of-a-kind? 3]
-                 [straight? 4]   [flush? 5]
-                 [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
 
-(apply max (map second (filter (fn [x] ((first x) hand)) checkers)))
-
-    ))
+(apply max (map second (filter #((first %) hand) checkers)))))
