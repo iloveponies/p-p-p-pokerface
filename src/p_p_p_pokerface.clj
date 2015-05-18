@@ -12,13 +12,19 @@
     (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+    (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+    (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 4)))
 
 (defn flush? [hand]
   nil)
