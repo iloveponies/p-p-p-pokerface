@@ -33,10 +33,8 @@
 
 (defn full-house? [hand]
     (let [ranks (map rank hand)
-          rank-list (vals (frequencies ranks))
-          most (apply max rank-list)
-          few (apply min rank-list)]
-    (= most 2)))
+          rank-list (sort (vals (frequencies ranks)))]
+    (= rank-list (range 2 4))))
 
 (defn two-pairs? [hand]
   nil)
