@@ -37,13 +37,22 @@
     (= rank-list (range 2 4))))
 
 (defn two-pairs? [hand]
-  nil)
+    (let [ranks (map rank hand)
+          rank-list (sort (vals (frequencies ranks)))]
+    (= rank-list (seq [1 2 2]))))
 
 (defn straight? [hand]
-  nil)
+  let [ranks (map rank hand)
+       freqs (frequencies ranks)
+       rank-list (sort (keys freqs))
+       rank-freq (sort (vals freqs))
+       spread (- (max rank-list) (min rank-list))]
+  (or (= rank-list (seq [2 3 4 5 14]))
+      (and (= spread 5) (= rank-freq (seq [1 1 1 1 1])))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand)
+       (straight? hand)))
 
 (defn value [hand]
   nil)
