@@ -56,14 +56,14 @@
 
 (defn value [hand]
  (cond
-   (pair? hand) 1
-   (two-pairs? hand) 2
-   (three-of-a-kind? hand) 3
-   (straight? hand) 4
-   (flush? hand) 5
-   (full-house? hand) 6
-   (four-of-a-kind? hand) 7
-   (straight-flush? hand) 8
-   :else 0))
+  (straight-flush? hand) 8
+  (four-of-a-kind? hand) 7
+  (full-house? hand) 6
+  (flush? hand) 5
+  (straight? hand) 4
+  (three-of-a-kind? hand) 3
+  (two-pairs? hand) 2
+  (pair? hand) 1
+  :else 0))
 
 
