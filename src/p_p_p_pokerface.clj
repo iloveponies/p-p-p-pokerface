@@ -42,13 +42,13 @@
     (= rank-list (seq [1 2 2]))))
 
 (defn straight? [hand]
-  let [ranks (map rank hand)
+  (let [ranks (map rank hand)
        freqs (frequencies ranks)
        rank-list (sort (keys freqs))
        rank-freq (sort (vals freqs))
-       spread (- (max rank-list) (min rank-list))]
+       spread (- (apply max (vec rank-list)) (apply min (vec rank-list)))]
   (or (= rank-list (seq [2 3 4 5 14]))
-      (and (= spread 5) (= rank-freq (seq [1 1 1 1 1])))))
+      (and (= spread 4) (= rank-freq (seq [1 1 1 1 1]))))))
 
 (defn straight-flush? [hand]
   (and (flush? hand)
