@@ -55,4 +55,16 @@
        (straight? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+   (pair? hand) 1
+   (two-pairs? hand) 2
+   (three-of-a-kind? hand) 3
+   (straight? hand) 4
+   (flush? hand) 5
+   (full-house? hand) 6
+   (four-of-a-kind? hand) 7
+   (straight-flush? 8)
+   :else 1))
+
+
+
