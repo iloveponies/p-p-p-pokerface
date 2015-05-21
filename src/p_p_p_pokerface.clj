@@ -64,7 +64,7 @@
    (full-house? hand) 6
    (four-of-a-kind? hand) 7
    (straight-flush? 8)
-   :else 1))
+   :else 0))
 
 
 
