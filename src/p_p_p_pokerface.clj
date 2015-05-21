@@ -41,10 +41,21 @@
     (or (= '(1 2 2) sorted-ranks) (= '(1 4) sorted-ranks))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        sorted-ranks (sort (keys (frequencies ranks)))
+        upd-ranks (sort (replace {14 1} sorted-ranks))
+        strght? (fn [rnk] (= (range (first rnk) (+ (first rnk) 5)) rnk))]
+    (or (strght? sorted-ranks) (strght? upd-ranks))))
+
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [high-card? (fn [hand] true)
+        checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map second (filter (fn [a] ((first a) hand)) checkers)))))
