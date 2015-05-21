@@ -1,34 +1,69 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[fst _] card
+        vals {\T 10,\J 11,\Q 12,\K 13,\A 14}]
+    (if (Character/isDigit fst)
+      (Integer/valueOf (str fst))
+      (get vals fst))))
 
 (defn suit [card]
-  nil)
+  (let [[_ snd] card]
+    (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+    (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+    (let [ranks (map rank hand)
+        most (apply max (vals (frequencies ranks)))]
+    (= most 4)))
 
 (defn flush? [hand]
-  nil)
+    (let [suits (map suit hand)
+        most (apply max (vals (frequencies suits)))]
+    (= most 5)))
 
 (defn full-house? [hand]
-  nil)
+    (let [ranks (map rank hand)
+          rank-list (sort (vals (frequencies ranks)))]
+    (= rank-list (range 2 4))))
 
 (defn two-pairs? [hand]
-  nil)
+    (let [ranks (map rank hand)
+          rank-list (sort (vals (frequencies ranks)))]
+    (= rank-list (seq [1 2 2]))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+       freqs (frequencies ranks)
+       rank-list (sort (keys freqs))
+       rank-freq (sort (vals freqs))
+       spread (- (apply max (vec rank-list)) (apply min (vec rank-list)))]
+  (or (= rank-list (seq [2 3 4 5 14]))
+      (and (= spread 4) (= rank-freq (seq [1 1 1 1 1]))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand)
+       (straight? hand)))
 
 (defn value [hand]
-  nil)
+ (cond
+  (straight-flush? hand) 8
+  (four-of-a-kind? hand) 7
+  (full-house? hand) 6
+  (flush? hand) 5
+  (straight? hand) 4
+  (three-of-a-kind? hand) 3
+  (two-pairs? hand) 2
+  (pair? hand) 1
+  :else 0))
+
+
