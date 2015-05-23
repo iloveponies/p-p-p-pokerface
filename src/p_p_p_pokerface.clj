@@ -40,17 +40,14 @@
   (of-a-kind hand 5 suit (fn [x] (= (count x) 1))))
 
 (defn full-house? [hand]
-  (let [ranks (map rank hand)]
-    (= (count (set ranks)) 2)))
+  (let [ranks (map rank hand)
+        rank-freqs (sort (map val (frequencies ranks)))]
+             (= rank-freqs [2 3])))
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
-        freq (frequencies ranks)
-        just-freq (map (fn [x] (val x)) freq)
-        tail-freqs (rest (sort just-freq))]
-    (or (= (count tail-freqs) 2)
-        (and (= (count tail-freqs) 1)
-             (= (first tail-freqs) 4)))))
+        rank-freqs (sort (map val (frequencies ranks)))]
+    (= rank-freqs [1 2 2])))
 
 (defn straight-high-ace? [hand]
   (let [sorted-ranks (sort hand)
