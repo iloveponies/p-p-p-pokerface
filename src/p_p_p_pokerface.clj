@@ -12,13 +12,19 @@
     (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-freq-vals (vals (frequencies ranks))]
+    (boolean (some (fn [x] (>= x 2)) rank-freq-vals))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-freq-vals (vals (frequencies ranks))]
+    (boolean (some (fn [x] (>= x 3)) rank-freq-vals))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-freq-vals (vals (frequencies ranks))]
+    (boolean (some (fn [x] (>= x 4)) rank-freq-vals))))
 
 (defn flush? [hand]
   nil)
