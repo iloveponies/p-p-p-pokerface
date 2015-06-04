@@ -27,7 +27,9 @@
     (boolean (some (fn [x] (>= x 4)) rank-freq-vals))))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)
+        suit-freq-vals (vals (frequencies suits))]
+    (= 1 (count suit-freq-vals))))
 
 (defn full-house? [hand]
   nil)
