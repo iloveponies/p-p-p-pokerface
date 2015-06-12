@@ -5,6 +5,14 @@
         pair-ranks-vals (filter #(>= % 2) rank-freq-vals)]
     (count pair-ranks-vals)))
 
+(defn- consecutive? [items]
+  (let [items (sort items)]
+    (and
+      (apply < items)
+      (=
+       (dec (count items))
+       (- (last items) (first items))))))
+
 (defn rank [card]
   (let [[rank _] card
         char-ranks {\T 10, \J 11, \Q 12, \K 13, \A 14}]
@@ -45,10 +53,14 @@
     (>= (count-pairs ranks) 2)))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        replaced-ranks (replace {14 1} ranks)]
+    (or
+      (consecutive? ranks)
+      (consecutive? replaced-ranks))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
