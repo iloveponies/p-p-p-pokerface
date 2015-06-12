@@ -13,6 +13,9 @@
        (dec (count items))
        (- (last items) (first items))))))
 
+(defn high-card? [hand]
+  true)
+
 (defn rank [card]
   (let [[rank _] card
         char-ranks {\T 10, \J 11, \Q 12, \K 13, \A 14}]
@@ -63,4 +66,15 @@
   (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]
+                   [pair? 1]
+                   [two-pairs? 2]
+                   [three-of-a-kind? 3]
+                   [straight? 4]
+                   [flush? 5]
+                   [full-house? 6]
+                   [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        passing-checkers (filter #((first %) hand) checkers)
+        passing-checker-values (map second passing-checkers)]
+    (apply max passing-checker-values)))
