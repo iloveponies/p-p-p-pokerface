@@ -1,5 +1,10 @@
 (ns p-p-p-pokerface)
 
+(defn- count-pairs [ranks]
+  (let [rank-freq-vals (vals (frequencies ranks))
+        pair-ranks-vals (filter #(>= % 2) rank-freq-vals)]
+    (count pair-ranks-vals)))
+
 (defn rank [card]
   (let [[rank _] card
         char-ranks {\T 10, \J 11, \Q 12, \K 13, \A 14}]
@@ -12,9 +17,8 @@
     (str suit)))
 
 (defn pair? [hand]
-  (let [ranks (map rank hand)
-        rank-freq-vals (vals (frequencies ranks))]
-    (boolean (some (fn [x] (>= x 2)) rank-freq-vals))))
+  (let [ranks (map rank hand)]
+    (>= (count-pairs ranks) 1)))
 
 (defn three-of-a-kind? [hand]
   (let [ranks (map rank hand)
@@ -32,10 +36,13 @@
     (= 1 (count suit-freq-vals))))
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-freq-vals (vals (frequencies ranks))]
+    (= [2 3] (sort rank-freq-vals))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)]
+    (>= (count-pairs ranks) 2)))
 
 (defn straight? [hand]
   nil)
