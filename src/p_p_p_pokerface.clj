@@ -13,9 +13,6 @@
        (dec (count items))
        (- (last items) (first items))))))
 
-(defn high-card? [hand]
-  true)
-
 (defn rank [card]
   (let [[rank _] card
         char-ranks {\T 10, \J 11, \Q 12, \K 13, \A 14}]
@@ -27,6 +24,9 @@
   (let [[_ suit] card]
     (str suit)))
 
+(defn high-card? [hand]
+  true)
+
 (defn pair? [hand]
   (let [ranks (map rank hand)]
     (>= (count-pairs ranks) 1)))
@@ -34,12 +34,12 @@
 (defn three-of-a-kind? [hand]
   (let [ranks (map rank hand)
         rank-freq-vals (vals (frequencies ranks))]
-    (boolean (some (fn [x] (>= x 3)) rank-freq-vals))))
+    (boolean (some #(>= % 3) rank-freq-vals))))
 
 (defn four-of-a-kind? [hand]
   (let [ranks (map rank hand)
         rank-freq-vals (vals (frequencies ranks))]
-    (boolean (some (fn [x] (>= x 4)) rank-freq-vals))))
+    (boolean (some #(>= % 4) rank-freq-vals))))
 
 (defn flush? [hand]
   (let [suits (map suit hand)
