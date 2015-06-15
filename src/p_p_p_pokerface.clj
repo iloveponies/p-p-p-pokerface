@@ -1,13 +1,11 @@
 (ns p-p-p-pokerface)
 
-(defn- count-pairs [ranks]
-  (let [rank-freq-vals (vals (frequencies ranks))
-        pair-ranks-vals (filter #(>= % 2) rank-freq-vals)]
-    (count pair-ranks-vals)))
-
 (defn- consecutive? [items]
   (let [items (sort items)]
     (= items (range (first items) (inc (last items))))))
+
+(defn- max-rank-frequency [ranks]
+  (apply max (vals (frequencies ranks))))
 
 (defn rank [card]
   (let [[rank _] card
@@ -25,17 +23,15 @@
 
 (defn pair? [hand]
   (let [ranks (map rank hand)]
-    (>= (count-pairs ranks) 1)))
+    (>= (max-rank-frequency ranks) 2)))
 
 (defn three-of-a-kind? [hand]
-  (let [ranks (map rank hand)
-        rank-freq-vals (vals (frequencies ranks))]
-    (boolean (some #(>= % 3) rank-freq-vals))))
+  (let [ranks (map rank hand)]
+    (>= (max-rank-frequency ranks) 3)))
 
 (defn four-of-a-kind? [hand]
-  (let [ranks (map rank hand)
-        rank-freq-vals (vals (frequencies ranks))]
-    (boolean (some #(>= % 4) rank-freq-vals))))
+  (let [ranks (map rank hand)]
+    (>= (max-rank-frequency ranks) 4)))
 
 (defn flush? [hand]
   (let [suits (map suit hand)]
@@ -47,8 +43,10 @@
     (= [2 3] (sort rank-freq-vals))))
 
 (defn two-pairs? [hand]
-  (let [ranks (map rank hand)]
-    (>= (count-pairs ranks) 2)))
+  (let [ranks (map rank hand)
+        rank-frequencies (frequencies ranks)
+        rank-pairs (filter #(>= (val %) 2) rank-frequencies)]
+    (>= (count rank-pairs) 2)))
 
 (defn straight? [hand]
   (let [high-ace-ranks (map rank hand)
