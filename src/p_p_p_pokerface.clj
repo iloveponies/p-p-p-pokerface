@@ -51,11 +51,11 @@
     (>= (count-pairs ranks) 2)))
 
 (defn straight? [hand]
-  (let [ranks (map rank hand)
-        replaced-ranks (replace {14 1} ranks)]
+  (let [high-ace-ranks (map rank hand)
+        low-ace-ranks (replace {14 1} high-ace-ranks)]
     (or
-      (consecutive? ranks)
-      (consecutive? replaced-ranks))))
+      (consecutive? high-ace-ranks)
+      (consecutive? low-ace-ranks))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
