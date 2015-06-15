@@ -7,11 +7,7 @@
 
 (defn- consecutive? [items]
   (let [items (sort items)]
-    (and
-      (apply < items)
-      (=
-       (dec (count items))
-       (- (last items) (first items))))))
+    (= items (range (first items) (inc (last items))))))
 
 (defn rank [card]
   (let [[rank _] card
