@@ -1,10 +1,16 @@
 (ns p-p-p-pokerface)
 
+(def replacements {\T 10, \J 11, \Q 12, \K 13, \A 14})
+
 (defn rank [card]
-  nil)
+  (let [[rank suit] card]
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (replacements rank))))
 
 (defn suit [card]
-  nil)
+  (let [[rank suit] card]
+    (str suit)))
 
 (defn pair? [hand]
   nil)
