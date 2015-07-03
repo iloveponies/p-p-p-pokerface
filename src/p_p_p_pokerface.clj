@@ -49,29 +49,26 @@
 
 (defn straight? [hand]
   (let [ranks (sort (map rank hand))
-        r-ranks (sort (replace {14 1} ranks))
+        ace-low-ranks (sort (replace {14 1} ranks))
         max-rank (apply max ranks)
-        min-rank (apply min ranks)
-        r-max-rank (apply max r-ranks)
-        r-min-rank (apply min r-ranks)]
+        min-rank (apply min ranks)]
     (if (< (count ranks) 5)
       false
       (or (= ranks (range min-rank (+ max-rank 1)))
-          (= r-ranks (range r-min-rank (+ r-max-rank 1)))))))
+          (= ace-low-ranks (range 1 6))))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
-(defn high-card? [hand] true)
+(defn high-card? [_] true)
 
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
                    [two-pairs? 2]  [three-of-a-kind? 3]
                    [straight? 4]   [flush? 5]
                    [full-house? 6] [four-of-a-kind? 7]
-                   [straight-flush? 8]}]
-    (apply max
-           (map second (filter
-                         (fn [[f _]]
-                           (f hand))
-                         checkers)))))
+                   [straight-flush? 8]}
+        hands (filter (fn [[f]] (f hand)) checkers)
+        values (map second hands)]
+    (apply max values)))
+
