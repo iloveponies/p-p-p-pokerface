@@ -29,14 +29,24 @@
   (and (pair? hand)
        (three-of-a-kind? hand)))
 
-(defn two-pairs? [hand]
-  nil)
+(defn two-pairs?
+  "This implementation will *not* accept 4-of-a-kind as two pairs."
+  [hand]
+  (= [1 2 2]
+     (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        lowest-rank (apply min ranks)
+        has-ace (contains? (set ranks) 14)]
+    (or (= (range lowest-rank (+ lowest-rank 5)) ranks)
+        (and has-ace (= [2 3 4 5 14] ranks)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
+
+(defn- high-card? "bonk" [hand]
+  true)
 
 (defn value [hand]
   nil)
