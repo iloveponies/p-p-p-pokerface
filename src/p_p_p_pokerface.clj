@@ -10,20 +10,24 @@
 (defn suit [card]
   (str (second card)))
 
+(defn- n-of-a-kind? [hand n]
+  (contains? (set (vals (frequencies (map rank hand)))) n))
+
 (defn pair? [hand]
-  nil)
+  (n-of-a-kind? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (= (count (set (map suit hand))) 1))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
