@@ -1,10 +1,14 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [letter (first card)
+        ranks-by-letter {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+    (if (Character/isDigit letter)
+      (Integer/valueOf (str letter))
+      (get ranks-by-letter letter))))
 
 (defn suit [card]
-  nil)
+  (str (second card)))
 
 (defn pair? [hand]
   nil)
