@@ -46,7 +46,7 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
-(defn- high-card? "bonk" [hand]
+(defn high-card? [hand]
   true)
 
 (defn value [hand]
@@ -55,5 +55,6 @@
                    [straight-flush? 8]}
         tests (map first checkers)
         scores (map second checkers)]
-    ; TODO
-    0))
+    (apply max
+           (map second (filter
+                         (fn [checker] ((first checker) hand)) checkers)))))
