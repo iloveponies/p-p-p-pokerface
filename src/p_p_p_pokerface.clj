@@ -38,9 +38,10 @@
 (defn straight? [hand]
   (let [ranks (sort (map rank hand))
         lowest-rank (apply min ranks)
-        has-ace (contains? (set ranks) 14)]
-    (or (= (range lowest-rank (+ lowest-rank 5)) ranks)
-        (and has-ace (= [2 3 4 5 14] ranks)))))
+        has-ace (contains? (set ranks) 14)
+        straight-by-lowest? (fn [ranks lowest] (= (range lowest (+ lowest 5)) ranks))]
+    (or (straight-by-lowest? ranks lowest-rank)
+        (and has-ace (straight-by-lowest? (sort (replace {14 1} ranks)) 1)))))
 
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
