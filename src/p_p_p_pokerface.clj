@@ -25,6 +25,9 @@
 (defn pair? [hand]
   (== (apply max (same-ranks hand)) 2))
 
+(defn two-pairs? [hand]
+  (= (sort (same-ranks hand)) (seq [1 2 2])))
+
 (defn three-of-a-kind? [hand]
   (if (== (apply max (same-ranks hand)) 3)
     (if (== (apply min (same-ranks hand)) 2) false true)
@@ -40,9 +43,6 @@
   (if (== (apply max (same-ranks hand)) 3)
     (if (== (apply min (same-ranks hand)) 2) true false)
     false))
-
-(defn two-pairs? [hand]
-  (= (sort (same-ranks hand)) (seq [1 2 2])))
 
 (defn straight? [hand]
   (let [new-hand (replace {"AH" "1H", "AC" "1C", "AD" "1D", "AS" "1S"} hand)
@@ -61,4 +61,9 @@
     (== (apply max (same-ranks hand)) 1)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (filter (fn [x] (integer? x)) (map (fn [check] (if ((first check) hand) (second check))) checkers)))))
