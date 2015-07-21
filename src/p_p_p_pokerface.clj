@@ -1,28 +1,40 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [face-cards {\T 10 \J 11 \Q 12 \K 13 \A 14}
+        [r _] card]
+    (if (Character/isDigit r)
+      (Integer/valueOf (str r))
+      (Integer/valueOf (str (get face-cards r))))))
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
+
+(defn hand-to-recurring-count [hand]
+  (set (vals (frequencies (map rank hand)))))
 
 (defn pair? [hand]
-  nil)
+  (contains? (hand-to-recurring-count hand) 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (contains? (hand-to-recurring-count hand) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (contains? (hand-to-recurring-count hand) 4))
 
 (defn flush? [hand]
-  nil)
+  (let [key-count (count (keys (frequencies (map suit hand))))]
+    (== key-count 1)))
 
 (defn full-house? [hand]
-  nil)
+  (and (three-of-a-kind? hand) (pair? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        frequency-list (vals (frequencies ranks))
+        pairs-list (filter (fn [x] (== x 2)) frequency-list)]
+    (== 2 (count pairs-list))))
 
 (defn straight? [hand]
   nil)
