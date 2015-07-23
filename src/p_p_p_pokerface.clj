@@ -39,9 +39,8 @@
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
-        freqs (vals (frequencies ranks))
-        ffreqs (vals (frequencies freqs))]
-    (or (contains? (set ffreqs) 2)
+        freqs (vals (frequencies ranks))]
+    (or (= 2 (get (frequencies freqs) 2))
         (four-of-a-kind? hand))))
 
 (defn straight? [hand]
