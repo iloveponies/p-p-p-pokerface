@@ -45,10 +45,24 @@
         (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        altranks (sort (replace {14 1} ranks))
+        compseq (range (apply min ranks) (+ 1 (apply max ranks)))
+        acompseq (range (apply min altranks) (+ 1 (apply max altranks)))]
+    (or (= ranks compseq)
+        (= altranks acompseq))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond (straight-flush? hand) 8
+        (four-of-a-kind? hand) 7
+        (full-house? hand) 6
+        (flush? hand) 5
+        (straight? hand) 4
+        (three-of-a-kind? hand) 3
+        (two-pairs? hand) 2
+        (pair? hand) 1
+        :else 0))
