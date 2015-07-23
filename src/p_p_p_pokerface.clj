@@ -1,28 +1,48 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rnk _] card]
+    (if (Character/isDigit rnk)
+       (Integer/valueOf (str rnk))
+       ({\T 10, \J 11, \Q 12, \K 13, \A 14} rnk))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+    (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (contains? (set freqs) 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (contains? (set freqs) 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (contains? (set freqs) 4)))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)
+        freqs (vals (frequencies suits))]
+    (= 5 (first freqs))))
+
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (and (contains? (set freqs) 3)
+         (contains? (set freqs) 2))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))
+        ffreqs (vals (frequencies freqs))]
+    (or (contains? (set ffreqs) 2)
+        (four-of-a-kind? hand))))
 
 (defn straight? [hand]
   nil)
