@@ -36,11 +36,33 @@
         pairs-list (filter (fn [x] (== x 2)) frequency-list)]
     (== 2 (count pairs-list))))
 
+;; put the cards in ascending order
+;; is the difference between max and min card 4
+;; is each card less than the next card
+
+(defn straight-helper [xs]
+  (let [diff-is-4 (== 4 (- (apply max xs) (apply min xs)))
+        each-different (apply < xs)]
+    (and diff-is-4 each-different)))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks-14 (sort (map rank hand))
+        ranks-1 (sort (replace {14 1} ranks-14))]
+    (or (straight-helper ranks-14) (straight-helper ranks-1))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}
+        truthies (map (fn [[f v]] (if (f hand) v 0)) checkers)]
+    ; now let's do it
+    (apply max truthies)))
+
