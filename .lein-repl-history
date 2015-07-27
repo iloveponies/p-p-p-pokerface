@@ -1,0 +1,36 @@
+(. System exit 0)
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(def letter-value {\A 14, \K 13, \Q 12, \J 11, \T 10})
+(defn rank [card]
+  (let [[rnk _] card]
+    (if ((Character/isDigit rnk)) 
+          (Integer/valueOf rnk) 
+          (letter-value rnk))))"))
+(def letter-value {\A 14, \K 13, \Q 12, \J 11, \T 10})
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(def letter-value {\\A 14, \\K 13, \\Q 12, \\J 11, \\T 10})"))
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(defn rank [card]
+  (let [[rnk _] card]
+    (if ((Character/isDigit rnk)) 
+          (Integer/valueOf rnk) 
+          (letter-value rnk))))"))
+(rank "2H") ;=> 2
+(rank "2H")
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(defn rank [card]
+  (let [[rnk _] card]
+    (if (Character/isDigit rnk)
+          (Integer/valueOf rnk) 
+          (letter-value rnk))))"))
+(rank "2H")
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(defn full-house? [hand]
+  (and
+    (= 2 (min (vals (frequencies (map rank hand)))))
+    (= 3 (max (vals (frequencies (map rank hand)))))))"))
+(full-house? full-house-hand)
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(def letter-value {\\A 14, \\K 13, \\Q 12, \\J 11, \\T 10})"))
+(full-house? full-house-hand)
+(binding [*ns* (or (find-ns 'p-p-p-pokerface) (find-ns 'user))] (load-string "(defn straight? [hand]
+  (let [ace-high (sort (map rank hand)) ace-low (sort (replace {14 1} (map rank hand)))]
+    (if (= ace-high (range (min ace-high) (+ (min ace-high) 5)))
+      true
+      (= ace-low (range (min ace-low) (+ (min ace-low) 5))))))"))
+(straight? ["2H" "3S" "4C" "5D" "AD"])
