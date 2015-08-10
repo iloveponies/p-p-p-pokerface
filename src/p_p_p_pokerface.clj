@@ -15,14 +15,26 @@
   (let [[fst snd] card]
   (str snd)))
 
+(defn is-same? [hand maksimi]
+  (let [numerot(for [x hand]
+  (read-string(str (rank x))))
+        parit(frequencies numerot)
+        p(vals parit)
+        maks(apply max p)
+        returnValue(if(== maks maksimi)
+          true
+          false)
+        ]
+    returnValue))
+
 (defn pair? [hand]
-  nil)
+  (is-same? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (is-same? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (is-same? hand 4))
 
 (defn flush? [hand]
   nil)
