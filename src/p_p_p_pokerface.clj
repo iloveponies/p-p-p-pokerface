@@ -37,15 +37,15 @@
   (is-same? hand 4))
 
 (defn flush? [hand]
-  (let [numerot(for [x hand]
-  (read-string(str (rank x))))
-        parit(frequencies numerot)
-        p(keys parit)
-        maks(apply max p)
-        minimi(apply min p)
-        v(contains? p maks)
-        ]
-    v))
+  (let [maa(for [x hand]
+   (read-string(str (suit x))))
+      eka (first maa)
+        te(distinct maa)
+        summa(count te)]
+    (if (= summa 1)
+      true
+      false))
+    )
 
 (defn full-house? [hand]
   (is-same? hand 2) (is-same? hand 3))
@@ -54,7 +54,20 @@
 (is-same? hand 2) (is-same? hand 2))
 
 (defn straight? [hand]
-  nil)
+  (let [numerot(for [x hand]
+  (read-string(str (rank x))))
+        parit(frequencies numerot)
+        p(keys parit)
+        maks(apply max p)
+         m2(Integer/valueOf (str maks))
+        minimi(apply min p)
+        m1 (Integer/valueOf (str minimi))
+        v1(contains? parit (+ m1 1))
+        v2(contains? parit (+ m1 2))
+        v3(contains? parit (- m2 1))
+        ]
+ (boolean v2)(boolean v1) (boolean v3)
+    ))
 
 (defn straight-flush? [hand]
   nil)
