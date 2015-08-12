@@ -87,11 +87,15 @@
          m2(Integer/valueOf (str maks))
         minimi(apply min p)
         m1 (Integer/valueOf (str minimi))
+        summa(count p)
+        viisi(if(= summa 5)
+               true
+               false)
         v1(contains? parit (+ m1 1))
         v2(contains? parit (+ m1 2))
         v3(contains? parit (- m2 1))
         ]
- (boolean v2)(boolean v1) (boolean v3)
+ (boolean v2)(boolean v1) (boolean v3) viisi
     ))
 
 (defn straight-flush? [hand]
