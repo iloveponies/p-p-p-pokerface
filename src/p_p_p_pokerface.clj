@@ -64,7 +64,19 @@
 
 
 (defn two-pairs? [hand]
-(is-same? hand 2) (is-same? hand 2))
+  (let [numerot(for [x hand]
+  (read-string(str (rank x))))
+        parit(frequencies numerot)
+        p(vals parit)
+        maks(apply max p)
+        summa (count p)
+        minimi(apply min p)
+        returnValue(if(and(and (== maks 2) (== minimi 1) (== summa 3)))
+         true
+        false)
+        ]
+    returnValue))
+
 
 (defn straight? [hand]
   (let [numerot(for [x hand]
