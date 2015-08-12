@@ -99,7 +99,8 @@
     ))
 
 (defn straight-flush? [hand]
-  nil)
+  (straight? hand) (flush? hand)
+)
 
 (defn value [hand]
   nil)
