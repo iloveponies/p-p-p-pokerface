@@ -48,7 +48,20 @@
     )
 
 (defn full-house? [hand]
-  (is-same? hand 2) (is-same? hand 3))
+  (let [numerot(for [x hand]
+  (read-string(str (rank x))))
+        parit(frequencies numerot)
+        p(vals parit)
+        maks(apply max p)
+
+        minimi(apply min p)
+        returnValue(if(and (== maks 3) (== minimi 2))
+         true
+        false)
+        ]
+    returnValue)
+)
+
 
 (defn two-pairs? [hand]
 (is-same? hand 2) (is-same? hand 2))
