@@ -99,8 +99,15 @@
     ))
 
 (defn straight-flush? [hand]
-  (straight? hand) (flush? hand)
-)
+   (let [
+  suora(straight? hand)
+  vari (flush? hand)
+         returnValue(if (and (== vari true) (== suora true))
+         true
+        false)]
+
+returnValue)
+  )
 
 (defn value [hand]
   nil)
