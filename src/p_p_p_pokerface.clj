@@ -22,7 +22,7 @@
   (= (apply max (vals (frequencies (map suit hand)))) 5))
 
 (defn full-house? [hand]
-  nil)
+  (= (sort (vals (frequencies (map rank hand)))) [2 3]))
 
 (defn two-pairs? [hand]
   nil)
