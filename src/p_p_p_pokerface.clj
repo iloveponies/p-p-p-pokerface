@@ -10,7 +10,7 @@
   (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (> (apply max (vals (frequencies (map rank hand)))) 1))
 
 (defn three-of-a-kind? [hand]
   nil)
