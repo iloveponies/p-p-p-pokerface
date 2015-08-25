@@ -11,29 +11,53 @@
   (let [[_ snd] card]
     (str snd)))
 
+(defn n-of-a-kind? [n hand]
+  (.contains
+    (vals
+      (frequencies
+        (map rank hand))) n))
+
 (defn pair? [hand]
-  nil)
+  (n-of-a-kind? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (and (n-of-a-kind? 2 hand)
+       (n-of-a-kind? 3 hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [kinds (vals (frequencies (map rank hand)))]
+    (or (= [1 2 2] (sort kinds))
+        (full-house? hand)
+        (n-of-a-kind? 4 hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (map rank hand))
+        [f] sorted]
+    (or (= sorted (range f (+ f 5)))
+        (= sorted [2 3 4 5 14]))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}
+        check-value (fn [checker] [((first checker) hand)
+                                 (second checker)])
+        values (filter first (map check-value checkers))]
+    (apply max (map second values))))
