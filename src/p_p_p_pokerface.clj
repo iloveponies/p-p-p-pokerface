@@ -60,6 +60,6 @@
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}
-      check (fn [entry] (if ((first entry) hand) (second entry) nil))
-      non-null? (fn [x] (not (= x nil)))]
-  (apply max (filter non-null? (map check checkers)))))
+        check (fn [[checker value]] (if (checker hand) value nil))
+        non-null? (fn [x] (not (= x nil)))]
+    (apply max (filter non-null? (map check checkers)))))
