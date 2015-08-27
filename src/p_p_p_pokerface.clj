@@ -87,6 +87,11 @@
          m2(Integer/valueOf (str maks))
         minimi(apply min p)
         m1 (Integer/valueOf (str minimi))
+
+        ace(if(= m1 2)
+                  (contains? parit 14)
+                  (contains? parit 1))
+
         summa(count p)
         viisi(if(= summa 5)
                true
@@ -94,18 +99,24 @@
         v1(contains? parit (+ m1 1))
         v2(contains? parit (+ m1 2))
         v3(contains? parit (- m2 1))
+        v3(if(= ace true)
+            true
+            (contains? parit (- m2 1)))
+
+          returnValue(if(and(and(and (= v1 true) (= v2 true) (= v3 true) (= viisi true))))
+         true
+        false)
         ]
- (boolean v2)(boolean v1) (boolean v3) viisi
+returnValue
     ))
 
 (defn straight-flush? [hand]
    (let [
   suora(straight? hand)
   vari (flush? hand)
-         returnValue(if (and (== vari true) (== suora true))
+         returnValue(if (and (= vari true) (= suora true))
          true
         false)]
-
 returnValue)
   )
 
