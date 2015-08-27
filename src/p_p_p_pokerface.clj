@@ -121,4 +121,13 @@ returnValue)
   )
 
 (defn value [hand]
-  nil)
+  (cond
+   (= (straight-flush? hand) true) 8
+   (= (four-of-a-kind? hand) true) 7
+   (= (full-house? hand) true) 6
+   (= (flush? hand) true) 5
+   (= (straight? hand) true) 4
+   (= (three-of-a-kind? hand) true) 3
+   (= (two-pairs? hand) true) 2
+   (= (pair? hand) true) 1
+   :else 0))
