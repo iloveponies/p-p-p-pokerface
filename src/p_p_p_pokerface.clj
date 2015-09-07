@@ -36,7 +36,7 @@
   (or (= sorted-hand-ranks-low-ace expected-straight-low-ace) (= sorted-hand-ranks-high-ace expected-straight-high-ace))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
