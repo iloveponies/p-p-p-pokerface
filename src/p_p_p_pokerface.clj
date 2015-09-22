@@ -35,14 +35,20 @@
   (= (vec (sort (rank-freqs hand))) [2 3]))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (four-of-a-kind? hand)
+      (= (vec (sort (rank-freqs hand))) [1 2 2])))
 
 (defn straight? [hand]
+  (let [next-is-one-bigger (fn [a b] (= (- b a) 1))
+        sorted-rank (sort (set (ranks hand)))]
+    (get 0 hand)
+ )
+
   ;( let [sorted-rank (sort (set (ranks hand)))]
   ;(and (= (count (set (map suit hand))) 1)
   ;     (first sorter-rank))
   ;     ))
-  nil)
+  ;nil)
 
 (defn straight-flush? [hand]
   nil)
