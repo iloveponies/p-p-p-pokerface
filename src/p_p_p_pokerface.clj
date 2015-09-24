@@ -39,19 +39,29 @@
       (= (vec (sort (rank-freqs hand))) [1 2 2])))
 
 (defn straight? [hand]
-  (let [next-is-one-bigger (fn [a b] (= (- b a) 1))
-        sorted-rank (sort (set (ranks hand)))]
-    (get 0 hand)
- )
-
-  ;( let [sorted-rank (sort (set (ranks hand)))]
-  ;(and (= (count (set (map suit hand))) 1)
-  ;     (first sorter-rank))
-  ;     ))
-  ;nil)
+  (letfn [(_straight? [hand-ranks]
+    (let [next-is-bigger (fn [a b] (= (- b a) 1))
+          first  (get hand-ranks 0)
+          second (get hand-ranks 1)
+          third  (get hand-ranks 2)
+          fourth (get hand-ranks 3)
+          fifth  (get hand-ranks 4)]
+      (and (next-is-bigger first second)
+           (next-is-bigger second third)
+           (next-is-bigger third fourth)
+           (next-is-bigger fourth fifth))))]
+    (or (_straight? (vec (sort (ranks hand))))
+        (_straight? (vec (sort (replace {14 1} (ranks hand))))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (defn high-card? [hand]
+  true)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map (fn [checker] (second checker)) (filter (fn [checker] ((first checker) hand)) checkers)))))
