@@ -25,9 +25,8 @@
   (has-duplicate? hand 4))
 
 (defn flush? [hand]
-  (let [suits (map suit hand)
-        suit-frequencies (frequencies suits)]
-    (== 1 (count suit-frequencies))))
+  (let [suits (set (map suit hand))]
+    (== 1 (count suits))))
 
 (defn full-house? [hand]
   (and (pair? hand) (three-of-a-kind? hand)))
