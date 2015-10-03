@@ -1,34 +1,73 @@
 (ns p-p-p-pokerface)
 
+(def rank-placeholder
+  {\T 10, \J 11, \Q 12, \K 13, \A 14})
+
 (defn rank [card]
-  nil)
+  (let [[rank' _] card]
+    (if (Character/isDigit rank')
+      (Integer/valueOf (str rank'))
+      (Integer/valueOf
+       (str (rank-placeholder rank'))))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit'] card]
+    (str suit')))
 
 (defn pair? [hand]
-  nil)
+  (let [values-hand (vals (frequencies (map rank hand)))]
+    (and
+     (= 2 (apply max values-hand))
+     (= 4 (count values-hand)))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (= 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (let [full-house-format [2 3]]
+    (=
+     full-house-format
+     (sort (vals (frequencies (map rank hand)))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [vals-in-hand (vals (frequencies (map rank hand)))]
+    (or
+     (= [1 2 2] (sort vals-in-hand))
+     (= 4 (apply max vals-in-hand)))))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-hand (sort (map rank hand))
+        alias-to-last-in-rank {14 1}
+        sorted-hand-with-alias (sort (replace alias-to-last-in-rank sorted-hand))
+        diference-between-edges (fn [a-seq] (- (last a-seq) (first a-seq)))]
+  (and
+   (= 5 (count (keys (frequencies sorted-hand))))
+   (or
+    (= 4 (diference-between-edges sorted-hand))
+    (= 4 (diference-between-edges sorted-hand-with-alias))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and
+   (straight? hand)
+   (flush? hand)))
+
+(defn high-card? [hand] true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        is-match (fn [[fn' value]] [(fn' hand) value])]
+  (apply max (map
+              second
+              (filter
+               (fn [[is-applied value]] is-applied)
+               (map is-match checkers))))))
