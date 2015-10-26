@@ -26,10 +26,13 @@
   (= 5 (some #{5} (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (= [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (= [2 2] (filter 
+                (fn [x] (> x 1)) 
+                (vals (frequencies (map rank hand)))))
+      (four-of-a-kind? hand)))
 
 (defn straight? [hand]
   nil)
