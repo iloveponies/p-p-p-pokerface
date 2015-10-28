@@ -13,6 +13,9 @@
   (let [[_ s] card]
     (str s)))
 
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
 (defn pair? [hand]
   (= 2 (some #{2} (vals (frequencies (map rank hand))))))
 
@@ -35,10 +38,27 @@
       (four-of-a-kind? hand)))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-hand (sort (map rank hand))
+        low-card (first sorted-hand)]
+    (or 
+     (= sorted-hand (range low-card (+ low-card 5)))
+     (= sorted-hand (conj (vec (range low-card (+ low-card 4))) 14)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply 
+     max 
+     (map second (filter (fn [x] ((first x) hand)) checkers)))))
+
+(defn hand [a-hand]
+  a-hand)
+
+(defn card [a-card]
+  a-card)
