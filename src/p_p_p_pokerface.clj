@@ -52,39 +52,64 @@
   (= (count (cutoff-ranks hand 1))
      2))
 
+(defn row-with-step? [elements step]
+  (let [sorted (sort elements) 
+        size (count sorted)]
+    ;;(println sorted)
+    (loop [others (rest sorted)
+           prev (first sorted)]
+      ;;(println "tail " others)
+      (if (not-empty others)
+        (let [cur (first others)]
+          (if (= (- cur prev) step)
+            (recur (rest others) cur)
+            false))
+        true))))
+
 (defn straight? [hand]
-  (let [rank-freqs (dissoc (count-ranks hand) [1 14])
+  (let [rank-freqs (apply dissoc (count-ranks hand) [1 14])
         freqs (set (vals rank-freqs))]
     (if (not= (count freqs) 1)
       false
-      (< (sort (keys rank-freqs))))))
-
-(defn row? [collection]
-  (let [sorted (sort collection) 
-        size (count sorted)]
-    ;;(println sorted)
-    (loop [i 0 prev nil status true]
-      (if (and status (< i size))
-        (let [ith (get sorted i)]
-          ;;(println (str i ", " ith))
-          (if (or (not prev) (= (- ith prev) 1))
-            (recur (inc i) ith true)
-            false))))))
-
-
-(row? [1 2 7 4 3])
-(row? [1 2 3 4 5])
+      (row-with-step? (keys rank-freqs) 1))))
 
 (defn straight-flush? [hand]
-  (let [rank-freqs (dissoc (count-ranks hand) [1 14])
+  (let [rank-freqs (apply dissoc (count-ranks hand) [1 14])
         suits (set (keys (count-suits hand)))
         freqs (set (vals rank-freqs))]
-    (println hand)
+    ;;(println hand)
     (if (not= (count freqs) 1)
       false
       (and
         (= (count suits) 1)
-        (< (sort (keys rank-freqs)))))))
+        (row-with-step? (keys rank-freqs) 1)))))
+
+;;(straight-flush? ["2H" "4H" "5H" "9H" "7H"])
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers {
+         high-card? 0
+         pair? 1
+         two-pairs? 2
+         three-of-a-kind? 3
+         straight? 4
+         flush? 5
+         full-house? 6
+         four-of-a-kind? 7
+         straight-flush? 8}]
+    (apply max
+           (filter 
+             (fn [checked] checked)
+               (map 
+                 (fn [checker] 
+                   (let [[fcheck v] checker]
+                     (if (fcheck hand) v -1)))
+                 checkers)))))
+
+;;(value ["2H" "4H" "5H" "9H" "7H"])
+
+
+
+
