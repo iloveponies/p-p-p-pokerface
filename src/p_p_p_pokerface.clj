@@ -65,24 +65,22 @@
      (or (= category [1 2 2])
          (= category [1 4]))))
 
-; low-ace-straight-hand [2H 3S 4C 5D AD]
-; straight-hand [2H 3S 6C 5D 4D]
-; high-ace-straight-hand [TH AS QC KD JD]
-; (straight? two-pairs-hand)             ;=> false
-; (straight? straight-hand)              ;=> true
-; (straight? low-ace-straight-hand)      ;=> true
-; (straight? ["2H" "2D" "3H" "4H" "5H"]) ;=> false
-; (straight? high-ace-straight-hand)     ;=> true
 (defn straight? [hand]
   "Exercise 9:
    Write the function (straight? hand) that returns true if hand is a straight,
-   and otherwise false.")
+   and otherwise false."
+  (let [old_ranks (into [] (map (fn [card] (rank card)) hand))
+        new_ranks (replace {14 1} old_ranks)
+        cmp_ranks (fn [ranks] (range (apply min ranks) (+ (apply max ranks) 1)))]
+    (or  (= (cmp_ranks old_ranks) (sort old_ranks))
+         (= (cmp_ranks new_ranks) (sort new_ranks)))))
 
 (defn straight-flush? [hand]
   "Exercise 10:
    Write the function (straight-flush? hand) which returns true if the hand
    is a straight flush, that is both a straight and a flush, and otherwise false."
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
   "Exercise 11:
