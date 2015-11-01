@@ -82,8 +82,20 @@
   (and (straight? hand)
        (flush? hand)))
 
+(defn high-card? [hand]
+  "All hands have a high card"
+  true)
+
 (defn value [hand]
   "Exercise 11:
    Write the function (value, hand), which returns the value of a hand according to 
    the table above."
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (apply max (map (fn [pair] (second pair))
+                    (filter (fn [pair] (first pair))
+                            (map (fn [checker] (vector (apply (first checker)[hand]) (second checker)))
+                                 checkers))))))
