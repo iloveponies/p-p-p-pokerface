@@ -1,5 +1,11 @@
 (ns p-p-p-pokerface)
 
+(defn hand [a-hand]
+  a-hand)
+
+(defn card [a-card]
+  a-card)
+
 (defn suit [card]
   "Exercise 1: 
    Write the function (suit card) which takes a single card 
@@ -95,7 +101,4 @@
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}]
-    (apply max (map (fn [pair] (second pair))
-                    (filter (fn [pair] (first pair))
-                            (map (fn [checker] (vector (apply (first checker)[hand]) (second checker)))
-                                 checkers))))))
+    (apply max (map (fn [pair] (second pair)) (filter (fn [pair] (first pair)) (map (fn [checker] (vector (apply (first checker)[hand]) (second checker))) checkers))))))
