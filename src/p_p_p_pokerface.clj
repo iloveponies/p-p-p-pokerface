@@ -94,11 +94,13 @@
 
 (defn value [hand]
   "Exercise 11:
-   Write the function (value, hand), which returns the value of a hand according to 
+   Write the function (value, hand), which returns the value of a hand according to
    the table above."
   (let [checkers #{[high-card? 0]  [pair? 1]
                  [two-pairs? 2]  [three-of-a-kind? 3]
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}]
-    (apply max (map (fn [pair] (second pair)) (filter (fn [pair] (first pair)) (map (fn [checker] (vector (apply (first checker)[hand]) (second checker))) checkers))))))
+                 [straight-flush? 8]}
+        available (filter (fn [checker] (apply (first checker) [hand])) checkers)
+        values (map (fn [checker] (second checker)) available)]
+    (apply max values)))
