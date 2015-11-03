@@ -12,7 +12,7 @@
   (let [[_ snd] card]
     (str snd)))
 
-;;Debug data
+;; Debug data
 ;; (def high-seven                   ["0H" "3S" "4C" "5C" "7D"])
 ;; (def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
 ;; (def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
@@ -47,7 +47,10 @@
        (= 2(apply min (vals (frequencies (mapv rank hand))))))
 
 (defn two-pairs? [hand]
-  (= 2 (get (frequencies (vals (frequencies (map rank hand)))) 2 2)))
+  (let [value-frequencies (frequencies (vals (frequencies (map rank hand))))]
+    (if (contains? value-frequencies 2) 
+        (<= 2 (get value-frequencies 2)) 
+        false)))
 
 
 ;;Messy TODO make nicer...
