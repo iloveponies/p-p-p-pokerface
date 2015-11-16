@@ -20,23 +20,49 @@
           f
           (vals (frequencies (map t m))))))))
 
+;; How the whole thing works:
+
+; 1) map cards in hand to ranks (=numeric values) and suits
+(defn card-obj [card-str]
+  {:rank (rank card-str), :suit (suit card-str)})
+
+; 2) map entire hand to objects
+(defn hand-obj [hand-strs]
+  (let [cards (map card-obj hand-strs)
+        freqs (map
+                (fn [[freq matches]] [freq (map first matches)])
+                (group-by
+                  (fn [[_ v]] v)
+                  (frequencies
+                    (map
+                      (fn [card] (get card :rank))
+                      cards))))]
+    {:cards cards, :freqs freqs}))
+
+(defn has-n-freq? [frequency hits hand-str]
+  (not
+    (empty?
+      (filter
+        (fn [[freq ranks]] (and (== freq frequency) (== (count ranks) hits)))
+        (get (hand-obj hand-str) :freqs)))))
+
 (defn pair? [hand]
-  (has-freq? 2 rank hand))
+  (has-n-freq? 2 1 hand))
 
 (defn three-of-a-kind? [hand]
-  (has-freq? 3 rank hand))
+  (has-n-freq? 3 1 hand))
 
 (defn four-of-a-kind? [hand]
-  (has-freq? 4 rank hand))
+  (has-n-freq? 4 1 hand))
 
 (defn flush? [hand]
   (= 5 (count (frequencies (map rank hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (and (has-n-freq? 3 1 hand) (has-n-freq? 2 1 hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (has-n-freq? 4 1 hand) (has-n-freq? 2 2 hand)))
 
 (defn straight? [hand]
   nil)
