@@ -2,10 +2,9 @@
 
 (defn rank [card]
   (let [[fst snd] card]
-    ;;(str fst)
     (if (Character/isDigit fst)
      (Integer/valueOf (str fst))
-      ( get {\A 14, \K 13, \Q 12, \J 11} snd))
+      ( get {\A 14, \K 13, \Q 12, \J 11} fst))
     ))
 
 (defn suit [card]
