@@ -20,10 +20,12 @@
   )
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 4)
+  )
 
 (defn flush? [hand]
-  nil)
+  (= (apply max (vals (frequencies (map suit hand)))) 5)
+  )
 
 (defn full-house? [hand]
   nil)
