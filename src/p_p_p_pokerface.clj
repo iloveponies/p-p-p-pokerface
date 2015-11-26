@@ -28,7 +28,10 @@
   )
 
 (defn full-house? [hand]
-  nil)
+  (let [v (vals (frequencies (map rank hand)))]
+    (or (= '(2 3) v)
+        (= '(3 2) v)
+        )))
 
 (defn two-pairs? [hand]
   nil)
