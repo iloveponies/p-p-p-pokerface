@@ -1,14 +1,14 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (let [[fst snd] card]
-    (if (Character/isDigit fst)
-     (Integer/valueOf (str fst))
-      ( get {\A 14, \K 13, \Q 12, \J 11} fst))
+  (let [[fst _] card]
+    (cond (= fst \1) 10
+          (Character/isDigit fst) (Integer/valueOf (str fst))
+          :else ( get {\A 14, \K 13, \Q 12, \J 11, \T 10} fst))
     ))
 
 (defn suit [card]
-  (let [[fst snd] card]
+  (let [[_ snd] card]
     (str snd)))
 
 (defn pair? [hand]
@@ -28,16 +28,21 @@
   )
 
 (defn full-house? [hand]
-  (let [v (vals (frequencies (map rank hand)))]
-    (or (= '(2 3) v)
-        (= '(3 2) v)
-        )))
+  (let [v (sort (vals (frequencies (map rank hand))))]
+    (= '(2 3) v)
+    ))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [v (sort (vals(frequencies (map rank hand))))]
+    (= '(1 2 2) v)
+    ))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (map rank hand))
+        lowest (first sorted)
+        altsorted (sort (replace {14 1} sorted))]
+    (or (= sorted (range lowest (+ lowest 5)))
+        (= altsorted (range 1 6)))))
 
 (defn straight-flush? [hand]
   nil)
