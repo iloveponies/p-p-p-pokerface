@@ -1,34 +1,53 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank _] card]
+    (if (Character/isDigit rank)
+      (Integer/valueOf (str rank))
+      (Integer/valueOf (str ({\T 10 \J 11 \Q 12 \K 13 \A 14} rank))))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit] card]
+    (str suit)))
+
+(defn number-of-rank [hand]
+  (apply max (vals (frequencies (map rank hand)))))
+
+(defn number-of-suit[hand]
+  (apply max (vals (frequencies (map suit hand)))))
 
 (defn pair? [hand]
-  nil)
+  (< 1 (number-of-rank hand)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (< 2 (number-of-rank hand)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (number-of-rank hand)))
 
 (defn flush? [hand]
-  nil)
+  (= 5 (number-of-suit hand)))
+
+(defn pairs? [amount hand]
+  (= amount (count(filter #(= 2 %)(vals (frequencies (map rank hand)))))))
 
 (defn full-house? [hand]
-  nil)
+  (and (pairs? 1 hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (pairs? 2 hand))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted-ranks (sort (map rank hand))]
+    (cond
+      (= (last sorted-ranks) 14) (or (= (conj (butlast sorted-ranks) 1) (range 1 (+ 1 (last (butlast sorted-ranks)))))
+                                     (= sorted-ranks (range (first sorted-ranks) (+ 1 (last sorted-ranks)))))
+      :else (= sorted-ranks (range (first sorted-ranks) (+ 1 (last sorted-ranks)))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (= 1 (count (distinct (map suit hand))))
+       (straight? hand)))
 
 (defn value [hand]
   nil)
