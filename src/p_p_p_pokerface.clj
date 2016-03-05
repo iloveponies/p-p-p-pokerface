@@ -13,22 +13,22 @@
 (defn suit [[_ suit]]
   (str suit))
 
-(defn correct-frequency? [hand mapping desired-frequency]
-  (let [hand-frequencies (frequencies (map mapping hand))
+(defn correct-rank-frequency? [hand desired-frequency]
+  (let [hand-frequencies (frequencies (map rank hand))
         hand-highest-frequency (apply max (vals hand-frequencies))]
     (== hand-highest-frequency desired-frequency)))
 
 (defn pair? [hand]
-  (correct-frequency? hand rank 2))
+  (correct-rank-frequency? hand 2))
 
 (defn three-of-a-kind? [hand]
-  (correct-frequency? hand rank 3))
+  (correct-rank-frequency? hand 3))
 
 (defn four-of-a-kind? [hand]
-  (correct-frequency? hand rank 4))
+  (correct-rank-frequency? hand 4))
 
 (defn flush? [hand]
-  (correct-frequency? hand suit 5))
+  (apply = (map suit hand)))
 
 (defn has-frequencies? [hand frequency-a frequency-b]
   (let [rank-frequencies (frequencies (map rank hand))
@@ -54,7 +54,8 @@
         (= hand-sorted desired-straight)))))
 
 (defn straight-flush? [hand]
-  (and (flush? hand) (straight? hand)))
+  (and (flush? hand)
+       (straight? hand)))
 
 (defn high-card? [hand]
   true)
