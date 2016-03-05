@@ -66,6 +66,6 @@
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
                  [straight-flush? 8]}
-        passed-checkers (filter (fn [[check? value]] (check? hand)) checkers)
+        passed-checkers (filter (fn [[check?]] (check? hand)) checkers)
         highest-value (apply max (map #(second %) passed-checkers))]
     highest-value))
