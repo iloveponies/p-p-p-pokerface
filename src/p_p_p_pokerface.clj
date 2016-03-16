@@ -1,7 +1,6 @@
 (ns p-p-p-pokerface)
 
-
-  (defn rank [card]
+(defn rank [card]
   (let [digit (first card)
         replacements {\A 14
                       \K 13
@@ -12,35 +11,35 @@
       (Integer/valueOf (str digit))
       (replacements digit))))
 
-
 (defn suit [card]
-   (let [[_ snd] card]
-  (str snd)))
+  (str (second card)))
+
+(defn digits-by [hand]
+  (map rank hand))
+
+(defn quantity-of-a-kind? [hand quantity]
+  (let [quantities (frequencies (digits-by hand))]
+    (>= (apply max (vals quantities)) quantity)))
 
 (defn pair? [hand]
-  (let [m (map rank hand)
-   f (vals (frequencies m))
-   mx (apply max f)]
-  (>= mx 2) ))
+  (quantity-of-a-kind? hand 2))
 
 (defn three-of-a-kind? [hand]
-  (< 2 (apply max (vals (frequencies (map rank hand))))))
+  (quantity-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
-  (< 3 (apply max (vals (frequencies (map rank hand))))))
+  (quantity-of-a-kind? hand 4))
 
 (defn flush? [hand]
-   (== 5 (apply max (vals (frequencies (map suit hand))))))
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
- (= (seq [2 3]) (sort (vals (frequencies (map rank hand))))))
+  (let [quantities (frequencies (digits-by hand))]
+    (= #{2 3} (set (vals quantities)))))
 
 (defn two-pairs? [hand]
-  (let [m (map rank hand) f
-  (vals (frequencies m)) st
-  (sort f)] (or (= [1 2 2] st)
-  (= [1 4] st) ) ))
-
+  (let [quantities (frequencies (digits-by hand))]
+    (= [1 2 2] (sort (vals quantities)))))
 
 (defn straight? [hand]
   (let [digits  (digits-by hand)
@@ -54,18 +53,15 @@
         (= hand-1 seq-1))))
 
 (defn straight-flush? [hand]
-   (and (straight? hand)
-       (flush? hand)))
-
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-   (cond (straight-flush? hand) 8
-   (four-of-a-kind? hand) 7
-   (full-house? hand) 6
-   (flush? hand) 5
-   (straight? hand) 4
-   (three-of-a-kind? hand) 3
-   (two-pairs? hand) 2
-   (pair? hand) 1
-   (high-card? hand) 0
-))
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
