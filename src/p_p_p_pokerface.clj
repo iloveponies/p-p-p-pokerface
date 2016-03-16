@@ -1,67 +1,95 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  (let [digit (first card)
-        replacements {\A 14
-                      \K 13
-                      \Q 12
-                      \J 11
-                      \T 10}]
-    (if (Character/isDigit digit)
-      (Integer/valueOf (str digit))
-      (replacements digit))))
+(defn rank [[card-rank _]]
+  (let [replacements  {\T 10
+                       \J 11
+                       \Q 12
+                       \K 13
+                       \A 14}]
+    (if (contains? replacements card-rank)
+      (replacements card-rank)
+      (Integer/valueOf (str card-rank)))))
 
-(defn suit [card]
-  (str (second card)))
+(defn suit [[_ card-suit]]
+  (str card-suit))
 
-(defn digits-by [hand]
-  (map rank hand))
+(defn ranks [hand]
+  "returns a sorted list of the ranks in a hand"
+  (sort (map (fn [card] (rank card)) hand)))
 
-(defn quantity-of-a-kind? [hand quantity]
-  (let [quantities (frequencies (digits-by hand))]
-    (>= (apply max (vals quantities)) quantity)))
+(defn rank-groups [hand]
+  "returns a sorted list of the rank groupings in a hand"
+  (sort (vals (frequencies (ranks hand)))))
+
+(defn suits [hand]
+  "returns a list of the suits in a hand"
+  (map (fn [card] (suit card)) hand))
 
 (defn pair? [hand]
-  (quantity-of-a-kind? hand 2))
+  (=
+   (apply max (rank-groups hand))
+   2))
 
 (defn three-of-a-kind? [hand]
-  (quantity-of-a-kind? hand 3))
+  (=
+   (apply max (rank-groups hand))
+   3))
 
 (defn four-of-a-kind? [hand]
-  (quantity-of-a-kind? hand 4))
+  (=
+   (apply max (rank-groups hand))
+   4))
 
 (defn flush? [hand]
-  (apply = (map suit hand)))
+  (=
+   (apply max (vals (frequencies (suits hand))))
+   5))
 
 (defn full-house? [hand]
-  (let [quantities (frequencies (digits-by hand))]
-    (= #{2 3} (set (vals quantities)))))
+  (=
+   (rank-groups hand)
+   [2 3]))
 
 (defn two-pairs? [hand]
-  (let [quantities (frequencies (digits-by hand))]
-    (= [1 2 2] (sort (vals quantities)))))
+  (=
+   (rank-groups hand)
+   [1 2 2]))
+
+(defn high-rank [hand]
+  "returns the rank of the highest card in the hand"
+  (apply max (ranks hand)))
+
+(defn low-rank [hand]
+  "returns the rank of the lowest card in the hand"
+  (apply min (ranks hand)))
+
+(defn rank-range [hand]
+  "returns the range of ranks in the hand"
+  (range (low-rank hand) (inc (high-rank hand))))
+
+(defn low-ace-ranks [hand]
+  "returns an ace hand's ranks sorted with the ace low"
+  (sort (replace {14 1} (ranks hand))))
 
 (defn straight? [hand]
-  (let [digits  (digits-by hand)
-        hand-14 (sort digits)
-        min-14  (first hand-14)
-        seq-14  (range min-14 (+ 5 min-14))
-        hand-1  (sort (replace {14 1} digits))
-        min-1   (first hand-1)
-        seq-1   (range min-1 (+ 5 min-1))]
-    (or (= hand-14 seq-14)
-        (= hand-1 seq-1))))
+  (or
+   (= (ranks hand) (rank-range hand))
+   (= (low-ace-ranks hand)
+      (range (apply min (low-ace-ranks hand))
+             (inc (apply max (low-ace-ranks hand)))))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
+(defn high-card? [hand]
+  true)
+
 (defn value [hand]
-  (cond
-    (straight-flush? hand) 8
-    (four-of-a-kind? hand) 7
-    (full-house? hand) 6
-    (flush? hand) 5
-    (straight? hand) 4
-    (three-of-a-kind? hand) 3
-    (two-pairs? hand) 2
-    (pair? hand) 1
+  (let [checkers #{[high-card? 0] [pair? 1]
+                   [two-pairs? 2] [three-of-a-kind? 3]
+                   [straight? 4] [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply max ( map (fn [[_ value]] value)
+                     (filter (fn [[test _]] (test hand)) checkers)))))
+
