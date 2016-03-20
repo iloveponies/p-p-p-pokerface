@@ -1,17 +1,17 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (let[[fst snd] card]
-    snd))
+  (let[repl {\T 10, \J 11, \Q 12, \K 13, \A 14}
+       [fst snd] card]
+    (if (not (Character/isDigit fst)) (get repl fst) (Integer/valueOf (str fst)))))
 
 (defn suit [card]
   (let [[fst snd] card]
-    fst))
+    (str snd)))
 
 (defn pair? [hand]
-  (let [[fst snd] (first hand)
-        [fst1 snd1] (second hand)]
-  (= fst fst1)))
+  (let [sort (sort (vals (frequencies (map #(first %) hand))))]
+    (= 2 (some #{2} sort))))
 
 (defn three-of-a-kind? [hand]
   (= (first (vals (frequencies (map #(first %) hand)))) 3))
@@ -28,10 +28,8 @@
   (= (second (vals (sort (frequencies (map #(first %) hand))))) 2)))
 
 (defn two-pairs? [hand]
-  (or (= (+
-    (first (vals (sort (frequencies (map #(first %) hand)))))
-    (second (vals (sort (frequencies (map #(first %) hand)))))) 4)
-      (= (first (vals (sort (frequencies (map #(first %) hand))))) 4)))
+  (let [seq (sort (vals (frequencies (map #(first %) hand))))]
+    (or (= '(1 2 2) seq) (= '(2 3) seq) (= '(1 4) seq))))
 
 (defn straight? [hand]
   (let [sorted (sort (map first hand))
