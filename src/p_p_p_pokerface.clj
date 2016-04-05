@@ -9,6 +9,8 @@
       (Integer/valueOf (str rank))
       (replacements rank))))
 
+
+
 (defn suit [card]
   (let [[_ suite] card]
     (str suite)))
