@@ -84,3 +84,6 @@
 
 (defn value [hand]
   (apply max (map second (filter (fn [x] ((first x) hand)) checkers))))
+
+
+
