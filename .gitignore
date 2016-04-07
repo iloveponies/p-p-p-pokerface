@@ -1,1 +1,6 @@
 target/
+.idea
+.lein-failures
+. .. .git .gitignore .idea .lein-failures .midje-grading-config.clj .nrepl-port .travis.yml
+.nrepl-port
+.idea
