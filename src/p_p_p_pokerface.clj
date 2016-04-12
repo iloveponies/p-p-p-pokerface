@@ -35,7 +35,7 @@
 
 (defn straight? [hand]
   (let [ranks-A-14 (sort (map rank hand))
-        ranks-A-1  (sort (replace {14 1} ranks-A-14))
+        ranks-A-1  (sort (replace {14 1} hand))
         first-A-14 (first ranks-A-14)
         first-A-1  (first ranks-A-1)]
     (or (= ranks-A-14 (range first-A-14 (+ first-A-14 5)))
