@@ -1,11 +1,10 @@
 (ns p-p-p-pokerface)
 
-(def ranks {\T 10 \J 11 \Q 12 \K 13 \A 14})
-
 (defn rank [[r _]]
-  (if (Character/isDigit r)
-    (Integer/valueOf (str r))
-    (get ranks r)))
+  (let [ranks {\T 10 \J 11 \Q 12 \K 13 \A 14}]
+    (if (Character/isDigit r)
+      (Integer/valueOf (str r))
+      (get ranks r))))
 
 (defn suit [[_ s]]
   (str s))
