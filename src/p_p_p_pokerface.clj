@@ -44,9 +44,9 @@
            (= '(2 3 4 5 14) (sort < (map rank hand)))))) ;; <- low ace straight
 
 (defn straight-flush? [hand]
-  (and same-suit? hand)
+  (and (same-suit? hand)
        (or (in-sequence? hand)
-           (= '(2 3 4 5 14) (sort < (map rank hand))))) ;; <- low ace straight
+           (= '(2 3 4 5 14) (sort < (map rank hand)))))) ;; <- low ace straight
 
 (defn value [hand]
   (cond (straight-flush?  hand) 8
