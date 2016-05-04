@@ -31,17 +31,33 @@
   (= 1 (count (frequencies (map suit hand)))))
 
 (defn full-house? [hand]
-  (let [values (vals (frequencies (map rank hand)))]
-    (and (= 2 (count values)) (or (= 3 (first values)) (= 3 (second values))))))
+  (= [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= [1 2 2] (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [ordered (sort (map rank hand))
+        first1 (first ordered)]
+    (if (= 2 first1)
+      (or (= '(2 3 4 5 14) ordered) (= '(2 3 4 5 6) ordered))
+      (= (range first1 (+ first1 5)) ordered))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [functions {8 straight-flush?,
+                   7 four-of-a-kind?,
+                   6 full-house?,
+                   5 flush?,
+                   4 straight?
+                   3 three-of-a-kind?
+                   2 two-pairs?
+                   1 pair?}
+        hand-true (map (fn [[k _]] k) (filter (fn [[i _]] ((get functions i) hand)) functions))]
+    (if (empty? hand-true)
+      0
+      (first hand-true))))
+
+  
