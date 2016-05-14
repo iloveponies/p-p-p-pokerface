@@ -2,6 +2,12 @@
 
 (def replacements {\T 10, \J 11, \Q 12, \K 13, \A 14})
 
+(defn hand [a-hand]
+  a-hand)
+
+(defn card [a-card]
+  a-card)
+
 (defn rank [card]
   (let [[v] card]
     (if (Character/isDigit v)
