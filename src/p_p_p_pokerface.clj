@@ -74,13 +74,20 @@
             (map rank hand)))) 2)))
 
 (defn two-pairs? [hand]
-  (contains?
-    (set
-      (vals
-        (frequencies
-         (vals
-          (frequencies
-           (map rank hand)))))) 2))
+  (cond (= (first
+             (vals
+               (frequencies
+                 (vals
+                   (frequencies
+                     (map rank hand)))))) 2) true
+;        (= (next
+;            (vals
+;              (frequencies
+;                (vals
+;                  (frequencies
+;                   (map rank hand)))))) 2) true
+; En que orden muestra los valores "vals"?
+        :else false))
 
 (defn straight? [hand]
   (or
@@ -94,7 +101,6 @@
       (range (first (sort (replace {14 1} (map rank hand))))
              (inc (first (reverse (sort (replace {14 1} (map rank hand))))))
          ))))
-;Supongo que me vas a cagar a pedos por este quilombo :$
 
 (defn straight-flush? [hand]
   (and
@@ -105,5 +111,19 @@
            (frequencies
              (map suit hand)))))))
 
+(defn high-card? [hand]
+  true)
+
 (defn value [hand]
-  nil)
+    (cond (straight-flush? hand) 8
+          (four-of-a-kind? hand) 7
+          (full-house? hand) 6
+          (flush? hand) 5
+          (straight? hand) 4
+          (three-of-a-kind? hand) 3
+          (two-pairs? hand) 2
+          (pair? hand) 1
+          (high-card? hand) 0)
+  )
+
+;Preguntar como se hace este con destructuracion
