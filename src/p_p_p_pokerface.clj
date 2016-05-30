@@ -12,32 +12,31 @@
   (let [[_ suite] card]
     (str suite)))
 
-(suit "2C")
 
 (defn pair? [hand]
   (>= (apply max (vals (frequencies (map rank hand)))) 2))
 
-(pair? pair-hand)
+
 
 (defn three-of-a-kind? [hand]
   (>= (apply max (vals (frequencies (map rank hand)))) 3))
 
-(three-of-a-kind? three-of-a-kind-hand)
+
 
 (defn four-of-a-kind? [hand]
   (>= (apply max (vals (frequencies (map rank hand)))) 4))
 
-(four-of-a-kind? two-pairs-hand)
+
 
 (defn flush? [hand]
   (apply = (map suit hand)))
 
-(flush? flush-hand)
+
 
 (defn full-house? [hand]
   (= (seq [2 3]) (sort (vals (frequencies (map rank hand))))))
 
-(full-house? full-house-hand)
+
 
 (defn two-pairs? [hand]
   (let [ranks (set (map rank hand))]
@@ -47,24 +46,21 @@
         (not (three-of-a-kind? hand)))
       (== 2 (count ranks)))))
 
-(two-pairs? two-pairs-hand)
 
 (defn straight? [hand]
   (let [ranks (map rank hand)
         sorted-ranks (sort ranks)
-        replaced (sort (replace {1 14} sorted-ranks))]
+        replaced (sort (replace {14 1} sorted-ranks))]
     (or
       (= (range (apply min ranks) (+ (apply min ranks) 5)) sorted-ranks)
       (= (range 1 6) replaced))))
 
-(straight? straight-hand)
 
 (defn straight-flush? [hand]
   (and
     (flush? hand)
     (straight? hand)))
 
-(straight-flush? straight-flush-hand)
 
 (defn high-card? [hand]
   true)
@@ -78,4 +74,3 @@
         evals (filter (fn [check] ((first check) hand)) checkers)]
     (apply max (map second evals))))
 
-(value straight-flush-hand)
