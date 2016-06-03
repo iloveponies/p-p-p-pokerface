@@ -41,7 +41,7 @@
         (gapless-monotonic? low-ace-ranks))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
