@@ -21,7 +21,7 @@
   (< 3 (val (apply max-key val (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (set (map suit hand)))))
 
 (defn full-house? [hand]
   nil)
