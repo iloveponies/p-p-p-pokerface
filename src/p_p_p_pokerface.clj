@@ -24,10 +24,12 @@
   (= 1 (count (set (map suit hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (vec (sort (vals (frequencies (map rank hand)))))]
+    (== 2 (count ranks) (get ranks 0))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (vec (sort (vals (frequencies (map rank hand)))))]
+    (<= 4 (apply + (filter (fn [rank] (<= 2 rank)) ranks)))))
 
 (defn straight? [hand]
   nil)
