@@ -12,7 +12,7 @@
     (str snd)))
 
 (defn pair? [hand]
-  nil)
+  ( < (count (set (map rank hand))) 5))
 
 (defn three-of-a-kind? [hand]
   nil)
