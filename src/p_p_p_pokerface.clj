@@ -12,13 +12,13 @@
     (str snd)))
 
 (defn pair? [hand]
-  ( < (count (set (map rank hand))) 5))
+  (< 1 (val (apply max-key val (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (< 2 (val (apply max-key val (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (val (apply max-key val (frequencies (map rank hand))))))
 
 (defn flush? [hand]
   nil)
