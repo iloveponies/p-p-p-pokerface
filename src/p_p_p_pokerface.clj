@@ -32,7 +32,13 @@
     (<= 4 (apply + (filter (fn [rank] (<= 2 rank)) ranks)))))
 
 (defn straight? [hand]
-  nil)
+  (let [gapless-monotonic?
+        (fn [ranks] (and (== 4 (- (get ranks 4) (get ranks 0)))
+                         (apply < ranks)))
+        low-ace-ranks (vec (sort (replace {14 1} (map rank hand))))
+        high-ace-ranks (vec (sort (map rank hand)))]
+    (or (gapless-monotonic? high-ace-ranks)
+        (gapless-monotonic? low-ace-ranks))))
 
 (defn straight-flush? [hand]
   nil)
