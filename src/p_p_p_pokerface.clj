@@ -43,14 +43,6 @@
     (or (= low-ace-straight (range (first low-ace-straight) (+ (first low-ace-straight) 5)))
         (= other-straight (range (first other-straight) (+ (first other-straight) 5))))))
 
-(comment       
-  (defn foo [hand]
-    (let [ranks (sort (replace {14 1} (map rank hand)))]
-      ranks))
-
-  (foo ["AS" "2S" "3S" "4S" "5S"])
-  )
-
 (defn straight-flush? [hand]
   (and (flush? hand)
        (straight? hand)))
@@ -65,4 +57,3 @@
                                        (let [f (first matcher)]
                                          (if (f hand) (second matcher)))) checkers)))))
 
-(value ["2D" "2S" "3S" "4S" "5S"])
