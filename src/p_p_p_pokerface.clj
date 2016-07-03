@@ -18,8 +18,8 @@
 
 (defn count-same-rank-cards [hand n]
   (let [wanted-count? (fn [x] (= n x))]
-    (count (filter wanted-count? 
-                   (vals (frequencies 
+    (count (filter wanted-count?
+                   (vals (frequencies
                            (map rank hand)))))))
 
 (defn pair? [hand]
@@ -40,11 +40,21 @@
 (defn two-pairs? [hand]
   (= 2 (count-same-rank-cards hand 2)))
 
+(defn- aced-ranks [hand]
+  (if (= 2 (apply min (map rank hand)))
+    (replace {14 1} (map rank hand))
+    (map rank hand)))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks (aced-ranks hand)
+        start (apply min ranks)
+        end (apply max ranks)]
+    (= (range start (inc end))
+       (sort ranks))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
   nil)
