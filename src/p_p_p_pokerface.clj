@@ -16,27 +16,29 @@
   (let [[_ suit] card]
     (str suit)))
 
-(defn max-count-of-same-rank [hand]
-  (apply max
-         (vals (frequencies (map rank hand)))))
+(defn count-same-rank-cards [hand n]
+  (let [wanted-count? (fn [x] (= n x))]
+    (count (filter wanted-count? 
+                   (vals (frequencies 
+                           (map rank hand)))))))
 
 (defn pair? [hand]
-  (= 2 (max-count-of-same-rank hand)))
+  (= 1 (count-same-rank-cards hand 2)))
 
 (defn three-of-a-kind? [hand]
-  (= 3 (max-count-of-same-rank hand)))
+  (= 1 (count-same-rank-cards hand 3)))
 
 (defn four-of-a-kind? [hand]
-  (= 4 (max-count-of-same-rank hand)))
+  (= 1 (count-same-rank-cards hand 4)))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (frequencies (map suit hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (and (three-of-a-kind? hand) (pair? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (= 2 (count-same-rank-cards hand 2)))
 
 (defn straight? [hand]
   nil)
