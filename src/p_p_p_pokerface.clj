@@ -1,19 +1,25 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+; in buffer use C-c M-n to change namespace
+; C-c C-k to compile code to repl
+(defn rank [param]
+  (let [[r _] param] (str r)))
 
 (defn suit [card]
-  nil)
+  (let [[_ c] card ] (str c)))
+
+(defn x-of-a-kind? [x hand]
+  (<= x (apply max (into [] (vals (frequencies (map rank hand)))))))
 
 (defn pair? [hand]
-  nil)
+  (<= 2 (apply max (into [] (vals (frequencies (map rank hand)))))))
+
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (x-of-a-kind? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (x-of-a-kind? 4 hand))
 
 (defn flush? [hand]
   nil)
@@ -32,3 +38,6 @@
 
 (defn value [hand]
   nil)
+
+(println "hello")
+
