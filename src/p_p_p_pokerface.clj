@@ -1,23 +1,8 @@
 (ns p-p-p-pokerface)
 
-(def high-seven2                   ["2H" "3S" "4C" "5C" "7D"])
-(def pair-hand2                    ["2H" "2S" "4C" "5C" "7D"])
-(def two-pairs-hand2               ["2H" "2S" "4C" "4D" "7D"])
-(def three-of-a-kind-hand2         ["2H" "2S" "2C" "4D" "7D"])
-(def four-of-a-kind-hand2          ["2H" "2S" "2C" "2D" "7D"])
-(def straight2                     ["4H" "5S" "6C" "7D" "8D"])
-(def straight-hand2                ["2H" "3S" "6C" "5D" "4D"])
-(def low-ace-straight-hand2        ["2H" "3S" "4C" "5D" "AD"])
-(def high-ace-straight-hand2       ["TH" "AS" "QC" "KD" "JD"])
-(def flush-hand2                   ["2H" "4H" "5H" "9H" "7H"])
-(def full-house-hand2              ["2H" "5D" "2D" "2C" "5S"])
-(def straight-flush-hand2          ["2H" "3H" "6H" "5H" "4H"])
-(def low-ace-straight-flush-hand2  ["2D" "3D" "4D" "5D" "AD"])
-(def high-ace-straight-flush-hand2 ["TS" "AS" "QS" "KS" "JS"])
-
 (def rank-map {\1 1 \2 2 \3 3 \4 4 \5 5 \6 6 \7 7 \8 8 \9 9 \T 10 \J 11 \Q 12 \K 13 \A 14})
 
- ; in buffer use C-c M-n to change namespace
+; in buffer use C-c M-n to change namespace
 ; C-c C-k to compile code to repl
 (defn rank [param]
   (let [[r _] param] (rank-map r)))
@@ -85,19 +70,3 @@
      (let [hands-present (filter check-hand checkers)
            scores (map second hands-present)]
        (apply max scores))))
-
-(println "straight?")
-(println (straight? straight-hand2))
-(println (straight? pair-hand2))
-(println (straight-flush? low-ace-straight-flush-hand2))
-(println (straight-flush? high-ace-straight-flush-hand2))
-(println (straight-flush? straight-hand2))             ;=> false
-(println (straight-flush? flush-hand2))               ;=> false
-(println (straight-flush? straight-flush-hand2))     ;=> true
-(println (straight-flush? low-ace-straight-flush-hand2)) ;=> true
-(println (straight-flush? high-ace-straight-flush-hand2)) ;=> true
-
-
-
-
-
