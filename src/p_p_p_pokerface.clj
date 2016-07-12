@@ -16,23 +16,29 @@
   (str snd)))
 
 (defn pair? [hand]
-  (not (empty? (filter (fn [x] (= x 2)) (vals (frequencies (map rank hand)))))))
+  (not (empty? (filter (fn [x] (= x 2))
+                       (vals (frequencies (map rank hand)))))))
 
 (defn three-of-a-kind? [hand]
-  (not (empty? (filter (fn [x] (= x 3)) (vals (frequencies (map rank hand)))))))
+  (not (empty? (filter (fn [x] (= x 3))
+                       (vals (frequencies (map rank hand)))))))
 
 (defn four-of-a-kind? [hand]
-  (not (empty? (filter (fn [x] (= x 4)) (vals (frequencies (map rank hand)))))))
+  (not (empty? (filter (fn [x] (= x 4))
+                       (vals (frequencies (map rank hand)))))))
 
 (defn flush? [hand]
-  (not (empty? (filter (fn [x] (= x 5)) (vals (frequencies (map suit hand)))))))
+  (not (empty? (filter (fn [x] (= x 5))
+                       (vals (frequencies (map suit hand)))))))
 
 
 (defn full-house? [hand]
-  (and (pair? hand) (three-of-a-kind? hand)))
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  (> (apply + (filter (fn [x] (or (= x 4) (= x 2))) (vals (frequencies (map rank hand))))) 3))
+  (> (apply + (filter (fn [x] (or (= x 4) (= x 2)))
+                      (vals (frequencies (map rank hand))))) 3))
 
 (defn high-card? [hand]
   true)
@@ -44,7 +50,8 @@
       (= x (or (range (first x) (+ (first x) 5)))))))
 
 (defn straight-flush? [hand]
-  (and (straight? hand) (flush? hand)))
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
