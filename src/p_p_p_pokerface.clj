@@ -18,30 +18,47 @@
 (defn has? [seq val]
   (not (empty? (filter (fn [x] (= x val)) seq))))
 
+(defn freq-vals [hand]
+  (vals (frequencies (map rank hand))))
+
 (defn pair? [hand]
-    (has? (vals (frequencies (map rank hand))) 2))
-
-(pair? ["3H" "9S" "4C" "5C" "7D"]);
-
-(vals (frequencies (map rank ["2H" "2S" "4C" "5C" "7D"])))
+  (has? (freq-vals hand) 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (has? (freq-vals hand) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (has? (freq-vals hand) 4))
+
+(four-of-a-kind? ["9H" "9S" "9C" "5C" "9D"])
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (frequencies (map suit hand)))))
+
+(flush? ["TS" "AS" "QD" "KS" "JS"])
 
 (defn full-house? [hand]
-  nil)
+  (= 2 (count (frequencies (map rank hand)))))
+
+(full-house? ["TS" "TS" "QD" "QS" "QS"])
+
+(defn sortedRankFreqs [hand]
+  (sort (vals (frequencies (map rank hand)))))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (= '(1 2 2) (sortedRankFreqs hand)) (= '(1 4) (sortedRankFreqs hand))))
+
+(two-pairs? ["TS" "TS" "TD" "TS" "KS"])
+
+(sortedRankFreqs ["TS" "TS" "QD" "QS" "KS"])
+
+(defn straightH? [hand]
+  (= (sort (map rank hand)) (range (apply min (sort (map rank hand))) (+ 5 (apply min (sort (map rank hand)))))))
 
 (defn straight? [hand]
-  nil)
+  (or (straightH? hand) (straightH? (replace {"AH" "1H", "AD" "1D", "AC" "1C", "AS" "1S"} hand))))
+
+(straight? ["AH" "2D" "5C" "4H" "3H"])
 
 (defn straight-flush? [hand]
   nil)
