@@ -35,12 +35,12 @@
 (defn flush? [hand]
   (= 1 (count (frequencies (map suit hand)))))
 
-(flush? ["TS" "AS" "QD" "KS" "JS"])
+(flush? ["TS" "AS" "QS" "KS" "JS"])
 
 (defn full-house? [hand]
-  (= 2 (count (frequencies (map rank hand)))))
+  (= '(2 3) (sort (vals (frequencies (map rank hand))))))
 
-(full-house? ["TS" "TS" "QD" "QS" "QS"])
+(full-house? ["AS" "AS" "KD" "AS" "AS"])
 
 (defn sortedRankFreqs [hand]
   (sort (vals (frequencies (map rank hand)))))
@@ -61,7 +61,21 @@
 (straight? ["AH" "2D" "5C" "4H" "3H"])
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(straight-flush? ["2H" "2S" "2C" "2D" "7D"])
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand)  8
+    (four-of-a-kind? hand)  7
+    (full-house? hand)      6
+    (flush? hand)           5
+    (straight? hand)        4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand)       2
+    (pair? hand)            1
+    :else                   0
+    ))
+
+(value ["AH" "2H" "3H" "4H" "5H"])
