@@ -1,5 +1,7 @@
 (ns p-p-p-pokerface)
 
+(def ranks-ext {\T 10 \J 11 \Q 12 \K 13 \A 14})
+
 (defn rank [card]
   (let [[r _] card]
     (if (Character/isDigit r)
@@ -63,6 +65,18 @@
 
 (defn straight-flush? [hand]
   (and (straight-hand? hand =) (flush? hand)))
+
+(defn high-card? [hand]
+  (not (or
+         (pair? hand)
+         (three-of-a-kind? hand)
+         (four-of-a-kind? hand)
+         (flush? hand)
+         (full-house? hand)
+         (two-pairs? hand)
+         (straight? hand)
+         (straight-flush? hand))))
+
 
 (defn value [hand]
     (let [checkers #{[high-card? 0]  [pair? 1]
