@@ -57,5 +57,6 @@
                  [two-pairs? 2]  [three-of-a-kind? 3]
                  [straight? 4]   [flush? 5]
                  [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}]
-  )
+                 [straight-flush? 8]}
+        check (fn [[checker reward]] (if (checker hand) reward nil))]
+  (last (sort (map check checkers)))))
