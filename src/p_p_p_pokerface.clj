@@ -52,10 +52,25 @@
     (or (= 2 n-pairs) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks-org (map rank hand)
+        is-straight? (fn [ranks] (let [sorted (sort ranks)
+                                       min-rank (apply min sorted)
+                                       max-rank (apply max sorted)
+                                       straight-for-cmp (range min-rank (+ 1 max-rank))]
+                                   (= sorted straight-for-cmp)))]
+    (or (is-straight? ranks-org) (is-straight? (replace {14 1} ranks-org)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        check (fn [[checker val]] (if (checker hand) val -1))]
+    (apply max (map check checkers))))
