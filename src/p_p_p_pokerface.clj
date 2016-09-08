@@ -46,8 +46,10 @@
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
-        ranks-counts (set (vals (frequencies ranks)))]
-    (or (= [2 2] (sort ranks-counts)) (= ranks (four-of-a-kind? hand)))))
+        ranks-counts (frequencies ranks)
+        ranks-counts-counts (frequencies (vals ranks-counts))
+        n-pairs (get ranks-counts-counts 2)]
+    (or (= 2 n-pairs) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
   nil)
