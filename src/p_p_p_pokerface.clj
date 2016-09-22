@@ -1,31 +1,42 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[r _] card]
+    (let [ranks {\T 10, \J 11 \Q 12, \K 13, \A 14}]
+      (if (Character/isDigit r) (Integer/valueOf (str r)) (get ranks r)))))
 
 (defn suit [card]
-  nil)
+  (let [[_ s] card]
+    (str s)))
 
 (defn pair? [hand]
-  nil)
+  (= 4 (count (frequencies (map rank hand)))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (= 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (count (frequencies (map suit hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (let [freqs (frequencies (map rank hand))]
+    (and
+      (= 3 (apply max (vals freqs)))
+      (= 2 (count freqs)))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= 2 (count (filter
+    (fn [rank] (= 2 rank))
+    (vals (frequencies (map rank hand)))))))
 
+; TODO: A can be 1 or 14
 (defn straight? [hand]
-  nil)
+  (let [sorted-hand (sort (map rank hand))]
+    (let [min-rank (first sorted-hand)]
+      (= sorted-hand (range min-rank (+ min-rank 5))))))
 
 (defn straight-flush? [hand]
   nil)
