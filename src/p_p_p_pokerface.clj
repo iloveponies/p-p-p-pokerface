@@ -32,14 +32,25 @@
     (fn [rank] (= 2 rank))
     (vals (frequencies (map rank hand)))))))
 
-; TODO: A can be 1 or 14
 (defn straight? [hand]
-  (let [sorted-hand (sort (map rank hand))]
-    (let [min-rank (first sorted-hand)]
-      (= sorted-hand (range min-rank (+ min-rank 5))))))
+  (let [ranks (map rank hand)]
+    (let [sorted-hand-ace-high (sort ranks)
+          sorted-hand-ace-low (sort (replace {14 1} ranks))]
+      (let [min-rank (first sorted-hand-ace-high)]
+        (or (= sorted-hand-ace-low (range 1 6))
+            (= sorted-hand-ace-high (range min-rank (+ min-rank 5))))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply max (map (fn [checker] (second checker))
+      (filter (fn [checker] ((first checker) hand)) checkers)))))
