@@ -1,7 +1,12 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank _] card
+        numeric? (Character/isDigit rank)
+        special-ranks {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+   (if numeric?
+     (Integer/valueOf (str rank))
+     (get special-ranks rank))))
 
 (defn suit [card]
   (let [[_ suit] card] (str suit)))
