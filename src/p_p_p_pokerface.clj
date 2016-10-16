@@ -28,7 +28,8 @@
   (n-of-a-kind? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)]
+   (apply = suits)))
 
 (defn full-house? [hand]
   nil)
