@@ -18,6 +18,9 @@
   (let [freqs (vals (frequencies (map rank hand)))]
    (in? freqs n)))
 
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
 (defn pair? [hand]
   (n-of-a-kind? hand 2))
 
@@ -51,4 +54,12 @@
   (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]    [pair? 1]
+                   [two-pairs? 2]    [three-of-a-kind? 3]
+                   [straight? 4]     [flush? 5]
+                   [full-house? 6]   [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        check (fn [[checker _]] (checker hand))
+        available-points (filter check checkers)
+        points (map second available-points)]
+    (apply max points)))
