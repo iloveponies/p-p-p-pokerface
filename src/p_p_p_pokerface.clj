@@ -40,10 +40,15 @@
    (or (= freqs two-pairs) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [high-ace-straight (sort (map rank hand))
+        low-ace-straight (sort (replace {14 1} high-ace-straight))
+        lowest (first high-ace-straight)]
+   (or
+     (= (range 1 6) low-ace-straight)
+     (= (range lowest (+ lowest 5)) high-ace-straight))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
   nil)
