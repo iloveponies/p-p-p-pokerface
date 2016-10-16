@@ -35,7 +35,9 @@
   (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [freqs (sort (vals (frequencies (map rank hand))))
+        two-pairs [1 2 2]]
+   (or (= freqs two-pairs) (four-of-a-kind? hand))))
 
 (defn straight? [hand]
   nil)
