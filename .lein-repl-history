@@ -1,0 +1,6 @@
+(+ 2 3)
+(use 'clojure.repl)
+(doc hello)
+(use 'clojure.repl)
+(doc +)
+(quit)
