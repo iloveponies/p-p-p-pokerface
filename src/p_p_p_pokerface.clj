@@ -1,34 +1,78 @@
 (ns p-p-p-pokerface)
 
+(def ranks {\2 2 \3 3 \4 4 \5 5 \6 6 \7 7 \8 8 \9 9 \T 10 \J 11 \Q 12 \K 13 \A 14})
+
+
 (defn rank [card]
-  nil)
+  (let [[R] card]
+    (ranks R)
+    ))
 
 (defn suit [card]
-  nil)
+  (let [[_ sec] card]
+    (str sec)
+    ))
 
 (defn pair? [hand]
-  nil)
+  (= 4 (count (frequencies (map rank hand)))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (and
+    (= 3 (apply max (vals (frequencies (map rank hand)))))
+    (= 1 (apply min (vals (frequencies (map rank hand)))))
+    ))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (= 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+   (and
+    (= 3 (apply max (vals (frequencies (map rank hand)))))
+    (= 2 (apply min (vals (frequencies (map rank hand)))))
+    ))
 
 (defn two-pairs? [hand]
-  nil)
+  (or
+    (and
+      (= 3 (count (frequencies (map rank hand))))
+      (= 2 (apply max (vals (frequencies (map rank hand)))))
+     )
+    (four-of-a-kind? hand)
+      ))
 
 (defn straight? [hand]
-  nil)
+  (and
+    (or
+    (= 4 (-
+           (apply max (map rank hand))
+           (apply min (map rank hand)))
+    )
+    (= 28 (apply + (map rank hand)))
+    )
+    (= 5 (count (frequencies (map rank hand))))
+     ))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]
+                   [pair? 1]
+                   [two-pairs? 2]
+                   [three-of-a-kind? 3]
+                   [straight? 4]
+                   [flush? 5]
+                   [full-house? 6]
+                   [four-of-a-kind? 7]
+                   [straight-flush? 8]
+                   }]
+    (apply max (map (fn [check] (if ((first check) hand) (second check) 0)) checkers))
+    ))
+
+
