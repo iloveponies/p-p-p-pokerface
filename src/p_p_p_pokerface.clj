@@ -1,34 +1,55 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (if (Character/isDigit (get card 0))
+    (Integer/valueOf  (str (get card 0)))
+    (let [replacements {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+      (get replacements (get card 0)))))
 
 (defn suit [card]
-  nil)
+  (let [[_ x] card]
+    (str x)))
 
 (defn pair? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (>= (apply max (vals (frequencies (map rank hand)))) 4))
 
 (defn flush? [hand]
-  nil)
+  (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  (let [v (set (vals (frequencies (map rank hand))))]
+    (and (contains? v 2) (contains? v 3))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= (seq [1 2 2]) (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (vec (sort (map rank hand)))]
+    (or
+      (=
+        sorted
+        (range
+          (get sorted 0)
+          (+ (get sorted 0) 5)))
+      (= sorted '(2 3 4 5 14)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0))
