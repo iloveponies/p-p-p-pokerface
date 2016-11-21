@@ -50,8 +50,13 @@
 (defn straight? [hand]
   (let [ card-values (sort (map rank hand))
          min-card (apply min card-values)
-         straight (range min-card (+ min-card 5)) ]
-        (= straight card-values)))
+         max-card (apply max card-values) 
+        straight (range min-card (+ min-card 5)) ]
+    (if (= max-card 14)
+      (do ( let [ expected-straight-min [2 3 4 5 14]
+                 expected-straight-max [10 11 12 13 14] ]
+            (or (= expected-straight-min card-values)(= expected-straight-max card-values))))
+      (= straight card-values))))
 
 (defn straight-flush? [hand]
   (if (and (straight? hand) (flush? hand))
