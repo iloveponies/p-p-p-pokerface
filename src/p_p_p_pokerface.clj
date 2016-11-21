@@ -38,17 +38,36 @@
     (kind? 5 freqs))) 
 
 (defn full-house? [hand]
-  nil)
+  ( let [ card-freqs (set (vals (frequencies(map rank hand)))) ]
+    (if (and (contains? card-freqs 3) (contains? card-freqs 2))
+      true
+      false )))
 
 (defn two-pairs? [hand]
   ( let [ freqs (vals (frequencies(map rank hand))) ]
     (= 2 (count (filter (fn [x] (= 2 x)) freqs)))))
 
 (defn straight? [hand]
-  nil)
+  (let [ card-values (sort (map rank hand))
+         min-card (apply min card-values)
+         straight (range min-card (+ min-card 5)) ]
+        (= straight card-values)))
 
 (defn straight-flush? [hand]
-  nil)
+  (if (and (straight? hand) (flush? hand))
+    true
+    false))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (let [matches (map second (filter (fn [pair] ( let [ checker (first pair)] (checker hand))) checkers))]
+         (apply max matches))))
+         
+
