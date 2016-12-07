@@ -62,10 +62,26 @@
       (= (range start (+ start 5)) (sort tokenized))
       (= (sort tokenized) [2 3 4 5 14]))))
 
+
 (defn straight-flush? [hand]
   (and
     (straight? hand)
     (flush? hand)))
 
+(defn high-card? [hand]  true)
+
 (defn value [hand]
-  :-)
+  (let [check #{
+                 [high-card? 0]
+                 [pair? 1]
+                 [two-pairs? 2]
+                 [three-of-a-kind? 3]
+                 [straight? 4]
+                 [flush? 5]
+                 [full-house? 6]
+                 [four-of-a-kind? 7]
+                 [straight-flush? 8]}
+        checked (filter #((first %) hand) check)
+        onlyval (map #(second %) checked)]
+    (apply max onlyval)))
+; ___ ;
