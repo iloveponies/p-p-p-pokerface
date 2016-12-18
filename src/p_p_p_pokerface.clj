@@ -1,22 +1,30 @@
 (ns p-p-p-pokerface)
 
+(def replacements 
+  {\T 10, \J 11, \Q 12, \K 13, \A 14})
+
 (defn rank [card]
-  nil)
+  (let [[rk _] card
+    val (cond
+        (Character/isDigit rk) (Integer/valueOf (str rk))
+        :else (replacements rk))]
+    val))
 
 (defn suit [card]
-  nil)
+  (let [[_ st] card]
+    (str st)))
 
 (defn pair? [hand]
-  nil)
+  (= 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (= 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (= 4 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (= 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
   nil)
