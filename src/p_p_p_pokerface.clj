@@ -38,10 +38,20 @@
    ; four-of a kind?
 
 (defn straight? [hand]
-  nil)
+  (let [rephand (replace {14 1} (map rank hand))
+        repminval (apply min (sort rephand))
+        minval (apply min (sort (map rank hand)))]
+  (or 
+    (= (sort (map rank hand)) (range minval (+ minval 5)))
+    (= (sort rephand) (range repminval (+ repminval 5))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)(flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0] [pair? 1]
+                   [two-pairs? 2] [three-of-a-kind? 3]}]
+    nil))
