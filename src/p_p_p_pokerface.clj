@@ -27,10 +27,15 @@
   (= 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (= 
+    (seq [2 3]) 
+    (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (=
+   (seq [1 2 2])
+   (sort (vals (frequencies (map rank hand))))))
+   ; four-of a kind?
 
 (defn straight? [hand]
   nil)
