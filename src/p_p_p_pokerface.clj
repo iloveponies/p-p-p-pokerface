@@ -35,14 +35,40 @@
   (let [hand-ranks (map rank hand)]
     (= 2 (get (frequencies (vals (frequencies hand-ranks))) 2))))
 
-;; if there is \A, add rank 1
+(defn has-sequence? [sequence]
+	(let [ordered-set (seq (sort sequence))
+				first-value (first ordered-set)
+				model-set (range first-value (+ first-value (count sequence)) )]
+		(= ordered-set model-set)))
 
 (defn straight? [hand]
   (let [hand-ranks (map rank hand)]
-    ))
+		(if (has-sequence? hand-ranks)
+			true
+			(has-sequence? (replace {14 1} hand-ranks)))))
 
 (defn straight-flush? [hand]
-  nil)
+	(and (straight? hand) (flush? hand)))
+
+
+;; Pair	1
+;; Two pairs	2
+;; Three of a kind	3
+;; Straight	4
+;; Flush	5
+;; High card (nothing)	0
+;; Straight flush	8
+;; Full house	6
+;; Four of a kind	7
 
 (defn value [hand]
-  nil)
+	(cond
+		(straight-flush? hand) 8
+		(four-of-a-kind? hand) 7
+		(full-house? hand) 6
+		(flush? hand) 5
+		(straight? hand) 4
+		(three-of-a-kind? hand) 3
+		(two-pairs? hand) 2
+		(pair? hand) 1
+		:else 0))
