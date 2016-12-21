@@ -18,19 +18,19 @@
     (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (< 1 (apply max (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (< 2 (apply max (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (apply max (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (= 5 (apply max (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (not (= 1 (apply min (vals (frequencies (map rank hand)))))))
 
 (defn two-pairs? [hand]
   nil)
