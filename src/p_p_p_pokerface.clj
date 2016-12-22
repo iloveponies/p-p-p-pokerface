@@ -60,7 +60,13 @@
 
 
 (defn straight-flush? [hand]
-  nil)
+  (cond
+    (and
+      (flush? hand)
+      (straight? hand))
+    true
+    :else
+    false))
 
 (defn value [hand]
   nil)
