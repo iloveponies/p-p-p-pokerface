@@ -44,13 +44,20 @@
       (and
         (= 1 x)
         (= 2 y)
-        (= 2 z)
-        ) true
+        (= 2 z))
+        true
       :else
-      false)))
+    false)))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (map rank hand))
+        smallest (first sorted)
+        alt (sort (replace {14 1} sorted))
+        alt-smallest (first alt) ]
+    (or
+      (= sorted (range smallest (+ smallest 5)))
+      (= alt (range alt-smallest (+ alt-smallest 5))))))
+
 
 (defn straight-flush? [hand]
   nil)
