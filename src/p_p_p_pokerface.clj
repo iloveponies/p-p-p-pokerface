@@ -17,17 +17,23 @@
     [[rank suit] card]
     (str suit)))
 
+(defn rankfreqs [hand]
+  (apply max (vals (frequencies (map rank hand)))))
+
+(defn suitfreqs [hand]
+  (apply max (vals (frequencies (map suit hand)))))
+
 (defn pair? [hand]
-  (< 1 (apply max (vals (frequencies (map rank hand))))))
+  (< 1 (rankfreqs hand)))
 
 (defn three-of-a-kind? [hand]
-  (< 2 (apply max (vals (frequencies (map rank hand))))))
+  (< 2 (rankfreqs hand)))
 
 (defn four-of-a-kind? [hand]
-  (< 3 (apply max (vals (frequencies (map rank hand))))))
+  (< 2 (rankfreqs hand)))
 
 (defn flush? [hand]
-  (= 5 (apply max (vals (frequencies (map suit hand))))))
+  (= 5 (suitfreqs hand)))
 
 (defn full-house? [hand]
   (not (= 1 (apply min (vals (frequencies (map rank hand)))))))
