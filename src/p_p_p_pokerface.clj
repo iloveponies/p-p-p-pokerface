@@ -39,7 +39,15 @@
   (not (= 1 (apply min (vals (frequencies (map rank hand)))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [[x y z] (sort (vals (frequencies (map rank hand))))]
+    (cond
+      (and
+        (= 1 x)
+        (= 2 y)
+        (= 2 z)
+        ) true
+      :else
+      false)))
 
 (defn straight? [hand]
   nil)
