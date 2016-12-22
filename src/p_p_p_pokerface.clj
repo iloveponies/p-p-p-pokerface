@@ -27,10 +27,10 @@
   (< 1 (rankfreqs hand)))
 
 (defn three-of-a-kind? [hand]
-  (< 2 (rankfreqs hand)))
+  (= 3 (rankfreqs hand)))
 
 (defn four-of-a-kind? [hand]
-  (< 2 (rankfreqs hand)))
+  (= 4 (rankfreqs hand)))
 
 (defn flush? [hand]
   (= 5 (suitfreqs hand)))
