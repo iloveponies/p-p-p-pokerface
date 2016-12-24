@@ -42,7 +42,13 @@
     false))
 
 (defn straight? [hand]
-  nil)
+  (let [sort-hand (sort (map rank hand))]
+    (let [suora?  (range (apply min sort-hand) (+ 5 (apply min sort-hand)))]
+      (if (= sort-hand suora?)
+        true
+        false))))
+
+;;(straight? straight-hand)
 
 (defn straight-flush? [hand]
   nil)
