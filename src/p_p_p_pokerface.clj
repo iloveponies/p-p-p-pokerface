@@ -46,9 +46,11 @@
     (let [suora?  (range (apply min sort-hand) (+ 5 (apply min sort-hand)))]
       (if (= sort-hand suora?)
         true
-        false))))
-
-;;(straight? straight-hand)
+        (let [low-ace-hand (sort (replace {14 1} sort-hand))]
+          (if (= low-ace-hand '(1 2 3 4 5))
+            true
+            false))))))
+  
 
 (defn straight-flush? [hand]
   nil)
