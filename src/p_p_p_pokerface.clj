@@ -11,22 +11,35 @@
     (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (if (= 2 (apply max (vals (frequencies (map rank hand)))))
+    true
+    false))
+
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (if (= 3 (apply max (vals (frequencies (map rank hand)))))
+    true
+    false))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (if (= 4 (apply max (vals (frequencies (map rank hand)))))
+    true
+    false))
 
 (defn flush? [hand]
-  nil)
+  (if (= 5 (apply max (vals (frequencies (map suit hand)))))
+    true
+    false))
 
 (defn full-house? [hand]
-  nil)
+  (if (= '(3 2) (vals (frequencies (map rank hand))))
+    true
+    false))
 
 (defn two-pairs? [hand]
-  nil)
+  (if (= '(2 2 1) (vals (frequencies (map rank hand))))
+    true
+    false))
 
 (defn straight? [hand]
   nil)
@@ -36,3 +49,5 @@
 
 (defn value [hand]
   nil)
+
+
