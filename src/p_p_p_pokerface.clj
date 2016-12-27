@@ -1,20 +1,6 @@
 (ns p-p-p-pokerface)
 
-;; const-like
-
-(defn high-card? [_]
-  true) ; all hands have a high card
-
-;; private
-;; (concatenated asterisks in some fn names to break coupling with testing module + to introduce framework for inner data format)
-
-(defn- card [a-card]
-  a-card)
-
-(defn- hand [a-hand]
-  a-hand)
-
-(defn- rank* [card]
+(defn rank [card]
   (let [ranks {\2 2
                \3 3
                \4 4
@@ -31,26 +17,26 @@
         [rank _] card]
     (get ranks rank)))
 
-(defn- suit* [card]
+(defn suit [card]
   (let [[_ suit] card]
     (str suit)))
 
-(defn- ranks-present-by-minimum-amount [hand amount]
+(defn ranks-present-by-minimum-amount [hand amount]
   (->> hand
-       (map rank*)
+       (map rank)
        frequencies
        (filter
          (fn [[_ freqs]]
            (>= freqs amount)))))
 
-(defn- ranks-present-by-minimum-amount? [hand amount]
+(defn ranks-present-by-minimum-amount? [hand amount]
   (->> (ranks-present-by-minimum-amount hand amount)
        empty?
        not))
 
-(defn- ranks-present-by-exact-amount? [hand amount]
+(defn ranks-present-by-exact-amount? [hand amount]
   (->> hand
-       (map rank*)
+       (map rank)
        frequencies
        (filter
          (fn [[_ freqs]]
@@ -58,31 +44,31 @@
        empty?
        not))
 
-(defn- pair?* [hand]
+(defn pair? [hand]
   (ranks-present-by-minimum-amount? hand 2))
 
-(defn- three-of-a-kind?* [hand]
+(defn three-of-a-kind? [hand]
   (ranks-present-by-minimum-amount? hand 3))
 
-(defn- four-of-a-kind?* [hand]
+(defn four-of-a-kind? [hand]
   (ranks-present-by-minimum-amount? hand 4))
 
-(defn- flush?* [hand]
+(defn flush? [hand]
   (->> hand
-       (map suit*)
+       (map suit)
        set
        count
        (= 1)))
 
-(defn- full-house?* [hand]
+(defn full-house? [hand]
   (and (ranks-present-by-exact-amount? hand 2)
        (ranks-present-by-exact-amount? hand 3)))
 
-(defn- two-pairs?* [hand]
+(defn two-pairs? [hand]
   (or (= 2 (count (ranks-present-by-minimum-amount hand 2)))
       (ranks-present-by-exact-amount? hand 4)))
 
-(defn- straight?* [hand]
+(defn straight? [hand]
   (let [all-straight-combos
         #{#{14 2 3 4 5}
           #{2 3 4 5 6}
@@ -95,47 +81,25 @@
           #{9 10 11 12 13}
           #{10 11 12 13 14}}]
     (->> hand
-         (map rank*)
+         (map rank)
          set
          (contains? all-straight-combos))))
 
-(defn- straight-flush?* [hand]
-  (and (straight?* hand)
-       (flush?* hand)))
+(defn straight-flush? [hand]
+  (and (straight? hand)
+       (flush? hand)))
 
-(defn- value* [hand]
-  (let [checkers #{[high-card? 0]  [pair?* 1]
-                   [two-pairs?* 2]  [three-of-a-kind?* 3]
-                   [straight?* 4]   [flush?* 5]
-                   [full-house?* 6] [four-of-a-kind?* 7]
-                   [straight-flush?* 8]}
+(defn high-card? [_]
+  true) ; all hands have a high card
+
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
         scenarios-that-apply (filter (fn [checker]
                                        ((first checker) hand))
                                      checkers)
         all-applicable-points (map second scenarios-that-apply)]
     (apply max all-applicable-points)))
-
-;; public
-
-(defn rank [a-card]
-  (rank* (card a-card)))
-(defn suit [a-card]
-  (suit* (card a-card)))
-(defn pair? [a-hand]
-  (pair?* (hand a-hand)))
-(defn three-of-a-kind? [a-hand]
-  (three-of-a-kind?* (hand a-hand)))
-(defn four-of-a-kind? [a-hand]
-  (four-of-a-kind?* (hand a-hand)))
-(defn flush? [a-hand]
-  (flush?* (hand a-hand)))
-(defn full-house? [a-hand]
-  (full-house?* (hand a-hand)))
-(defn two-pairs? [a-hand]
-  (two-pairs?* (hand a-hand)))
-(defn straight? [a-hand]
-  (straight?* (hand a-hand)))
-(defn straight-flush? [a-hand]
-  (straight-flush?* (hand a-hand)))
-(defn value [a-hand]
-  (value* (hand a-hand)))
