@@ -22,36 +22,60 @@
   (let [[_ suit] card]
     (str suit)))
 
+(defn ranks-present-by-minimum-amount [hand amount]
+  (->> hand
+       (map rank)
+       frequencies
+       (filter
+         (fn [[_ freqs]]
+           (>= freqs amount)))))
+
+(defn ranks-present-by-minimum-amount? [hand amount]
+  (->> (ranks-present-by-minimum-amount hand amount)
+       empty?
+       not))
+
+(defn ranks-present-by-exact-amount? [hand amount]
+  (->> hand
+       (map rank)
+       frequencies
+       (filter
+         (fn [[_ freqs]]
+           (= freqs amount)))
+       empty?
+       not))
+
 (defn pair? [hand]
-  (let [not-empty? (complement empty?)]
-    (->> hand
-         (map rank)
-         frequencies
-         (filter
-           (fn [[rank freqs]]
-             (>= freqs 2)))
-         not-empty?)))
+  (ranks-present-by-minimum-amount? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (ranks-present-by-minimum-amount? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (ranks-present-by-minimum-amount? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (->> hand
+       (map suit)
+       set
+       count
+       (= 1)))
 
 (defn full-house? [hand]
-  nil)
+  (and (ranks-present-by-exact-amount? hand 2)
+       (ranks-present-by-exact-amount? hand 3)))
 
 (defn two-pairs? [hand]
-  nil)
+  (or (= 2 (count (ranks-present-by-minimum-amount hand 2)))
+      (ranks-present-by-exact-amount? hand 4)))
 
 (defn straight? [hand]
   nil)
 
 (defn straight-flush? [hand]
   nil)
+
+;; goto tutorial
 
 (defn value [hand]
   nil)
