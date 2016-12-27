@@ -1,8 +1,7 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (let [ranks {\1 1
-               \2 2
+  (let [ranks {\2 2
                \3 3
                \4 4
                \5 5
@@ -70,10 +69,25 @@
       (ranks-present-by-exact-amount? hand 4)))
 
 (defn straight? [hand]
-  nil)
+  (let [all-straight-combos
+        #{#{14 2 3 4 5}
+          #{2 3 4 5 6}
+          #{3 4 5 6 7}
+          #{4 5 6 7 8}
+          #{5 6 7 8 9}
+          #{6 7 8 9 10}
+          #{7 8 9 10 11}
+          #{8 9 10 11 12}
+          #{9 10 11 12 13}
+          #{10 11 12 13 14}}]
+    (->> hand
+         (map rank)
+         set
+         (contains? all-straight-combos))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 ;; goto tutorial
 
