@@ -89,7 +89,17 @@
   (and (straight? hand)
        (flush? hand)))
 
-;; goto tutorial
+(defn high-card? [hand]
+  true) ; all hands have a high card
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        scenarios-that-apply (filter (fn [checker]
+                                       ((first checker) hand))
+                                     checkers)
+        all-applicable-points (map second scenarios-that-apply)]
+    (apply max all-applicable-points)))
