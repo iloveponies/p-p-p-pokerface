@@ -89,7 +89,7 @@
   (and (straight? hand)
        (flush? hand)))
 
-(defn high-card? [hand]
+(defn high-card? [_]
   true) ; all hands have a high card
 
 (defn value [hand]
