@@ -1,4 +1,5 @@
 (ns p-p-p-pokerface)
+(declare high-card?)
 
 (defn rank [card]
   (let [[r _] card
@@ -53,27 +54,27 @@
   (and (flush? hand)
        (straight? hand)))
 
+;; (defn value [hand]
+;;   (cond
+;;     (straight-flush? hand) 8
+;;     (four-of-a-kind? hand) 7
+;;     (full-house? hand) 6
+;;     (flush? hand) 5
+;;     (straight? hand) 4
+;;     (three-of-a-kind? hand) 3
+;;     (two-pairs? hand) 2
+;;     (pair? hand) 1
+;;     (high-card?) 0))
+
+
 (defn value [hand]
-  (cond
-    (straight-flush? hand) 8
-    (four-of-a-kind? hand) 7
-    (full-house? hand) 6
-    (flush? hand) 5
-    (straight? hand) 4
-    (three-of-a-kind? hand) 3
-    (two-pairs? hand) 2
-    (pair? hand) 1
-    :else 0))
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply max (map second (filter (fn [[checker _]] (checker hand)) checkers)))))
 
 
-
-
-
-
-
-
-
-
-
-
-
+(defn high-card? [hand]
+  true)
