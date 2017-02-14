@@ -22,16 +22,28 @@
   (apply = (map suit hand)))
 
 (defn full-house? [hand]
-  nil)
+  ( = (sort (vals (frequencies (map rank hand)))) '(2 3)))
 
 (defn two-pairs? [hand]
-  nil)
+  ( = (sort (vals (frequencies (map rank hand)))) '(1 2 2)))
 
 (defn straight? [hand]
-  nil)
+  (let [sorted (sort (map rank hand))]
+    (cond
+      (= sorted (range (apply min sorted) (+ (apply min sorted) 5))) true
+      (= (sort (replace {14 1} sorted)) (range 1 6)) true
+      :else false)))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (apply max (remove nil? (map (fn [value-pair] (let [[func value] value-pair] (if (func hand) value ))) checkers)))))
