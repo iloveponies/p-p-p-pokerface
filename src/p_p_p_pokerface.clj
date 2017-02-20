@@ -24,7 +24,7 @@
 )
 
 (defn pair? [hand]
-  (= 2 (samecards hand))
+  (<= 2 (samecards hand))
  )
 
 (defn three-of-a-kind? [hand]
