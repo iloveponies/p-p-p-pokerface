@@ -28,7 +28,7 @@
  )
 
 (defn three-of-a-kind? [hand]
-  (= 3 (samecards hand))
+  (<= 3 (samecards hand))
 )
 
 (defn four-of-a-kind? [hand]
