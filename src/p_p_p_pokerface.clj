@@ -1,90 +1,72 @@
 (ns p-p-p-pokerface)
 
-
 (defn
   suit
   [card]
-  (let [[_ x] card]
-      (str x)))
+  (let [[_ card-suit] card]
+      (str card-suit)))
 
 (defn
   rank
   [card]
   (let [replacements {\T 10 \J 11 \Q 12 \K 13 \A 14}
-        [x _] card]
-          (if (Character/isDigit x)
-            (Integer/valueOf (str x))
-            (replacements x))))
+        [card-rank _] card]
+          (if (Character/isDigit card-rank)
+            (Integer/valueOf (str card-rank))
+            (replacements card-rank))))
+
+(defn frequencies-of-hand [funktion hand]
+  (vals (frequencies (map funktion hand))))
+
+(defn largest-freq [funktion hand]
+  (apply max (frequencies-of-hand funktion hand)))
 
 (defn
   pair?
   [hand]
-      (let [x (map rank hand)
-            xx (vals (frequencies x))
-            xxx (apply max xx)]
-              (= xxx 2)))
+  (= (largest-freq rank hand) 2))
 
 (defn
   three-of-a-kind?
   [hand]
-  (let [x (map rank hand)
-        xx (vals (frequencies x))
-        xxx (apply max xx)]
-          (= xxx 3)))
+  (= (largest-freq rank hand) 3))
 
 (defn
   four-of-a-kind?
   [hand]
-    (let [x (map rank hand)
-            xx (vals (frequencies x))
-            xxx (apply max xx)]
-              (= xxx 4)))
+  (= (largest-freq rank hand) 4))
 
 (defn
   flush?
   [hand]
-       (let [x (map suit hand)
-             xx (vals (frequencies x))
-             xxx (first xx)]
-               (= xxx 5)))
-
+  (= (largest-freq suit hand) 5))
 
 (defn
   full-house?
   [hand]
-    (let [x (map rank hand)
-          xx (vals (frequencies x))]
-            (= [2 3] (sort xx))))
-
+  (= [2 3] (sort (frequencies-of-hand rank hand))))
 
 (defn
   two-pairs?
   [hand]
-  (let [x (map rank hand)
-    xx (vals (frequencies x))]
-      (= [1 2 2] (sort xx))))
-
+  (= [1 2 2] (sort (frequencies-of-hand rank hand))))
 
 (defn
   straight?
   [hand]
-    (let [x (map rank hand)
-          xx (sort x)
-          xxx (apply max xx)
-          xxxx (apply min xx)
-          xxxxx (range xxxx (+ 1 xxx))
-          xxxxxx (range 1 6)]
-            (if (= (count xxxxx) 13)
-              true
-              (= xxxxx xx))))
-
+    (let [ranks (map rank hand)
+          sorted-ranks (sort ranks)
+          largest-rank (apply max sorted-ranks)
+          smallest-rank (apply min sorted-ranks)
+          range-between-smallest-and-largest (range smallest-rank (+ 1 largest-rank))]
+      (if (= (count range-between-smallest-and-largest) 13)
+        true
+        (= range-between-smallest-and-largest sorted-ranks))))
 
 (defn
   straight-flush?
   [hand]
-  (let [x (flush? hand)
-        xx (straight? hand)]
-          (and x xx)))
+  (and (flush? hand) (straight? hand)))
 
 (defn
   value
