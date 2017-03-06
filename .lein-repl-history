@@ -1,0 +1,500 @@
+  (let [[r s] card
+        pmap {\A 14, \K 13, \Q 12, \J 11, \T 10}]
+    (or (pmap get r) (and (Character/isDigit r) (Integer/valueOf (str r))))))
+(rank "2H")
+(rank "3H")
+(rank "AH")
+(rank "KH")
+(rank "8H")
+(and (Character/isDigit \7) (Integer/valueOf (str \7)))
+(or (pmap get \7) (and (Character/isDigit \7) (Integer/valueOf (str \7))))
+(pmap)
+pmap
+(get pmap "A")
+(get pmap \A)
+(def pmap {\A 14, \K 13, \Q 12, \J 11, \T 10})
+(get pmap \A)
+(or (get pmap \7) (and (Character/isDigit \7) (Integer/valueOf \7)))
+(or (get pmap \7) (and (Character/isDigit \7) (Integer/valueOf (str \7))))
+(or (get pmap \A) (and (Character/isDigit \7) (Integer/valueOf (str \7))))
+(defn rank [card]
+  (let [[r s] card
+        pmap {\A 14, \K 13, \Q 12, \J 11, \T 10}]
+    (or (get pmap r) (and (Character/isDigit r) (Integer/valueOf (str r))))))
+(rank "2H")
+(rank "AH")
+(rank "QK")
+(rank "2H")
+(rank "4S")
+(rank "TS")
+(rank "JS")
+(rank "QS")
+(rank "KS")
+(rank "AS")
+(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
+(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
+(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
+(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
+(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
+(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
+(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
+(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
+(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
+(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
+(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
+(defn pair? [hand]
+  (< (count (set hand)) (count hand)))
+(pair? pair-hand)
+(defn pair? [hand]
+  (< (count (set (map rank hand))) (count hand)))
+(pair? pair-hand)
+(pair? high-seven)
+(map rank pair-hand)
+(set (map rank pair-hand))
+(count (set (map rank pair-hand)))
+(defn three-of-a-king? [hand]
+  )
+(defn three-of-a-kind? [hand]
+  (< 3 (count (set (map rank hand)))))
+(three-of-a-kind? two-pairs-hand)
+(three-of-a-kind? three-of-a-kind-hand)
+(map rank three-of-a-kind-hand)
+(set (map rank three-of-a-kind-hand))
+(defn three-of-a-king? [hand]
+  (vals (frequencies hand)))
+(frequencies three-of-a-kind-hand)
+(frequencies (map rank hand))
+(frequencies (map rank three-of-a-kind-hand))
+(vals (frequencies (map rank three-of-a-kind-hand)))
+(apply <= (vals (frequencies (map rank three-of-a-kind-hand))))
+(filter (fn [c] c >= 3) (vals (frequencies (map rank three-of-a-kind-hand))))
+(filter >= 3 (vals (frequencies (map rank three-of-a-kind-hand))))
+(vals (frequencies (map rank three-of-a-kind-hand))))
+(vals (frequencies (map rank three-of-a-kind-hand)))))
+(defn three-of-a-kind [hand]
+  (not (empty? (filter (fn [c] c >= 3) (vals (frequencies (map rank hand)))))))
+(three-of-a-kind two-pairs-hand)
+(three-of-a-kind three-of-a-kind-hand)
+(vals (frequencies (map rank hand)))
+(vals (frequencies (map rank hand))
+)
+(vals (frequencies (map rank three-of-a-kind-hand)))
+(filter (fn [c] c >= 3) (frequencies (map rank three-of-a-kind-hand)))
+(filter (fn [c] c >= 3) (vals (frequencies (map rank three-of-a-kind-hand))))
+(filter (fn [c] 4 >= 3) (vals (frequencies (map rank three-of-a-kind-hand))))
+(filter (fn [c] 2 >= 3) (vals (frequencies (map rank three-of-a-kind-hand))))
+(apply (fn [c] 3 <= c) (vals (frequencies (map rank three-of-a-kind-hand))))
+(filter (fn [c] (>= c 3)) (vals (frequencies (map rank three-of-kind-hand))))
+(filter (fn [c] (>= c 3)) (vals (frequencies (map rank three-of-a-kind-hand))))
+(empty? (filter (fn [c] (>= c 3)) (vals (frequencies (map rank three-of-a-kind-hand)))))
+(not (empty? (filter (fn [c] (>= c 3)) (vals (frequencies (map rank three-of-a-kind-hand))))))
+(defn three-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (>= c 3))) (vals (frequencies (map rank three-of-a-kind-hand))))))
+(three-of-a-kind? two-pairs-hand)
+(defn three-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (>= c 3)) (vals (frequencies (map rank three-of-a-kind-hand)))))))
+(three-of-a-kind? two-pairs-hand)
+(defn three-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (>= c 3)) (vals (frequencies (map rank hand)))))))
+(three-of-a-kind? two-pairs-hand)
+(three-of-a-kind? three-of-a-kind-hand)
+(defn four-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (>= c 4)) (vals (frequencies (map rank hand)))))))
+(four-of-a-kind? two-pairs-hand)
+(four-of-a-kind? four-of-a-kind-hand)
+(four-of-a-kind? three-of-a-kind-hand)
+(defn flush? [hand]
+  (= (count (set (map suit hand))) 1))
+(flush? pair-hand)
+(flush? flush-hand?
+)
+(flush? flush-hand)
+(defn full-house? [hand]
+  )
+(defn full-house? [hand]
+  (and (pair? hand) (three-of-a-kind? hand)))
+(full-house? three-of-a-kind-hand)
+(full-house? full-house-hand)
+(defn pair? [hand]
+  (not (empty? (filter (fn [c] (== c 2)) (vals (frequencies (map rank hand)))))))
+(defn three-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (== c 2)) (vals (frequencies (map rank hand)))))))
+(defn full-house? [hand]
+  (and (pair? hand) (three-of-a-kind? hand)))
+(full-house? three-of-a-kind)
+(full-house? three-of-a-kind-hand)
+(full-house? full-house-hand)
+(defn two-pairs? [hand]
+  )
+two-pairs-hand
+(map rank two-pairs-hand)
+(frequencies (map rank two-pairs-hand))
+(filter (fn [c] (>= c 2)) (frequencies (map rank two-pairs-hand)))
+(filter (fn [c] (>= c 2)) (frequencies (map rank two-pairs-hand))
+)
+(filter (fn [_ c] (>= c 2)) (frequencies (map rank two-pairs-hand)))
+(filter (fn [c] (>= c 2)) (vals (frequencies (map rank two-pairs-hand))))
+(filter (fn [c] (>= c 2)) (vals (frequencies (map rank full-house-hand))))
+(filter (fn [c] (>= c 2)) (vals (frequencies (map rank pair-hand))))
+(filter (fn [c] (>= c 2)) (vals (frequencies (map rank four-of-a-kind-hand))))
+four-of-a-kind-ha
+four-of-a-kind-hand
+four-of-a-kind-ha
+four-of-a-kind-hand
+two-pair-hand
+two-pairs-hand
+four-of-a-kind-hand
+two-pairs-hand
+(sort two-pairs-hand)
+(sort four-of-a-kind-hand)
+(two-pairs? two-pairs-hand)
+two-pairs-hand
+(sort two-pairs-hand)
+(defn two-pairs [hand]
+  (let [[fst scnd] pair
+))
+(defn two-pairs [hand]
+  (let [[fst scnd] hand
+        [_ _ thrd frth] hand]
+  (and (= (rank fst) (rank scnd) (= (rank thrd) (rank frth)))))
+)
+(defn two-pairs [hand]
+  (let [[fst scnd (sort hand)
+))
+(defn two-pairs? [hand]
+  (let [[fst scnd] (sort hand)
+        [_ _ thrd frth] (sort hand)]
+    (and (= (rank fst) (rank scnd)) (= (rank thrd) (rank frth)))))
+(two-pairs? two-pairs-hand)
+(two-pairs? pair-hand)
+(two-pairs? four-of-a-kind-hand)
+(defn two-pairs? [hand]
+  (let [[fst scnd] (sort hand)
+        [_ _ thrd frth] (sort hand)]
+    (and (= (rank fst) (rank scnd)) (= (rank thrd) (rank frth)))))
+straigth-hand
+straight-hand
+(sort straight-hand)
+(map rank (sort straight-hand))
+(get (map rank (sort straight-hand) 0)
+)
+(map rank (sort straight-hand))
+(get (map rank (sort straight-hand) 0)
+)
+(map rank (sort straight-hand))
+(range 2 6)
+(range 2 7)
+(= (map rank (sort straight-hand)) (range (get (map rank (sort straight-hand)) 0) (+ (get (map rank (sort straight-hand))))))
+(get 
+)
+(get straight-hand 19
+)
+(get straight-hand 1)
+(map rank (sort straight-hand))
+(get (map rank (sort straight-hand)) 0)
+(get (map rank (sort straight-hand)) 1)
+(get (map rank (sort straight-hand)) 0)
+(get (mapv rank (sort straight-hand)) 0)
+(range (get (mapv rank (sort straight-hand)) 0) (get (mapv rank (sort straight-hand)) (+ (count straight-hand) 1)))
+(range (get (mapv rank (sort straight-hand)) 0) (get (mapv rank (sort straight-hand)) count straight-hand)))
+(range (get (mapv rank (sort straight-hand)) 0) (get (mapv rank (sort straight-hand)) count straight-hand))))
+(defn straight? [hand]
+)
+(def kek (range (get (mapv rank (sort straight-hand)) 0) (+ (get (mapv rank (sort straight-hand)) (- (count straight-hand) 1)) 1)))
+kek
+(= kek (map rank (sort straight-hand)))
+(defn straight? [hand]
+  (let [[rng] (range (get (mapv rank (sort hand)) 0) (+ (get (mapv rank (sort hand)) (- (count hand) 1)) 1)]
+(defn straight? [hand]
+  (let [[first] (get (mapv rank (sort hand)) 0)
+        [last] (get (mapv rank (sort hand)) (- (count hand) 1))
+        [rng] (range first (+ 1 last))]
+))
+low-ace-straigh-hand
+low-ace-straight-hand
+(sort low-ace-straight-hand)
+(map rank (sort low-ace-straight-hand))
+(last (map rank (sort low-ace-straight-hand)))
+(= (last (map rank (sort low-ace-straight-hand))) 14)
+(last (map rank (sort low-ace-straight-hand))))
+low-ace-straight-hand
+(sort low-ace-straight-hand)
+(def lowace (str {\A 1} (last "AD")))
+lowace
+(def lowace (str 1 (last "AD")))
+lowace
+(rank "1D")
+(def straight? [hand]
+  (let [[first] (first (map rank (sort hand)))
+        [last] (last (map rank (sort hand)))]
+    (or (= (range first (+ last 1) (map rank (sort hand))) (= (range 1 (- last 1)) (sort (map))
+))
+)))
+(def straight? [hand]
+))
+(range 2 1)
+(range 2 2)
+(range 2 3)
+(def straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range first (+ last 1))
+        [arng] (range 1 (get (mapv rank (sort hand)) (- (count hand) 2)))]
+))
+(def straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ lst 1))
+        [lowhand] (sort (replace {14 1} (map rank (sort hand))))
+        ]
+   (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowhand) 1)) lowhand))))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ lst 1))
+        [lowhand] (sort (replace {14 1} (map rank (sort hand))))]
+   (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowhand) 1)) lowhand))))
+(straight? two-pairs-hand)
+low-ace-straight-hand
+(sort (replace {14 1} (map rank (sort low-ace-straight-hand))))
+(first (map rank (sort low-ace-straight-hand)))
+(last (sort (replace {14 1} (map rank (sort low-ace-straight-hand)))))
+(straight? two-pairs-hand)
+(straight? low-ace-straight-hand)
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ lst 1))
+        [lowacehand] (sort (replace {14 1} (map rank (sort hand))))
+        ]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowacehand) 1)) lowacehand))))
+(replace {14 1} (1,2,3,4,5))
+(replace {14 1} (range 1 5))
+(replace {14 1} (range 1 124))
+(replace {14 1} (range 1 10))
+(replace {14 1} (range 1 14))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range first (+ lst 1))
+        [lowhand] (sort (replace {14 1} (map rank hand)))
+        ]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowhand) 1)) lowhand))))
+(defn straight? [hand]
+   (let [[frst] (first (map rank (sort hand)))
+         [lst] (last (map rank (sort hand)))
+         [lowhand] (range first (+ lst 1))
+          ]
+   )))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ lst 1))
+        [lowhand] (sort (replace {14 1} (map rank hand)))]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowhand) 1)) lowhand))))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ lst 1))
+        [lowhand] (sort (replace {14 1} (map rank hand)))]
+   (or (= rng (map rank (sort hand))) (= (range 1 (+ (last lowhand) 1))) lowhand)))
+(straight? hand)
+(straight? two-pairs-hand)
+(first two-pairs-hand)
+(first (map rank (sort two-pairs-hand)))
+(last (map rank (sort two-pairs-hand)))
+(range 2 (+ 7 1))
+(sort (replace {14 1} (map rank hand)))
+(sort (replace {14 1} (map rank two-pair-hand)))
+(sort (replace {14 1} (map rank two-pairs-hand)))
+(last (sort (replace {14 1} (map rank two-pairs-hand))))
+(range 1 (last (sort (replace {14 1} (map rank two-pairs-hand)))))
+(= (sort (replace {14 1} (map rank two-pairs-hand))) (range 1 (last (sort (replace {14 1} (map rank two-pairs-hand))))))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] (range frst (+ 1 lst))
+        [lowhand] (sort (replace {14 1} (map rank hand)))]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ 1 (last lowhand))) lowhand))))
+(straight? two-pairs-hand)
+(straight? three-of-a-kind-hand?)
+(straight? three-of-a-kind-hand)
+(defn straight? [hand]
+  (let [[frst] ((first (map rank (sort hand))))
+        [lst] ((last (map rank (sort hand))))
+        [rng] ((range frst (+ 1 lst)))
+        [lowhand] ((sort (replace {14 1} (map rank hand))))]
+     (or (= rng (map rank (sort hand))) (= (range 1 (+ 1 (last lowhand))) lowhand))))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand))))
+(defn straight? [hand]
+  (let [[frst] (first (map rank (sort hand)))
+        [lst] (last (map rank (sort hand)))
+        [rng] ((range frst (+ 1 lst)))
+        [lowhand] (sort (replace {14 1} (map rank hand)))]
+    (or (= (map rank (sort hand)) rng) (= lowhand (range 1 (+ 1 (last lowhand)))))))
+(straight? two-pairs-hand)
+(= [1 2 3] [3 2 1])
+(= [1 2 3] (3 2 1))
+(= [1 2 3] (seq [1 2 3]))
+(= [1 2 3] (seq [2 2 3]))
+(= (range 1 5) [1 2 3 4 5])
+(= (range 1 5) [1 2 3 4])
+(= (range 1 5) [1 2 2 4])
+(= (range 1 5) (map rank (sort low-ace-straight-hand)))
+(= (range 1 5) (map rank (replace {14 1} (sort low-ace-straight-hand))))
+(= (range 1 5) (map (replace {14 1} rank (sort low-ace-straight-hand))))
+(= (range 1 5) (sort (replace {14 1} (map rank (sort low-ace-straight-hand))))
+)
+(= (range 1 6) (sort (replace {14 1} (map rank (sort low-ace-straight-hand)))))
+(def straight? [hand]
+  (let [[rng] (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand)))))]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand)))))) (sort (replace {14 1} (map rank hand)))))))
+(defn straight? [hand]
+  (let [[rng] (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand)))))]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand)))))) (sort (replace {14 1} (map rank hand)))))))
+(straigth? two-pairs-hand)
+(straight? two-pairs-hand)
+(straight? straight-hadn)
+(straight? straight-hand)
+(defn straight? [hand]
+  (let [[rng] (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand)))))]
+    (or (= rng (map rank (sort hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand))))) (sort (replace {14 1} (map rank hand))))))))
+(straight? two-pairs-hand)
+(straight? straight-hand)
+(defn straight? [hand]
+  (let [[rng] (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand)))))]
+   (or (= rng (map rank (sort hand))) (= (range 1 (last (sort (replace {14 1} (map rank hand))))) (sort (replace {14 1} (map rank hand)))))))
+(straight? two-pairs-hand)
+(straight? straight-hand)
+(range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort hand)))))
+(range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort straight-hand)))))
+straight-hand
+(map rank (sort hand))
+(map rank (sort straight-hand))
+(sort (replace {14 1} (map rank hand)))
+(sort (replace {14 1} (map rank straight-hand)))
+(range 1 (+ 1 (sort (replace {14 1} (map rank straight-hand)))))
+(range 1 (+ 1 (last (sort (replace {14 1} (map rank straight-hand))))))
+(range 1 (last (sort (replace {14 1} (map rank straight-hand)))))
+(range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand)))))
+(range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort straight-hand)))))
+(= (range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort straight-hand))))) (map rank straight-hand))
+(= (range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort straight-hand))))) (map rank (sort straight-hand)))
+(or (= (range (first (map rank (sort straight-hand))) (+ 1 (last (map rank (sort straight-hand))))) (map rank (sort straight-hand))) (range 1 (last (sort (replace {14 1} (map rank straight-hand))))))
+(def straight? [hand]
+  (or (= (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand))))) (map rank (sort hand))) (= (range 1 (+ 1 (sort (replace {14 1} (map rank hand))))) (sort (replace {14 1}) (map rank hand)))))
+(defn straight? [hand]
+  (or (= (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand))))) (map rank (sort hand))) (= (range 1 (+ 1 (sort (replace {14 1} (map rank hand))))) (sort (replace {14 1}) (map rank hand)))))
+(straight? two-pairs-hand)
+(defn straight? [hand]
+  (or (= (range (first (map rank (sort hand))) (+ 1 (last (map rank (sort hand))))) (map rank (sort hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand)))))) (sort (replace {14 1} (map rank hand))))))
+(straight? two-pairs-hand)
+(straight? straight-hand)
+(straight? low-ace-straight-hand)
+(straight? ["2H" "2D" "3H" "4H" "5H"]
+)
+(straight? high-ace-straight-hand)
+(straight? low-ace-straight-hand)
+high-ace-straight-hand
+(map rank (sort high-ace-straight-hand))
+(sort (map rank (high-ace-straight-hand))
+)
+(sort (map rank (high-ace-straight-hand))
+)
+(sort (map rank high-ace-straight-hand))
+(defn straight? [hand]
+  (or (= (range (first (sort (map rank hand))) (+ 1 (last (sort (map rank  hand)))) (map rank (sort hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand)))))) (sort (replace {14 1} (map rank hand))))))
+)
+(defn straight? [hand]
+  (or (= (range (first (sort (map rank hand))) (+ 1 (last (sort (map rank hand))))) (sort (map rank hand))) (= (range 1 (+ 1 (last (sort (replace {14 1} (map rank hand)))))) (sort (replace {14 1} (map rank hand))))))
+(straight? two-pairs-hand)
+(straight? straight-hand)
+(straight? low-ace-straight-hand)
+(straight? ["2H" "2D" "3H" "4H" "5H")
+(straight? ["2H" "2D" "3H" "4H" "5H"])
+(straight? high-ace-straight-hand)
+(defn straight-flush? [hand]
+  (and (straight? hand) (flush? hand)))
+(straight-flush? straight-hand)
+(straight-flush? flush-hand)
+(straight-flush? straight-flush-hand)
+(straight-flush? low-ace-straight-flush-hand)
+(straight-flush? high-ace-straight-flush-hand)
+(defn value [hand]
+)
+(defn high-card? [hand]
+  true)
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+    (apply hand (first checkers))))
+(value straight-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+    (apply max (filter (fn [c] (= true (c hand))) checkers))))
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+   (apply max (filter (fn [c] (= true (c hand))) checkers))))
+(value straight-hand)
+(defn value[hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+   (filter (fn [c] (c hand)) checkers)))
+(value straight-hand)
+(defn value[hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+   (filter (fn [c] (c hand)) (map first checkers))))
+(value straight-hand)
+(defn value[hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+))
+(defn value[hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+   (filter (fn [c] (c hand)) (map first checkers))
+)
+(value straight-hand)
+(value three-of-a-kind-hand)
+(three-of-a-kind? three-of-a-kind-hand)
+(defn three-of-a-kind? [hand]
+  (not (empty? (filter (fn [c] (= c 3)) (vals (frequencies (map rank hand)))))))
+(three-of-a-kind? three-of-a-kind-hand)
+(defn value[hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+  (filter (fn [c] (contains (filter (fn [c] (c hand)) (map first checkers)) (first c))) checkers)
+)
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+  (filter (fn [c] (contains? ((filter (fn [c] (c hand)) (map first checkers)) (first c))) checkers))))
+(value straight-hand)
+(defn value [hand]
+  (filter (fn [c] (contains? ((filter (fn [c] (c hand)) (map first checkers)) (first c))) checkers))))
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+    (filter (fn [cc] (contains? (filter (fn [c] (c hand)) (map first checkers)) (first cc))) checkers)))
+(value straight-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}
+  [values (filter (fn [c] (c hand)) (map first checkers))]]
+  (filter (fn [ch] (contains? values (first ch))) checkers)))
+(defn value [hand]
+  (let [[checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+  [values (filter (fn [c] (c hand)) (map first checkers))]]
+  (filter (fn [ch] (contains? values (first ch))) checkers)))
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+    (filter (fn [ch] (contains? (set (filter (fn [c] (c hand)) (map first checkers))) (first ch))) checkers)))
+(value straight-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3] [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7] [straight-flush? 8]}]
+    (apply max (map second (filter (fn [ch] (contains? (set (filter (fn [c] (c hand)) (map first checkers))) (first ch))) checkers)))))
+(value straight-hand?)
+(value straight-hand)
+(value high-seven)
+(value pair-hand)
+(value three-of-a-kind-hand)
+(value straight-hand)
+(value flush-hand)
+(value full-house-hand)
+(value four-of-a-kind-hand)
+(value straight-flush-hand)
