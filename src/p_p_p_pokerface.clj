@@ -11,14 +11,18 @@
   (let [[_ suit] card]
     (str suit)))
 
+(defn frequency-values [hand]
+  (let [ranks (map rank hand)]
+    (vals (frequencies ranks))))
+
 (defn pair? [hand]
-  nil)
+  (contains? (set (frequency-values hand)) 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (contains? (set (frequency-values hand)) 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (contains? (set (frequency-values hand)) 4))
 
 (defn flush? [hand]
   nil)
