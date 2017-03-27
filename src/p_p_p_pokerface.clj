@@ -45,22 +45,20 @@
       (pure-two-pairs? hand) true
       :else false)))
 
+(defn straight-without-replacement? [sorted-ranks start-index]
+  (let [straight-to-check (seq (range start-index (+ start-index 5)))]
+    (cond
+      (> start-index 10) false
+      (= straight-to-check sorted-ranks) true
+      :else (straight-without-replacement? sorted-ranks (+ start-index 1)))))
+
 (defn straight? [hand]
   (let [sorted (sorted-ranks hand)
         ace-1 (replace {14 1} sorted)
         ace-1-sorted (sort ace-1)]
     (cond
       (= ace-1-sorted (seq (range 1 6))) true
-      (= sorted (seq (range 2 7))) true
-      (= sorted (seq (range 3 8))) true
-      (= sorted (seq (range 4 9))) true
-      (= sorted (seq (range 5 10))) true
-      (= sorted (seq (range 6 11))) true
-      (= sorted (seq (range 7 12))) true
-      (= sorted (seq (range 8 13))) true
-      (= sorted (seq (range 9 14))) true
-      (= sorted (seq (range 10 15))) true
-      :else false)))
+      :else (straight-without-replacement? sorted 1))))
 
 (defn straight-flush? [hand]
   nil)
