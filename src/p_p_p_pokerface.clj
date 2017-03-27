@@ -25,10 +25,12 @@
   (contains? (set (frequency-values hand)) 4))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)
+        suit-count (count (set suits))]
+    (== suit-count 1)))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
