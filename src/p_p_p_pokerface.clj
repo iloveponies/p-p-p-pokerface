@@ -39,7 +39,7 @@
 
 (defn is-straight? [ranks]
   (let [sorted-ranks (sort ranks)
-        min-rank (apply min sorted-ranks)]
+        min-rank (first sorted-ranks)]
     (= sorted-ranks (range min-rank (+ min-rank 5)))))
 
 (defn straight? [hand]
