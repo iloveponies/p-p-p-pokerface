@@ -1,7 +1,14 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  "Exercise 2"
+  (def the-big-ones {\A 14, \K 13 \Q 12 \J 11 \T 10})
+  (let [[rank _] card]
+    (let [digit (Character/isDigit rank)]
+      (if digit
+        (Integer/valueOf (str rank))
+        (the-big-ones rank)))))
+
 
 (defn suit [card]
   "Exercise 1"
