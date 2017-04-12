@@ -66,13 +66,14 @@
   "Exercise 9"
   (let [ranks (map rank hand)]
     (let [sorted-ranks (sort ranks)]
-      (let [reference-hand (range (first sorted-ranks) (+ (first sorted-ranks) 5))] 
-         (= reference-hand sorted-ranks)))))
+      (let [smallest-card (first sorted-ranks)]
+        (let [reference-hand (range smallest-card (+ smallest-card 5))]
+          (= reference-hand sorted-ranks))))))
 
 
 (defn straight-flush? [hand]
   "Exercise 10"
-  nil)
+  (and (flush? hand) (straight? hand)))
 
 
 (defn value [hand]
