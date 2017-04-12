@@ -65,14 +65,15 @@
 (defn straight? [hand]
   "Exercise 9"
   (let [ranks (map rank hand)]
-    ;(range 2 (+ 2 5))
-    (range (first (sort ranks)) (+ (first (sort ranks)) 5)))) ; todo compare list to ranks list, and take care of the aces
-
+    (let [sorted-ranks (sort ranks)]
+      (let [reference-hand (range (first sorted-ranks) (+ (first sorted-ranks) 5))] 
+         (= reference-hand sorted-ranks)))))
 
 
 (defn straight-flush? [hand]
   "Exercise 10"
   nil)
+
 
 (defn value [hand]
   "Exercise 11"
