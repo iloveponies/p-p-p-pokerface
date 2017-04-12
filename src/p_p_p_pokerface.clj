@@ -17,7 +17,6 @@
 
 
 (defn contain? [val, collection]
-  ;(str "dadaa")
   (boolean (some #(= val %) collection)))
 
 
@@ -59,17 +58,18 @@
 (defn two-pairs? [hand]
   "Exercise 8"
   (let [ranks (map rank hand)]
-    (= (count (filter #{2} ranks)) 2)))                     ;todo fails
+    (let [occurences (vals (frequencies ranks))]
+      (= (count (filter #{2} occurences)) 2))))
 
 
-  (defn straight? [hand]
-    "Exercise 9"
-    nil)
+(defn straight? [hand]
+  "Exercise 9"
+  nil)
 
-  (defn straight-flush? [hand]
-    "Exercise 10"
-    nil)
+(defn straight-flush? [hand]
+  "Exercise 10"
+  nil)
 
-  (defn value [hand]
-    "Exercise 11"
-    nil)
+(defn value [hand]
+  "Exercise 11"
+  nil)
