@@ -6,7 +6,7 @@
   (let [[rank _] card]
     (let [digit (Character/isDigit rank)]
       (if digit
-        (Integer/valueOf (str rank))
+        (Integer/valueOf (str rank))                        ;convert char containing digit to str to integer
         (the-big-ones rank)))))
 
 
@@ -15,29 +15,61 @@
   (let [[_ suit] card]
     (str suit)))
 
+
+(defn contain? [val, collection]
+  ;(str "dadaa")
+  (boolean (some #(= val %) collection)))
+
+
 (defn pair? [hand]
-  nil)
+  "Exercise 3"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 2 occurences))))
+
 
 (defn three-of-a-kind? [hand]
-  nil)
+  "Exercise 4"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 3 occurences))))
+
 
 (defn four-of-a-kind? [hand]
-  nil)
+  "Exercise 5"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 4 occurences))))
+
 
 (defn flush? [hand]
-  nil)
+  "Exercise 6"
+  (let [suits (map suit hand)]
+    (let [occurences (vals (frequencies suits))]
+      (contain? 5 occurences))))
+
 
 (defn full-house? [hand]
-  nil)
+  "Exercise 7"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (and (contain? 2 occurences) (contain? 3 occurences)))))
+
 
 (defn two-pairs? [hand]
-  nil)
+  "Exercise 8"
+  (let [ranks (map rank hand)]
+    (= (count (filter #{2} ranks)) 2)))                     ;todo fails
 
-(defn straight? [hand]
-  nil)
 
-(defn straight-flush? [hand]
-  nil)
+  (defn straight? [hand]
+    "Exercise 9"
+    nil)
 
-(defn value [hand]
-  nil)
+  (defn straight-flush? [hand]
+    "Exercise 10"
+    nil)
+
+  (defn value [hand]
+    "Exercise 11"
+    nil)
