@@ -64,7 +64,11 @@
 
 (defn straight? [hand]
   "Exercise 9"
-  nil)
+  (let [ranks (map rank hand)]
+    ;(range 2 (+ 2 5))
+    (range (first (sort ranks)) (+ (first (sort ranks)) 5)))) ; todo compare list to ranks list, and take care of the aces
+
+
 
 (defn straight-flush? [hand]
   "Exercise 10"
