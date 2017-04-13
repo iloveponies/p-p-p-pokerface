@@ -63,7 +63,7 @@
 
 
 (defn ace-hand-straight? [ranks]
-  ;change 14 to 1
+  ;helper function to check low ace hand
   (let [new-ranks (conj (drop-last ranks) 1)]
     (let [smallest-card (first new-ranks)]
       (let [reference-hand (range smallest-card (+ smallest-card 5))]
@@ -88,6 +88,26 @@
   (and (flush? hand) (straight? hand)))
 
 
+(defn high-card? [hand]
+  (or straight-flush? hand
+      straight? hand
+      two-pairs? hand
+      full-house? hand
+      flush? hand
+      four-of-a-kind? hand
+      three-of-a-kind? hand
+      pair? hand))
+
+
 (defn value [hand]
   "Exercise 11"
-  nil)
+    (cond
+      (straight-flush? hand) 8
+      (four-of-a-kind? hand) 7
+      (full-house? hand) 6
+      (flush? hand) 5
+      (straight? hand) 4
+      (three-of-a-kind? hand) 3
+      (two-pairs? hand) 2
+      (pair? hand) 1
+      :else 0))
