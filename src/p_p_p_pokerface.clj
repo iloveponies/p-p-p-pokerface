@@ -62,13 +62,25 @@
       (= (count (filter #{2} occurences)) 2))))
 
 
+(defn ace-hand-straight? [ranks]
+  ;change 14 to 1
+  (let [new-ranks (conj (drop-last ranks) 1)]
+    (let [smallest-card (first new-ranks)]
+      (let [reference-hand (range smallest-card (+ smallest-card 5))]
+        (= reference-hand new-ranks)))))
+
+
 (defn straight? [hand]
   "Exercise 9"
   (let [ranks (map rank hand)]
     (let [sorted-ranks (sort ranks)]
       (let [smallest-card (first sorted-ranks)]
         (let [reference-hand (range smallest-card (+ smallest-card 5))]
-          (= reference-hand sorted-ranks))))))
+          (if (= reference-hand sorted-ranks)
+            true
+            (if (contain? 14 sorted-ranks)
+              (ace-hand-straight? sorted-ranks)             ;try once again with 1
+              false)))))))
 
 
 (defn straight-flush? [hand]
