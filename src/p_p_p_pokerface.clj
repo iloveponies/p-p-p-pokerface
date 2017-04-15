@@ -1,34 +1,75 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank-character _] card
+        ten-or-greater {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+  (if (Character/isDigit rank-character)
+    (Integer/valueOf (str rank-character))
+    (get ten-or-greater rank-character))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit-character] card]
+    (str suit-character)))
+
+(defn ranks [cards]
+  (sort (map rank cards)))
+
+(defn counts-of-each-rank [cards]
+  (sort (vals (frequencies (ranks cards)))))
+
+(defn n-of-a-kind? [n hand]
+  (let [max-count-of-single-rank (apply max (counts-of-each-rank hand))]
+    (== n max-count-of-single-rank)))
 
 (defn pair? [hand]
-  nil)
+  (n-of-a-kind? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (fn [cards] (map suit cards))
+        of-same-suit? (fn [cards] (apply = cards))]
+    (of-same-suit? (suits hand))))
 
 (defn full-house? [hand]
-  nil)
+  (let [counts-in-full-house [2 3]]
+    (= counts-in-full-house (counts-of-each-rank hand))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [counts-in-two-pairs [1 2 2]]
+    (or (= counts-in-two-pairs (counts-of-each-rank hand))
+        (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [low-ace-hand (sort (replace {14 1} (ranks hand)))
+        high-ace-hand (ranks hand)
+        min-rank (fn [r] (apply min r))
+        max-rank (fn [r] (apply max r))
+        ranks-of-straight (fn [ranks-of-hand] (take 5 (range (min-rank ranks-of-hand) (+ 1 (max-rank ranks-of-hand)))))]
+    (or (= low-ace-hand (ranks-of-straight low-ace-hand))
+        (= high-ace-hand (ranks-of-straight high-ace-hand)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers [{:type high-card? :value 0}
+                  {:type pair? :value 1}
+                  {:type two-pairs? :value 2}
+                  {:type three-of-a-kind? :value 3}
+                  {:type straight? :value 4}
+                  {:type flush? :value 5}
+                  {:type full-house? :value 6}
+                  {:type four-of-a-kind? :value 7}
+                  {:type straight-flush? :value 8}]
+        hand-has-value? (fn [checker-and-value] ((:type checker-and-value) hand))
+        values (fn [chks] (map :value chks))]
+    (apply max (values (filter hand-has-value? checkers)))))
