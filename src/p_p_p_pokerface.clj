@@ -24,25 +24,40 @@
   (apply max (vals (frequencies (map rank hand))))
   )
 
+; Helper method to check if element belongs to collection
+(defn in? [coll elm]
+  (some #(= elm %) coll)
+  )
+
+; There's pair in the hand (max)
 (defn pair? [hand]
   (< 1 (number-of-same-values-in-hand hand))
   )
 
+; There's three in the hand (max)
 (defn three-of-a-kind? [hand]
   (< 2 (number-of-same-values-in-hand hand)))
 
+; There's four in the hand (max)
 (defn four-of-a-kind? [hand]
   (< 3 (number-of-same-values-in-hand hand)))
 
-
+; All suits are the same
 (defn flush? [hand]
   nil)
 
+; Hand includes a full house
 (defn full-house? [hand]
-  nil)
+  (let [x (vals (frequencies (map rank hand)))]
+    (true? (and (in? x 2) (in? x 3)))
+  ))
 
+; Two pairs - note that four of a kind is considered to be two pairs also...
+; according to rules of the exercise.
 (defn two-pairs? [hand]
-  nil)
+  (let [x (vals (frequencies (map rank hand)))]
+    (or (four-of-a-kind? hand) (== 2 (get (frequencies x) 2 0)))
+  ))
 
 (defn straight? [hand]
   nil)
