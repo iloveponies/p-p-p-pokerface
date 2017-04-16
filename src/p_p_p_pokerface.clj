@@ -1,5 +1,6 @@
 (ns p-p-p-pokerface)
 
+; Numeric value of the card
 (defn rank [card]
   (let [[value _] card
         symbols {\T 10, \J 11, \Q 12, \K 13, \A 14}]
@@ -11,20 +12,28 @@
     )
   )
 
+; Suit of the card as a String
 (defn suit [card]
   (let [[_ sui] card]
     (str sui)
     )
   )
 
+; Helper method to get number of same values in hand.
+(defn number-of-same-values-in-hand [hand]
+  (apply max (vals (frequencies (map rank hand))))
+  )
+
 (defn pair? [hand]
-  nil)
+  (< 1 (number-of-same-values-in-hand hand))
+  )
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (< 2 (number-of-same-values-in-hand hand)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (< 3 (number-of-same-values-in-hand hand)))
+
 
 (defn flush? [hand]
   nil)
