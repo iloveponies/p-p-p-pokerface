@@ -63,8 +63,17 @@
     (or (four-of-a-kind? hand) (== 2 (get (frequencies x) 2 0)))
   ))
 
+; Check if hand is straght
 (defn straight? [hand]
-  nil)
+  (let [cards (sort (map rank hand))
+        ; edit cards - if there's ace and 2, convert ace to 1.
+        cards_edited (if (and (in? cards 14) (in? cards 2))
+                       (filter (fn [x] (not(== x 14))) (conj cards 1))
+                       cards)
+        [val1 val2 val3 val4 val5] cards_edited]
+    (< val1 val2 val3 val4 val5)
+    )
+  )
 
 (defn straight-flush? [hand]
   nil)
