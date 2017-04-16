@@ -44,7 +44,11 @@
 
 ; All suits are the same
 (defn flush? [hand]
-  nil)
+  (let [[card1 _ _ _ _] hand
+        tezt (fn [card] (= (suit card) (suit card1)))]
+    (not (in? (map tezt hand) false))
+    )
+  )
 
 ; Hand includes a full house
 (defn full-house? [hand]
