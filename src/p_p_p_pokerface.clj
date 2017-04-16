@@ -89,15 +89,15 @@
   true
   )
 
+; Get value of the hand
 (defn value [hand]
   (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3]
                    [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7]
                    [straight-flush? 8]}
-        funk (fn [checker]
-               (if ((get checker 0) hand)
-                 (get checker 1)
-               ))]
-    (apply max (remove nil? (map funk checkers)))
+        predicate (fn [checker] ((get checker 0) hand))
+        get-value (fn [x] (get x 1))
+        ]
+      (apply max (map get-value (filter predicate checkers)))
     )
   )
 
