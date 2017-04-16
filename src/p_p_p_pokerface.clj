@@ -70,13 +70,20 @@
         cards_edited (if (and (in? cards 14) (in? cards 2))
                        (filter (fn [x] (not(== x 14))) (conj cards 1))
                        cards)
-        [val1 val2 val3 val4 val5] cards_edited]
-    (< val1 val2 val3 val4 val5)
+        [val1 val2 val3 val4 val5] cards_edited
+        follows (fn [x1 x2] (== x2 (+ x1 1)))]
+    (and (< val1 val2 val3 val4 val5)
+         (follows val1 val2)
+         (follows val2 val3)
+         (follows val3 val4)
+         (follows val4 val5)
     )
+  )
   )
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand))
+  )
 
 (defn value [hand]
   nil)
