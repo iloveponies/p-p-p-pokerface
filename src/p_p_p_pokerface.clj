@@ -1,34 +1,74 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [values {\T 10, \J 11, \Q 12, \K 13, \A 14}
+        [fst _] card]
+    (if (Character/isDigit fst) (Integer/valueOf (str fst)) (get values fst))))
 
 (defn suit [card]
-  nil)
+  (let [[_ snd] card]
+    (str snd)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        group-sizes (vals (frequencies ranks))
+        max-group-size (apply max group-sizes)]
+    (not (== max-group-size 1))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        group-sizes (vals (frequencies ranks))
+        max-group-size (apply max group-sizes)]
+    (>= max-group-size 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        group-sizes (vals (frequencies ranks))
+        max-group-size (apply max group-sizes)]
+    (>= max-group-size 4)))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)
+        suit-numbers (vals (frequencies suits))
+        max-suit-number (apply max suit-numbers)]
+    (== max-suit-number 5)))
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-numbers (vals (frequencies ranks))
+        max-rank-number (apply max rank-numbers)
+        min-rank-number (apply min rank-numbers)]
+    (and (== min-rank-number 2)
+         (== max-rank-number 3))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        rank-numbers (vals (frequencies ranks))
+        sorted-rank-numbers (sort rank-numbers)]
+    (not (== (second sorted-rank-numbers) 1))))
+                  
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        sorted-ranks (sort ranks)
+        min-rank (first sorted-ranks)
+        sorted-ranks-ace-as-one (sort (replace {14 1} ranks))
+        straight-from-min (range min-rank (+ min-rank 5))]
+    (or (= sorted-ranks straight-from-min)
+        (= sorted-ranks-ace-as-one (range 1 6)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand)
+       (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (let [hand-values [(if (pair? hand) 1 0)
+                     (if (two-pairs? hand) 2 0)
+                     (if (three-of-a-kind? hand) 3 0)
+                     (if (straight? hand) 4 0)
+                     (if (flush? hand) 5 0)
+                     (if (full-house? hand) 6 0)
+                     (if (four-of-a-kind? hand) 7 0)
+                     (if (straight-flush? hand) 8 0)]]
+    (apply max hand-values)))
+    
