@@ -1,0 +1,18 @@
+max
+club
+hand
+rank
+(rank)
+rank
+(rank "3H")
+(suit "3H")
+(three-of-a-kind "2H" "2H" "2H" "10D" "3D")
+(three-of-a-kind ]"2H" "2H" "2H" "10D" "3D"])
+(three-of-a-kind ["2H" "2H" "2H" "10D" "3D"])
+(three-of-a-kind ["2H" "2H" "2H" "JD" "3Q"])
+(three-of-a-kind ["2H" "2H" "2H" "JD" "QS"])
+(three-of-a-kind)
+(three-of-a-kind ["2H" "5H" "3H" "JD" "QS"])
+(three-of-a-kind? ["2H" "5H" "3H" "JD" "QS"])
+(three-of-a-kind? ["2H" "3H" "4H" "JD" "QS"])
+(three-of-a-kind? ["JH" "3H" "4H" "JD" "JS"])
