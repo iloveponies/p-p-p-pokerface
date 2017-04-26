@@ -12,22 +12,35 @@
     (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (< 1 (apply max freqs))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (< 2 (apply max freqs))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (< 3 (apply max freqs))))
 
 (defn flush? [hand]
-  nil)
+  (let [suits (map suit hand)]
+    (apply = suits)))
 
 (defn full-house? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (vals (frequencies ranks))]
+    (= [2 3] (sort freqs))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        freqs (sort (vals (frequencies ranks)))]
+    (or
+      (= [1 2 2] freqs)
+      (= [1 4] freqs))))
 
 (defn straight? [hand]
   nil)
