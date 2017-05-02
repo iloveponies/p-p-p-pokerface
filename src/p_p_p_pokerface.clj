@@ -43,10 +43,16 @@
       (= [1 4] freqs))))
 
 (defn straight? [hand]
-  nil)
+  (let [ace-as-high (sort (map rank hand))
+        ace-as-low (sort (replace {14 1} ace-as-high))]
+    (or
+      (= ace-as-high (range (apply min ace-as-high) (+ 1 (apply max ace-as-high))))
+      (= ace-as-low (range (apply min ace-as-low) (+ 1 (apply max ace-as-low)))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and
+    (straight? hand)
+    (flush? hand)))
 
 (defn value [hand]
   nil)
