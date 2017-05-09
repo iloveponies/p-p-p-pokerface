@@ -1,34 +1,59 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rankChar _] card]
+    (if (Character/isDigit rankChar) 
+      (Integer/valueOf (str rankChar))
+      (get {\T 10, \J 11, \Q 12, \K 13, \A 14} rankChar))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suitChar] card]
+  (str suitChar)))
 
 (defn pair? [hand]
-  nil)
+  (let [rank-freqs (vals (frequencies (map rank hand)))]
+    (>= (apply max rank-freqs) 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (let [rank-freqs (vals (frequencies (map rank hand)))]
+    (>= (apply max rank-freqs) 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (let [rank-freqs (vals (frequencies (map rank hand)))]
+    (>= (apply max rank-freqs) 4)))
 
 (defn flush? [hand]
-  nil)
+   (= (count (frequencies (map suit hand))) 1))
 
 (defn full-house? [hand]
-  nil)
+  (let [rank-freqs (vals (frequencies (map rank hand)))]
+    (and (contains? (set rank-freqs) 2) 
+         (contains? (set rank-freqs) 3))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [rank-freqs (vals (frequencies (map rank hand)))]
+    (or (= (sort rank-freqs) [1 2 2])
+        (full-house? hand) 
+        (four-of-a-kind? hand))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks-high (map rank hand) 
+        ranks-low (replace {14 1} ranks-high)
+        get-max (fn [ranks] (+ 1 (apply max ranks)))]
+       (or (= (sort ranks-high) (range (apply min ranks-high) (get-max ranks-high)))
+           (= (sort ranks-low) (range (apply min ranks-low) (get-max ranks-low))))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond 
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0))
