@@ -1,34 +1,49 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(defn rank [[r _]]
+  (let [rep {\T 10 \J 11 \Q 12 \K 13 \A 14}]
+    (if (Character/isDigit r)
+      (Integer/valueOf (str r))
+      (rep r))))
 
-(defn suit [card]
-  nil)
+(defn suit [[_ s]]
+  (str s))
 
 (defn pair? [hand]
-  nil)
+  (boolean (some (fn [x] (>= x 2)) (vals (frequencies (map rank hand))))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (boolean (some (fn [x] (>= x 3)) (vals (frequencies (map rank hand))))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (boolean (some (fn [x] (>= x 4)) (vals (frequencies (map rank hand))))))
 
 (defn flush? [hand]
-  nil)
+  (boolean (some (fn [x] (>= x 5)) (vals (frequencies (map suit hand))))))
 
 (defn full-house? [hand]
-  nil)
+  (= [2 3] (sort (vals (frequencies (map rank hand))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (= [1 2 2] (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [h1 (sort (map rank hand))
+        h2 (sort (replace {14 1} h1))
+        r1 (range (first h1) (+ (first h1) 5))
+        r2 (range (first h2) (+ (first h2) 5))]
+    (or (= h1 r1) (= h2 r2))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  nil)
+  (cond (straight-flush? hand) 8
+        (four-of-a-kind? hand) 7
+        (full-house? hand) 6
+        (flush? hand) 5
+        (straight? hand) 4
+        (three-of-a-kind? hand) 3
+        (two-pairs? hand) 2
+        (pair? hand) 1
+        :else 0))
