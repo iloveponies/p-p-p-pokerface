@@ -1,2 +1,4 @@
 (ns p-p-p-pokerface-test
-  (:use iloveponies.tests.p-p-p-pokerface))
+  (:require [p-p-p-pokerface :refer :all]))
+
+(require 'iloveponies.tests.p-p-p-pokerface :reload)

@@ -1,0 +1,500 @@
+(defn straight? [hand]
+  (if-let [(some #{14} (map rank hand))]
+    (str "joo")
+    (str "ei")))
+(defn straight? [hand]
+  (if-let [(some #{14} (map rank hand))]
+    (str "joo")
+    (str "ei")))
+(defn straight? [hand]
+  (replace {14 1} hand))
+(straight? straight-hand)
+(straight? low-ace-straight-hand)
+(defn straight? [hand]
+  (replace {14 1} (map rank hand)))
+(straight? low-ace-straight-hand)
+(straight? straight-hand)
+(defn straight? [hand]
+  (let [sorthand (sort (map rank hand))
+        sorthand2 (sort (replace {14 1} (map rank hand)))
+        fst (first sorthand)
+        fst2 (first sorthand2)]
+    (or (= (range fst (+ fst 5)) sorthand)
+        (= (range fst2 (+ fst2 5)) sorthand2))))
+(straight? straight-hand)
+(straight? low-ace-straight-hand)
+(straight? two-pairs-hand)
+(defn straight-flush? [hand]
+  (and (straight? hand) (flush? hand)))
+(straight-flush? straight-hand)
+(straight-flush? high-ace-straight-flush-hand
+)
+(straight-flush? low-ace-straight-flush-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (map first checkers)))
+(defn high-card? [hand]
+  true)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (map first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (map hand checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (str (map first checkers))))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (map first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (get checkers 0)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map first hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        pick2nd (fn [x] (get x 1))]
+    (map pick2nd checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        pickhand (fn [x] (get x 0))]
+    (map pickhand checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        pickhand (fn [x] (get x 0))]
+    (map second checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (map first checkers) hand))
+)
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (map first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply pair? hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply pair? hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map second checkers)))
+(value high-seven)
+(defn hand [a-hand]
+  a-hand)
+(defn card [a-card]
+  a-card)
+(card "2H")
+(rank (card "2H"))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (map first checkers) checkers)))
+(value high-seven)
+(map (map first checkers) hand)))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (map first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (map first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (str (map first checkers))))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn first) checkers)))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn [x] first) checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (map (fn [x] first) checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (fn [x] first) checkers) hand))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (map (fn [x] first) checkers) hand)))
+(value high-seven)
+(defn straight? [hand]
+  (let [sorthand (sort (map rank hand))
+        sorthand_al (sort (replace {14 1} (map rank hand)))
+        fst (first sorthand)
+        fst2 (first sorthand_al)]
+    (or (= (range fst (+ fst 5)) sorthand)
+        (= (range fst2 (+ fst2 5)) sorthand_al))))
+(straight? low-ace-straight-hand)
+(defn straight? [hand]
+  (let [sorthand (sort (map rank hand))
+        sorthand_la (sort (replace {14 1} (map rank hand)))
+        fst (first sorthand)
+        fst_la (first sorthand_la)]
+    (or (= (range fst (+ fst 5)) sorthand)
+        (= (range fst_la (+ fst_la 5)) sorthand_la))))
+(straight? low-ace-straight-hand)
+(straight? two-pairs-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn [x] first) checkers) hand))
+(value high-seven)
+(high-seven)
+(value high-seven)
+(straight? two-pairs-hand)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn [x] first) checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn [x] first (when pred? points)) checkers)))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map (fn [x] first (when pred points)) checkers)))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (frequencies (map (fn [x] first) checkers))))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter #(map (fn [x] first) checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter (map (fn [x] first) checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter (fn [x] first) checkers) hand))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter (fn [x] first) checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (filter (fn [x] first) checkers))))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (filter (fn [x] first) checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (filter first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter first checkers) hand))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter first checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply (filter first checkers) hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply high-card? hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (high-card? hand)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (filter (fn [checker]
+              ((first checker) hand))
+            checkers)))
+(value high-seven)
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (map second (filter (fn [checker]
+              ((first checker) hand))
+            checkers))))
+(value high-seven)
+(value pair-hand)
+(max (value (pair-hand)))
+(apply max (value (pair-hand)))
+(apply (max (value (pair-hand))))
+(defn value [hand]
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        ]
+    (apply max (map second (filter (fn [checker]
+              ((first checker) hand))
+            checkers)))))
+(value pair-hand)
+(value high-seven)
+(value three-of-a-kind-hand)
+(value straight-flush-hand)
+(exit)
