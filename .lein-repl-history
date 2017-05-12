@@ -1,0 +1,94 @@
+high-seven
+(high-seven)
+(use 'p-p-p-pokerface)
+(high-seven)
+high-seven
+(vec high-seven)
+(seq high-seven)
+q
+quit
+(use 'p-p-p-pokerface)
+high-seven
+(apply rank high-seven)
+(set high-seven)
+(apply rank (set high-seven)
+)
+(apply rank seq (set high-seven))
+(frequencies high-seven)
+(rank (first high-seven))
+(set (map rank high-seven))
+(frequencies (set (map rank high-seven)))
+(vals (frequencies (set (map rank high-seven))))
+(vals (frequencies (set (map rank pair-hand))))
+(seq (map rank high-seven))
+(vals (frequencies (seq (map rank high-seven))))
+(vals (frequencies (seq (map rank pair-hand))))
+(vals (frequencies (seq (map rank two-pairs-hand))))
+(contains? 2 (2 2 1))
+(contains? 2 [2 2 1])
+(vals (frequencies (seq (map rank two-pairs-hand))))
+(max (vals (frequencies (seq (map rank two-pairs-hand)))))
+(seq (vals (frequencies (seq (map rank two-pairs-hand)))))
+(vec (vals (frequencies (seq (map rank two-pairs-hand)))))
+(max (vec (vals (frequencies (seq (map rank two-pairs-hand))))))
+(apply max (vals (frequencies (seq (map rank two-pairs-hand)))))
+quit
+(use 'p-p-p-pokerface)
+exit
+(use 'p-p-p-pokerface)
+(map rank pair-hand)
+(min (map rank pair-hand))
+(apply min (map rank pair-hand))
+(+ 3 5)
+(range 3 (+ 3 5))
+(vals (frequencies (seq (map rank two-pairs-hand))))
+(seq (vals (frequencies (seq (map rank two-pairs-hand)))))
+quit
+(use 'p-p-p-pokerface)
+(minimum-rank straight-hand)
+(flush? high-seven)
+quit
+(use 'p-p-p-pokerface)
+(flush? high-seven)
+(map rank straight-hand)
+(sort (seq (map rank straight-hand)))
+(range (minimum-rank straight-hand) (+ (minimum-rank straight-hand) 5))
+quit
+(use 'p-p-p-pokerface)
+(seq (map rank low-ace-straight-hand))
+(replace {14 1} (seq (map rank low-ace-straight-hand)))
+(sort (replace {14 1} (seq (map rank low-ace-straight-hand))))
+quit
+(use 'p-p-p-pokerface)
+(range 1 5)
+(range 1 6)
+exit
+(use 'p-p-p-pokerface)
+(def checkers #{[high-card? 0]   [pair? 1]
+                   [two-pairs? 2]   [three-of-a-kind? 3]
+                   [straight? 4]    [flush? 5]
+                   [full-house? 6]  [four-of-a-kind? 7]
+                   [straight-flush? 8]})
+(apply max (checkers hand))
+(checkers hand)
+(checkers two-pairs-hand)
+(apply max (checkers two-pairs-hand))
+(map checkers two-pairs-hand)
+(map two-pairs-hand checkers)
+checkers
+(filter checkers two-pairs-hand)
+(filter checkers [two-pairs-hand])
+(filter checkers [two-pairs-hand one-pair-hand])
+quit
+(use 'p-p-p-pokerface)
+(value straight-flush-hand)
+8
+exit
+(use 'p-p-p-pokerface)
+(value straight-flush-hand)
+(+ 8 0)
+exit
+(use 'p-p-p-pokerface)
+(value straight-flush-hand)
+(straight-flush? straight-flush-hand)
+exit
