@@ -35,9 +35,10 @@
 (defn straight? [hand]
   (let [vals (map rank hand)
         ace-one-vals (replace {14 1} (map rank hand))]
-    (or
-      (= (count (range (apply min vals) (+ 1 (apply max vals)))) 5)
-      (= (count (range (apply min ace-one-vals) (+ 1 (apply max ace-one-vals)))) 5))))
+    (and (or
+           (= (count (range (apply min vals) (+ 1 (apply max vals)))) 5)
+           (= (count (range (apply min ace-one-vals) (+ 1 (apply max ace-one-vals)))) 5))
+         (not (pair? hand)))))
 
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
