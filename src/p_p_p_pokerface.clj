@@ -19,6 +19,12 @@
     (str suit)))
 
 (defn
+  unique-ranks
+  "Returns the amount of different ranks in the hand."
+  [hand]
+  (count (frequencies (map rank hand))))
+
+(defn
   amount-of-pairs
   "Returns the amount of pairs in the hand"
   [hand]
@@ -30,11 +36,17 @@
   [hand]
   (< 0 (amount-of-pairs hand)))
 
-(defn three-of-a-kind? [hand]
-  nil)
+(defn
+  three-of-a-kind?
+  "Returns true if the hand has three of a kind."
+  [hand]
+  (and (== 3 (unique-ranks hand)) (not (pair? hand))))
 
-(defn four-of-a-kind? [hand]
-  nil)
+(defn
+  four-of-a-kind?
+  "Returns true if the hand has four of a kind."
+  [hand]
+  (and (== 2 (unique-ranks hand)) (not (pair? hand))))
 
 (defn flush? [hand]
   nil)
