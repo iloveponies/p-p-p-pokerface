@@ -66,8 +66,11 @@
   [hand]
   (and (== 2 (unique-ranks hand)) (== 1 (amount-of-pairs hand))))
 
-(defn two-pairs? [hand]
-  nil)
+(defn
+  two-pairs?
+  "Returns true if the hand has two pairs."
+  [hand]
+  (or (== 2 (amount-of-pairs hand)) (four-of-a-kind? hand)))
 
 (defn straight? [hand]
   nil)
