@@ -18,8 +18,17 @@
   (let [[_ suit] card]
     (str suit)))
 
-(defn pair? [hand]
-  nil)
+(defn
+  amount-of-pairs
+  "Returns the amount of pairs in the hand"
+  [hand]
+  (let [ranks (frequencies (map rank hand))]
+    (count (filter #{2} (vals ranks)))))
+
+(defn pair?
+  "Returns true if the hand includes a pair"
+  [hand]
+  (< 0 (amount-of-pairs hand)))
 
 (defn three-of-a-kind? [hand]
   nil)
