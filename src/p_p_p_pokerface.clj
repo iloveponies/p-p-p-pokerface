@@ -1,5 +1,18 @@
 (ns p-p-p-pokerface)
 
+; For possible internal changes
+(defn
+  hand
+  "Constructor for hand."
+  [a-hand]
+  a-hand)
+
+(defn
+  card
+  "Constructor for single card."
+  [a-card]
+  a-card)
+
 (defn
   rank
   "Returns the rank of the card."
