@@ -19,6 +19,12 @@
     (str suit)))
 
 (defn
+  unique-suits
+  "Returns the amount of different suits in the hand."
+  [hand]
+  (count (frequencies (map suit hand))))
+
+(defn
   unique-ranks
   "Returns the amount of different ranks in the hand."
   [hand]
@@ -48,8 +54,11 @@
   [hand]
   (and (== 2 (unique-ranks hand)) (not (pair? hand))))
 
-(defn flush? [hand]
-  nil)
+(defn
+  flush?
+  "Returns true if the hand has a flush."
+  [hand]
+  (== 1 (unique-suits hand)))
 
 (defn full-house? [hand]
   nil)
