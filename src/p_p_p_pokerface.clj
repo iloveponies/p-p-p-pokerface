@@ -87,8 +87,11 @@
         comparison-hand (range updated-min-rank (+ updated-min-rank 5))]
     (= comparison-hand sorted-hand)))
 
-(defn straight-flush? [hand]
-  nil)
+(defn
+  straight-flush?
+  "Returns true if the hand has a straight flush."
+  [hand]
+  (and (flush? hand) (straight? hand)))
 
 (defn value [hand]
   nil)
