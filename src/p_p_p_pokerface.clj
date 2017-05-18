@@ -7,9 +7,9 @@
   (let [[^char rank _] card
         digit? (Character/isDigit rank)
         values {\T 10, \J 11, \Q 12, \K 13, \A 14}]
-    (str (if digit?
-           (Integer/valueOf (str rank))
-           (values rank)))))
+    (if digit?
+      (Integer/valueOf (str rank))
+      (values rank))))
 
 (defn
   suit
