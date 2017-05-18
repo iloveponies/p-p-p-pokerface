@@ -80,8 +80,8 @@
         min-rank (apply min ranks)
         small-ace? (== 2 min-rank)
         updated-ranks (if small-ace?
-                            (replace {14 1} ranks)
-                            ranks)
+                        (replace {14 1} ranks)
+                        ranks)
         sorted-hand (sort updated-ranks)
         updated-min-rank (apply min sorted-hand)
         comparison-hand (range updated-min-rank (+ updated-min-rank 5))]
@@ -93,5 +93,37 @@
   [hand]
   (and (flush? hand) (straight? hand)))
 
-(defn value [hand]
-  nil)
+(defn
+  high-card?
+  "All cards have a high card, if nothing else. Helper method."
+  [hand]
+  true)
+
+(defn
+  value
+  "Returns a point value for the hand."
+  [hand]
+  (let
+    ; Make a set that has the checker function and point value if it passes
+    [checkers #{[high-card? 0]
+                [pair? 1]
+                [two-pairs? 2]
+                [three-of-a-kind? 3]
+                [straight? 4]
+                [flush? 5]
+                [full-house? 6]
+                [four-of-a-kind? 7]
+                [straight-flush? 8]}
+     ; Collect a set of passed checks
+     hands (set
+             (filter
+               (fn [checker] (checker hand))
+               (map first checkers)))
+     ; Collect the corresponding point values with the passed check functions
+     points (map
+              second
+              (filter
+                (fn [checker] (contains? hands (first checker)))
+                checkers))]
+    ; Return the highest point value from the hand values
+    (apply max points)))
