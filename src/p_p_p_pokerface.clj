@@ -72,8 +72,20 @@
   [hand]
   (or (== 2 (amount-of-pairs hand)) (four-of-a-kind? hand)))
 
-(defn straight? [hand]
-  nil)
+(defn
+  straight?
+  "Returns true if the hand has a straight."
+  [hand]
+  (let [ranks (map rank hand)
+        min-rank (apply min ranks)
+        small-ace? (== 2 min-rank)
+        updated-ranks (if small-ace?
+                            (replace {14 1} ranks)
+                            ranks)
+        sorted-hand (sort updated-ranks)
+        updated-min-rank (apply min sorted-hand)
+        comparison-hand (range updated-min-rank (+ updated-min-rank 5))]
+    (= comparison-hand sorted-hand)))
 
 (defn straight-flush? [hand]
   nil)
