@@ -60,8 +60,11 @@
   [hand]
   (== 1 (unique-suits hand)))
 
-(defn full-house? [hand]
-  nil)
+(defn
+  full-house?
+  "Returns true if the hand has a full house."
+  [hand]
+  (and (== 2 (unique-ranks hand)) (== 1 (amount-of-pairs hand))))
 
 (defn two-pairs? [hand]
   nil)
