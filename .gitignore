@@ -1,1 +1,15 @@
-target/
+/pom.xml
+*jar
+/lib
+/classes
+/native
+/target
+/.lein-failures
+/checkouts
+/.lein-deps-sum
+/.lein-plugins
+/.lein-repl-history
+/.nrepl-port
+
+*.iml
+/.idea
