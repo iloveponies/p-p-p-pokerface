@@ -50,10 +50,7 @@
   (let [suits (map suit hand)]
     (and (same-suit? hand) (sequential-ranks? hand))))
 
-(def high-seven-hand ["2H" "3S" "4C" "5C" "7D"])
-
-(defn high-seven? [hand]
-  (= (seq high-seven-hand) (sort hand)))
+(defn high-hand? [_] true)
 
 (defn value [hand]
   (cond
@@ -65,5 +62,5 @@
     (three-of-a-kind? hand) 3
     (two-pairs? hand) 2
     (pair? hand) 1
-    (high-seven? hand) 0))
+    (high-hand? hand) 0))
 
