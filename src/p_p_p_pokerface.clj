@@ -14,6 +14,7 @@
     (str s)))
 
 (suit "2H")
+(suit "2H")
 (rank "2H")
 
 (defn max-freq [hand com]
