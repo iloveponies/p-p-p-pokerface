@@ -1,0 +1,10 @@
+(+ 1 1)
++ 1 1
+(def seq [1 2 3 4 3])
+seq
+(def my [1 2 3 4 3])
+my
+(max my)
+(max 1 2 3)
+(def my (1 2 3))
+(apply max my)
