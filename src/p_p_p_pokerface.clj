@@ -43,10 +43,21 @@
     :else                                                    false))
 
 (defn straight? [hand]
-  nil)
+  (let [ace-as-14     (fn [hand] (map rank hand))
+        ace-as-one    (fn [hand] (replace {14 1} (map rank hand)))
+        equals-range? (fn [hand] (= (sort hand)
+                         (range (apply min hand)
+                                (+ (apply max hand) 1))))]
+  (cond (equals-range? (ace-as-14 hand))                     true
+        (and (== (apply max (ace-as-14 hand)) 14)
+             (not (equals-range? (ace-as-14 hand))))         (equals-range? (ace-as-one hand))
+        :else                                                false)))
 
 (defn straight-flush? [hand]
-  nil)
+  (if (and (straight? hand)
+           (flush? hand))
+    true
+    false))
 
 (defn value [hand]
   nil)
