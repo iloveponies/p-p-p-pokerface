@@ -1,13 +1,23 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[rank _] card]
+      (cond
+        (= \T rank) 10
+        (= \J rank) 11
+        (= \Q rank) 12
+        (= \K rank) 13
+        (= \A rank) 14
+        :else (Integer/valueOf(str rank)))))
 
 (defn suit [card]
-  nil)
+  (let [[_ suit ] card]
+    (str suit)))
 
 (defn pair? [hand]
-  nil)
+  (let [card-counts (vals (frequencies (map rank hand)))
+        maximum-card-count (apply max card-counts)]
+    (>= 2 maximum-card-count)))
 
 (defn three-of-a-kind? [hand]
   nil)
