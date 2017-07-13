@@ -48,7 +48,14 @@
 )
 
 (defn straight? [hand]
-  nil)
+  (
+    let[
+      plop (sort(map rank hand))
+      niks (sort(replace {14 1} plop))
+    ]
+    ( or (= plop (range (apply min plop) (+ (apply max plop) 1))) (= niks (range (apply min niks) (+ (apply max niks) 1))))
+  )
+)
 
 (defn straight-flush? [hand]
   nil)
