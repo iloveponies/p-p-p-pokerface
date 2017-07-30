@@ -1,0 +1,161 @@
+;; Anything you type in here will be executed
+;; immediately with the results shown on the
+;; right.
+
+(defn suit [card]
+  (let [[_ snd] card]
+    (str snd)))
+
+(suit "2H") ;=> "H"
+(suit "2D") ;=> "D"
+(suit "2C") ;=> "C"
+(suit "3S") ;=> "S"
+
+
+
+
+(defn rank [card]
+  (let [[fst _] card
+        rank-map {"T" 10, "J" 11, "Q" 12, "K" 13, "A" 14}]
+    (if (Character/isDigit fst)
+      (Integer/valueOf (str fst))
+      (get rank-map (str fst)))))
+
+(rank "2H") ;=> 2
+(rank "4S") ;=> 4
+(rank "TS") ;=> 10
+(rank "JS") ;=> 11
+(rank "QS") ;=> 12
+(rank "KS") ;=> 13
+(rank "AS") ;=> 14
+
+
+
+(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
+(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
+(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
+(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
+(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
+(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
+(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
+(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
+(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
+(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
+(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
+(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
+(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
+
+
+
+(defn pair? [hand]
+ (if (empty? (filter (fn [x] (= x 2)) (vals(frequencies(map rank hand)))))
+  false
+  true
+  ))
+
+(pair? pair-hand)  ;=> true
+(pair? high-seven) ;=> false
+
+
+(defn three-of-a-kind? [hand]
+ (if (empty? (filter (fn [x] (= x 3)) (vals(frequencies(map rank hand)))))
+  false
+  true
+  ))
+
+
+(three-of-a-kind? two-pairs-hand)       ;=> false
+(three-of-a-kind? three-of-a-kind-hand)
+
+
+
+(defn four-of-a-kind? [hand]
+ (if (empty? (filter (fn [x] (= x 4)) (vals(frequencies(map rank hand)))))
+  false
+  true
+  ))
+
+
+
+
+(defn flush? [hand]
+  (apply = (map suit hand)))
+
+
+
+(flush? pair-hand)  ;=> false
+(flush? flush-hand) ;=> true)
+
+
+(defn full-house? [hand]
+  (and (pair? hand) (three-of-a-kind? hand)))
+
+
+
+(full-house? three-of-a-kind-hand) ;=> false
+(full-house? full-house-hand)      ;=> true
+
+
+
+(defn two-pairs? [hand]
+  (if (= 2 (count (filter (fn [x] (= x 2)) (vals(frequencies(map rank hand))))))
+   false
+   true
+  ))
+
+(two-pairs? two-pairs-hand)      ;=> true
+(two-pairs? pair-hand)           ;=> false
+(two-pairs? four-of-a-kind-hand) ;=> true
+
+
+
+
+(defn straight? [hand]
+  (let [values (map rank hand)
+        straight-high (sort values)
+        straight-low (sort (replace {14 1} straight-high))]
+  (or
+    (= straight-high (range (apply min values) (+ (apply max values) 1)))
+    (= straight-low (range 1 6)))))
+
+
+(straight? two-pairs-hand)             ;=> false
+(straight? straight-hand)              ;=> true
+(straight? low-ace-straight-hand)      ;=> true
+(straight? ["2H" "2D" "3H" "4H" "5H"]) ;=> false
+(straight? high-ace-straight-hand)     ;=> true
+
+
+
+(defn straight-flush? [hand]
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
+(defn value [hand]
+ (cond
+  (straight-flush? hand) 8
+  (four-of-a-kind? hand) 7
+  (full-house? hand) 6
+  (flush? hand) 5
+  (straight? hand) 4
+  (three-of-a-kind? hand) 3
+  (two-pairs? hand) 2
+  (pair? hand) 1
+  :else 0))
+
+
+ (value high-seven)           ;=> 0
+(value pair-hand)            ;=> 1
+(value two-pairs-hand)       ;=> 2
+(value three-of-a-kind-hand) ;=> 3
+(value straight-hand)        ;=> 4
+(value flush-hand)           ;=> 5
+(value full-house-hand)      ;=> 6
+(value four-of-a-kind-hand)  ;=> 7
+(value straight-flush-hand)  ;=> 8
+
+
+
+
