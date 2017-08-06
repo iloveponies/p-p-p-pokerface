@@ -1,34 +1,64 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [[a _] card]
+    (if (Character/isDigit a)
+      (Integer/valueOf (str a))
+      (get {\A 14, \K 13, \Q 12, \J 11, \T 10} a))))
 
 (defn suit [card]
-  nil)
+  (let [[_ m] card]
+        (str m)))
 
 (defn pair? [hand]
-  nil)
+  (boolean (== (apply max (vals (frequencies (map rank hand)))) 2)))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (boolean (== (apply max (vals (frequencies (map rank hand)))) 3)))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (boolean (== (apply max (vals (frequencies (map rank hand)))) 4)))
 
 (defn flush? [hand]
-  nil)
+  (boolean (== (apply max (vals (frequencies (map suit hand)))) 5)))
 
 (defn full-house? [hand]
-  nil)
+  (boolean (and (some #{3} (vals (frequencies (map rank hand))))
+                (some #{2} (vals (frequencies (map rank hand)))))))
 
 (defn two-pairs? [hand]
-  nil)
+  (boolean (or (= [1 2 2] (sort (vals (frequencies (map rank hand)))))
+               (= [1 4] (sort (vals (frequencies (map rank hand))))))))
 
 (defn straight? [hand]
-  nil)
+  (let [kasi (map rank hand)]
+    (boolean (or (= [2 3 4 5 14] (sort kasi))
+                 (= [2 3 4 5 6] (sort kasi))
+                 (= [3 4 5 6 7] (sort kasi))
+                 (= [4 5 6 7 8] (sort kasi))
+                 (= [5 6 7 8 9] (sort kasi))
+                 (= [6 7 8 9 10] (sort kasi))
+                 (= [7 8 9 10 11] (sort kasi))
+                 (= [8 9 10 11 12] (sort kasi))
+                 (= [9 10 11 12 13] (sort kasi))
+                 (= [10 11 12 13 14] (sort kasi))
+                 (= [1 10 11 12 13] (sort kasi))))))
+
 
 (defn straight-flush? [hand]
-  nil)
+  (boolean (and (straight? hand) (flush? hand))))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (cond
+    (straight-flush? hand) 8
+    (four-of-a-kind? hand) 7
+    (full-house? hand) 6
+    (flush? hand) 5
+    (straight? hand) 4
+    (three-of-a-kind? hand) 3
+    (two-pairs? hand) 2
+    (pair? hand) 1
+    :else 0))
