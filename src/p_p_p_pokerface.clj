@@ -15,7 +15,7 @@
   (map rank hand))
 
 (defn multiple-same-ranks? [hand how-many]
-    (contains? (set (vals (frequencies (ranks-of-hand hand)))) how-many))
+  (contains? (set (vals (frequencies (ranks-of-hand hand)))) how-many))
 
 (defn high-card? [hand]
   true)
@@ -34,7 +34,7 @@
     (= (vals (frequencies suits)) (seq [5]))))
 
 (defn full-house? [hand]
-    (and (pair? hand) (three-of-a-kind? hand)))
+  (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   (or (four-of-a-kind? hand)
@@ -58,9 +58,9 @@
 
 (defn value [hand]
   (let [checkers #{[high-card? 0]  [pair? 1]
-                 [two-pairs? 2]  [three-of-a-kind? 3]
-                 [straight? 4]   [flush? 5]
-                 [full-house? 6] [four-of-a-kind? 7]
-                 [straight-flush? 8]}
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
         hands-values (filter (fn [[value-of-hand _]] (value-of-hand hand)) checkers)]
-      (apply max (map second hands-values))))
+    (apply max (map second hands-values))))
