@@ -47,6 +47,22 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
+(defn high-card? [hand]
+  true)
+
+(def checkers #{[high-card? 0]  [pair? 1]
+                [two-pairs? 2]  [three-of-a-kind? 3]
+                [straight? 4]   [flush? 5]
+                [full-house? 6] [four-of-a-kind? 7]
+                [straight-flush? 8]})
+
 (defn value [hand]
-  (let [hands-types (mapv (fn [check] ((first check) hand)) checkers)]
-    (apply max (filter hands-types (map (fn [check] (second check)) checkers)))))
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                   [two-pairs? 2]  [three-of-a-kind? 3]
+                   [straight? 4]   [flush? 5]
+                   [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}]
+    (let [matched 
+          (map (fn [hand-test] 
+                 (if ((first hand-test) hand) (second hand-test) 0)) checkers)]
+      (apply max  matched))))
