@@ -39,8 +39,17 @@
   (let [descending-rank-freqs (sort > (vals (hand->rank-frequencies hand)))]
       (or (= [2 2] (take 2 descending-rank-freqs)) (= [4] (take 1 descending-rank-freqs)))))
 
+(defn straight-impl? [ranks]
+  (let [sorted-ranks (sort ranks)]
+    (let [lowest_rank (nth sorted-ranks 0)]
+      (= sorted-ranks (range lowest_rank (+ lowest_rank 5))))))
+
 (defn straight? [hand]
-  nil)
+  (let [ranks-high-ace (map rank hand)]
+    (let [ranks-low-ace (replace {14 1} ranks-high-ace)]
+      (or (straight-impl? ranks-high-ace) (straight-impl? ranks-low-ace)))))
+
+
 
 (defn straight-flush? [hand]
   nil)
