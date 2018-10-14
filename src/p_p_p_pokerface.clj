@@ -36,7 +36,8 @@
     (or (= [2 3] rank-freqs) (= [3 2] rank-freqs))))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [descending-rank-freqs (sort > (vals (hand->rank-frequencies hand)))]
+      (or (= [2 2] (take 2 descending-rank-freqs)) (= [4] (take 1 descending-rank-freqs)))))
 
 (defn straight? [hand]
   nil)
