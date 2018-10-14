@@ -52,7 +52,7 @@
 
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
 
 (defn value [hand]
   nil)
