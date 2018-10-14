@@ -16,6 +16,8 @@
 (defn hand->rank-frequencies [hand]
   (frequencies (map rank hand)))
 
+(defn hand->suit-frequencies [hand]
+  (frequencies (map suit hand)))
 
 (defn pair? [hand]
   (= 2 (apply max (vals (hand->rank-frequencies hand)))))
@@ -27,7 +29,7 @@
   (= 4 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn flush? [hand]
-  nil)
+  (= 5 (apply max (vals (hand->suit-frequencies hand)))))
 
 (defn full-house? [hand]
   nil)
