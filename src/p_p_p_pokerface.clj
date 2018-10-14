@@ -20,19 +20,20 @@
   (frequencies (map suit hand)))
 
 (defn pair? [hand]
-  (= 2 (apply max (vals (hand->rank-frequencies hand)))))
+  (< 1 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn three-of-a-kind? [hand]
-  (= 3 (apply max (vals (hand->rank-frequencies hand)))))
+  (< 2 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn four-of-a-kind? [hand]
-  (= 4 (apply max (vals (hand->rank-frequencies hand)))))
+  (< 3 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn flush? [hand]
   (= 5 (apply max (vals (hand->suit-frequencies hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (let [rank-freqs (vals (hand->rank-frequencies hand))]
+    (or (= [2 3] rank-freqs) (= [3 2] rank-freqs))))
 
 (defn two-pairs? [hand]
   nil)
