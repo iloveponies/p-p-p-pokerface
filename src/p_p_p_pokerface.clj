@@ -54,5 +54,19 @@
 (defn straight-flush? [hand]
   (and (flush? hand) (straight? hand)))
 
+
+(defn high-card? [hand]
+  true) ; All hands have a high card.
+
+
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0]  [pair? 1]
+                 [two-pairs? 2]  [three-of-a-kind? 3]
+                 [straight? 4]   [flush? 5]
+                 [full-house? 6] [four-of-a-kind? 7]
+                 [straight-flush? 8]}]
+    (let [evaluate-checkers (map (fn [x] x) checkers)] ;;run anonym fn for each checker, anon fn is formed in the next row
+      (let [matching-checkers (filter (fn [x] ((first x) hand)) evaluate-checkers)] ;;filters matching checkers, (first x) points to the first part of the checker macro match pair i.e. 'high-card'
+        (let [values-from-matching-checkers (map second matching-checkers)]
+          (apply max values-from-matching-checkers))))))
+
