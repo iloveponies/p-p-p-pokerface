@@ -1,7 +1,13 @@
 (ns p-p-p-pokerface)
 
+(def replacements {\T 10 \J 11 \Q 12 \K 13 \A 14})
+
+
 (defn rank [card]
-  nil)
+  (let [[rank-char _] card]
+    (if (Character/isDigit rank-char)
+      (Integer/valueOf (str rank-char))
+      (replacements rank-char))))
 
 (defn suit [card]
   (let [[_ second-char] card]
