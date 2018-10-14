@@ -16,14 +16,15 @@
 (defn hand->rank-frequencies [hand]
   (frequencies (map rank hand)))
 
+
 (defn pair? [hand]
   (= 2 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (= 3 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (= 4 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn flush? [hand]
   nil)
