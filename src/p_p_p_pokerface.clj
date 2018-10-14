@@ -13,8 +13,11 @@
   (let [[_ second-char] card]
     (str second-char)))
 
+(defn hand->rank-frequencies [hand]
+  (frequencies (map rank hand)))
+
 (defn pair? [hand]
-  nil)
+  (= 2 (apply max (vals (hand->rank-frequencies hand)))))
 
 (defn three-of-a-kind? [hand]
   nil)
