@@ -10,7 +10,7 @@
 
 (defn suit [card]
   (let [[_ s] card]
-    s))
+    (str s)))
 
 (defn max-with-same-rank [hand]
   (apply max (vals (frequencies (map rank hand)))))
