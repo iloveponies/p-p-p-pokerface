@@ -8,9 +8,9 @@
 
 (defn rank [card]
   (let [[fst _] card]
-  (if (Character/isDigit fst)
-    (Integer/valueOf (str fst))
-    (char-ranks fst)))
+    (if (Character/isDigit fst)
+      (Integer/valueOf (str fst))
+      (char-ranks fst))))
 
 (defn suit [card]
   (let [[_ snd] card]
@@ -60,7 +60,7 @@
 (defn straight-flush? [hand]
   (and
     (flush? hand)
-    (straight? hand))
+    (straight? hand)))
 
 
 (defn high-card? [hand]
@@ -77,4 +77,4 @@
                  [straight-flush? 8]}])
 
 (defn value [hand]
-  (0))
+  0)
