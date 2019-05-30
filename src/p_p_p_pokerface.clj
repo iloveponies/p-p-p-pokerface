@@ -16,10 +16,14 @@
   (let [[_ snd] card]
     (str snd)))
 
-(defn contains-set-of-size? [hand size]
+(defn hand-set-sizes [hand]
   (let [ranks (map rank hand)
-        freqs (vals (apply frequencies ranks))]
-    (contains? freqs size)))
+        freqs (vals (frequencies ranks))]
+    freqs))
+
+(defn contains-set-of-size? [hand size]
+  (let [set-sizes (hand-set-sizes hand)]
+    (not (empty? (filter (fn [x] (= x size)) set-sizes)))))
 
 (defn pair? [hand]
   (contains-set-of-size? hand 2))
@@ -32,7 +36,7 @@
 
 (defn flush? [hand]
   (let [suits (map suit hand)
-        freqs (vals (apply frequencies suits))]
+        freqs (vals (frequencies suits))]
     (= (freqs [1]))))
 
 (defn full-house? [hand]
@@ -42,13 +46,12 @@
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
-        freqs (vals (apply frequencies ranks))
-        set-sizes (apply frequencies freqs)
-        number-of-pairs (set-sizes 2)
+        set-sizes-map (frequencies ranks)
+        number-of-pairs (set-sizes-map 2)
         contains-four (four-of-a-kind? hand)]
     (or
       (= (number-of-pairs 2))
-      (contains-four))))
+      contains-four)))
 
 (defn straight? [hand]
   (let [ranks (map rank hand)
