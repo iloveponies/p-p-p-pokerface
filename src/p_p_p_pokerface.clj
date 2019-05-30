@@ -32,13 +32,13 @@
 
 (defn flush? [hand]
   (let [suits (map suit hand)
-        freqs (apply frequencies ranks)]
-    (= (freq 1))))
+        freqs (vals (apply frequencies suits))]
+    (= (freqs [1]))))
 
 (defn full-house? [hand]
   (and
     (contains-set-of-size? hand 3)
-    (contains-set-of-aces-as-oned 2)))
+    (contains-set-of-size? hand 2)))
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
