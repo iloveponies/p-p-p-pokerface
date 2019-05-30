@@ -53,12 +53,30 @@
       (= number-of-pairs 2)
       contains-four)))
 
-(defn straight? [hand]
+(defn spans-five? [ranks]
+  (let [high (apply max ranks)
+        low (apply min ranks)]
+        (= (- high low) 4)))
+
+(defn sequential-numbers? [ranks]
+  (let [is-distinct (apply distinct? ranks)
+        spans-five (spans-five? ranks)]
+    (and is-distinct spans-five)))
+
+(defn is-high-straight [hand]
+  (let [ranks (map rank hand)]
+      (sequential-numbers? ranks)))
+
+(defn is-low-straight [hand]
   (let [ranks (map rank hand)
         ranks-with-aces-as-ones (replace {14 1} ranks)]
+      (sequential-numbers? ranks-with-aces-as-ones)))
+
+(defn straight? [hand]
+  (let [ranks (map rank hand)]
     (or
-      (apply < ranks-with-aces-as-ones)
-      (apply < ranks))))
+      (is-low-straight hand)
+      (is-high-straight hand))))
 
 (defn straight-flush? [hand]
   (and
