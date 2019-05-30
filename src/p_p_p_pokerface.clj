@@ -37,7 +37,7 @@
 (defn flush? [hand]
   (let [suits (map suit hand)
         freqs (vals (frequencies suits))]
-    (= (freqs [1]))))
+    (= freqs [5])))
 
 (defn full-house? [hand]
   (and
@@ -50,7 +50,7 @@
         number-of-pairs (set-sizes-map 2)
         contains-four (four-of-a-kind? hand)]
     (or
-      (= (number-of-pairs 2))
+      (= number-of-pairs 2)
       contains-four)))
 
 (defn straight? [hand]
