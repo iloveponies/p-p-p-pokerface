@@ -14,7 +14,7 @@
 
 (defn suit [card]
   (let [[_ snd] card]
-    (str (snd))))
+    (str snd)))
 
 (defn contains-set-of-size? [hand size]
   (let [ranks (map rank hand)
