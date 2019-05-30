@@ -46,7 +46,7 @@
 
 (defn two-pairs? [hand]
   (let [ranks (map rank hand)
-        set-sizes-map (frequencies ranks)
+        set-sizes-map (frequencies (vals (frequencies ranks)))
         number-of-pairs (set-sizes-map 2)
         contains-four (four-of-a-kind? hand)]
     (or
