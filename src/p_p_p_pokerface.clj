@@ -87,7 +87,7 @@
 (defn high-card? [hand]
   true)
 
-(let [checkers #{[high-card? 0]
+(def checkers #{[high-card? 0]
                  [pair? 1]
                  [two-pairs? 2]
                  [three-of-a-kind? 3]
@@ -95,7 +95,8 @@
                  [flush? 5]
                  [full-house? 6]
                  [four-of-a-kind? 7]
-                 [straight-flush? 8]}])
+                 [straight-flush? 8]})
 
 (defn value [hand]
-  0)
+  (let [values (map (fn [kv] (if ((first kv) hand) (second kv) 0)) checkers)]
+    (apply max values)))
