@@ -1,34 +1,84 @@
 (ns p-p-p-pokerface)
 
-(defn rank [card]
-  nil)
+(def rank-map {\T 10 \J 11 \Q 12 \K 13 \A 14})
 
-(defn suit [card]
-  nil)
+(defn rank [[card-rank card-suit]]
+  (cond
+    (Character/isDigit card-rank) (Integer/valueOf (str card-rank))
+    :else (get rank-map card-rank)))
+    
+
+(defn suit [[card-rank card-suit]]
+  (str card-suit))
+
+; Get map of the frequencies of different combinations
+; (how many pairs, how many three-of-a-kinds, etc.)
+(defn combo-frequencies [hand]
+  (let [ranks (map rank hand)
+        rank-freqs-map (frequencies ranks)    ; ranks->frequency count
+        rank-freqs (vals rank-freqs-map)      ; just frequencies of ranks
+        combos-freqs (frequencies rank-freqs) ; frequencies of rank combinations
+        ]
+    combos-freqs))
+
+(defn has-combo-of-size? [hand size]
+  (let [combos-freqs (combo-frequencies hand)]
+    ; See if there is a combo of exactly size
+    (contains? (set (keys combos-freqs)) size)))
 
 (defn pair? [hand]
-  nil)
+  (has-combo-of-size? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (has-combo-of-size? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (has-combo-of-size? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (let [suit-frequencies (frequencies (map suit hand))]
+    (= (count suit-frequencies) 1)))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand) (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
-  nil)
+  (let [combos-freqs (combo-frequencies hand)]
+    (= (get combos-freqs 2) 2)))
+
+; Test vector of ranks to see if it is a straight. 
+(defn straight-ranks? [ranks]
+  (let [ranks-sorted (sort ranks)
+        start (first ranks-sorted)
+        size (count ranks)]
+    (= ranks-sorted (range start (+ start size)))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (map rank hand)
+        ranks-ace-low (replace {14 1} ranks)]
+    (or (straight-ranks? ranks) (straight-ranks? ranks-ace-low))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (straight? hand) (flush? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers [[high-card? 0]
+                  [pair? 1]
+                  [two-pairs? 2]
+                  [three-of-a-kind? 3]
+                  [straight? 4]
+                  [flush? 5]
+                  [full-house? 6]
+                  [four-of-a-kind? 7]
+                  [straight-flush? 8]]
+        apply-checker (fn [pair]
+                        (let [pred (first pair)
+                              score (second pair)]
+                          (if (pred hand)
+                            score
+                            0)))
+        scores (map apply-checker checkers)]
+    (apply max scores)))
