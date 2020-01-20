@@ -1,34 +1,60 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  (let [letter (first card)
+        ranks-by-letter {\T 10, \J 11, \Q 12, \K 13, \A 14}]
+    (if (Character/isDigit letter)
+      (Integer/valueOf (str letter))
+      (get ranks-by-letter letter))))
 
 (defn suit [card]
-  nil)
+  (str (second card)))
+
+(defn- n-of-a-kind? [hand n]
+  (contains? (set (vals (frequencies (map rank hand)))) n))
 
 (defn pair? [hand]
-  nil)
+  (n-of-a-kind? hand 2))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 3))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (n-of-a-kind? hand 4))
 
 (defn flush? [hand]
-  nil)
+  (= (count (set (map suit hand))) 1))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
-(defn two-pairs? [hand]
-  nil)
+(defn two-pairs?
+  "This implementation will *not* accept 4-of-a-kind as two pairs."
+  [hand]
+  (= [1 2 2]
+     (sort (vals (frequencies (map rank hand))))))
 
 (defn straight? [hand]
-  nil)
+  (let [ranks (sort (map rank hand))
+        lowest-rank (apply min ranks)
+        has-ace (contains? (set ranks) 14)
+        straight-by-lowest? (fn [ranks lowest] (= (range lowest (+ lowest 5)) ranks))]
+    (or (straight-by-lowest? ranks lowest-rank)
+        (and has-ace (straight-by-lowest? (sort (replace {14 1} ranks)) 1)))))
 
 (defn straight-flush? [hand]
-  nil)
+  (and (flush? hand) (straight? hand)))
+
+(defn high-card? [hand]
+  true)
 
 (defn value [hand]
-  nil)
+  (let [checkers #{[high-card? 0] [pair? 1] [two-pairs? 2] [three-of-a-kind? 3]
+                   [straight? 4] [flush? 5] [full-house? 6] [four-of-a-kind? 7]
+                   [straight-flush? 8]}
+        tests (map first checkers)
+        scores (map second checkers)]
+    (apply max
+           (map second (filter
+                         (fn [checker] ((first checker) hand)) checkers)))))
