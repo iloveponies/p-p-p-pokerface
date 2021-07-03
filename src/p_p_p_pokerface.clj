@@ -1,34 +1,113 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  nil)
+  "Exercise 2"
+  (def the-big-ones {\A 14, \K 13 \Q 12 \J 11 \T 10})
+  (let [[rank _] card]
+    (let [digit (Character/isDigit rank)]
+      (if digit
+        (Integer/valueOf (str rank))                        ;convert char containing digit to str to integer
+        (the-big-ones rank)))))
+
 
 (defn suit [card]
-  nil)
+  "Exercise 1"
+  (let [[_ suit] card]
+    (str suit)))
+
+
+(defn contain? [val, collection]
+  (boolean (some #(= val %) collection)))
+
 
 (defn pair? [hand]
-  nil)
+  "Exercise 3"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 2 occurences))))
+
 
 (defn three-of-a-kind? [hand]
-  nil)
+  "Exercise 4"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 3 occurences))))
+
 
 (defn four-of-a-kind? [hand]
-  nil)
+  "Exercise 5"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (contain? 4 occurences))))
+
 
 (defn flush? [hand]
-  nil)
+  "Exercise 6"
+  (let [suits (map suit hand)]
+    (let [occurences (vals (frequencies suits))]
+      (contain? 5 occurences))))
+
 
 (defn full-house? [hand]
-  nil)
+  "Exercise 7"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (and (contain? 2 occurences) (contain? 3 occurences)))))
+
 
 (defn two-pairs? [hand]
-  nil)
+  "Exercise 8"
+  (let [ranks (map rank hand)]
+    (let [occurences (vals (frequencies ranks))]
+      (= (count (filter #{2} occurences)) 2))))
+
+
+(defn ace-hand-straight? [ranks]
+  ;helper function to check low ace hand
+  (let [new-ranks (conj (drop-last ranks) 1)]
+    (let [smallest-card (first new-ranks)]
+      (let [reference-hand (range smallest-card (+ smallest-card 5))]
+        (= reference-hand new-ranks)))))
+
 
 (defn straight? [hand]
-  nil)
+  "Exercise 9"
+  (let [ranks (map rank hand)]
+    (let [sorted-ranks (sort ranks)]
+      (let [smallest-card (first sorted-ranks)]
+        (let [reference-hand (range smallest-card (+ smallest-card 5))]
+          (if (= reference-hand sorted-ranks)
+            true
+            (if (contain? 14 sorted-ranks)
+              (ace-hand-straight? sorted-ranks)             ;try once again with 1
+              false)))))))
+
 
 (defn straight-flush? [hand]
-  nil)
+  "Exercise 10"
+  (and (flush? hand) (straight? hand)))
+
+
+(defn high-card? [hand]
+  (or straight-flush? hand
+      straight? hand
+      two-pairs? hand
+      full-house? hand
+      flush? hand
+      four-of-a-kind? hand
+      three-of-a-kind? hand
+      pair? hand))
+
 
 (defn value [hand]
-  nil)
+  "Exercise 11"
+    (cond
+      (straight-flush? hand) 8
+      (four-of-a-kind? hand) 7
+      (full-house? hand) 6
+      (flush? hand) 5
+      (straight? hand) 4
+      (three-of-a-kind? hand) 3
+      (two-pairs? hand) 2
+      (pair? hand) 1
+      :else 0))
