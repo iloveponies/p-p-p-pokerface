@@ -48,10 +48,11 @@
   (or (repeats-ranks-freq? hand 2 2) (four-of-a-kind? hand)))
 
 (defn straight? [hand]
-  (let [ranks (map rank hand)
-        min-rank (apply min ranks)]
-    (= (range min-rank (+ min-rank 5)) (sort ranks))
-    ))
+  (let [s_ranks (sort (map rank hand))
+        ascending? (fn [x] (= x (range (first x) (inc (last x)))))]
+    (or
+      (ascending? s_ranks)
+      (ascending? (sort (replace {14 1} s_ranks))))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
