@@ -1,19 +1,5 @@
 (ns p-p-p-pokerface)
 
-(def high-seven                   ["2H" "3S" "4C" "5C" "7D"])
-(def pair-hand                    ["2H" "2S" "4C" "5C" "7D"])
-(def two-pairs-hand               ["2H" "2S" "4C" "4D" "7D"])
-(def three-of-a-kind-hand         ["2H" "2S" "2C" "4D" "7D"])
-(def four-of-a-kind-hand          ["2H" "2S" "2C" "2D" "7D"])
-(def straight-hand                ["2H" "3S" "6C" "5D" "4D"])
-(def low-ace-straight-hand        ["2H" "3S" "4C" "5D" "AD"])
-(def high-ace-straight-hand       ["TH" "AS" "QC" "KD" "JD"])
-(def flush-hand                   ["2H" "4H" "5H" "9H" "7H"])
-(def full-house-hand              ["2H" "5D" "2D" "2C" "5S"])
-(def straight-flush-hand          ["2H" "3H" "6H" "5H" "4H"])
-(def low-ace-straight-flush-hand  ["2D" "3D" "4D" "5D" "AD"])
-(def high-ace-straight-flush-hand ["TS" "AS" "QS" "KS" "JS"])
-
 (defn rank [card]
   (let [[fst _] card]
     (cond
@@ -69,16 +55,17 @@
         min-ace-1 (apply min hand-distinct-ranks-ace-1)
         max-ace-1 (apply max hand-distinct-ranks-ace-1)
         ace-14-range (range (- max-ace-14 min-ace-14))
-        ace-1-range (range (- max-ace-1 min-ace-1))
-        ]
-    (or (= (count ace-1-range) 4) (= (count ace-14-range) 4) )))
+        ace-1-range (range (- max-ace-1 min-ace-1))]
+    (cond
+      (not= (count hand-distinct-ranks) 5) false
+      :else (or (= (count ace-1-range) 4) (= (count ace-14-range) 4)))))
 
 (defn straight-flush? [hand]
   (and (straight? hand) (flush? hand)))
 
 (defn value [hand]
-  (cond 
-   (and (not (two-pairs? hand))( pair? hand)) 1
+  (cond
+    (and (not (two-pairs? hand)) (pair? hand)) 1
     (and (not (four-of-a-kind? hand)) (two-pairs? hand)) 2
     (and (not (full-house? hand))  (three-of-a-kind? hand)) 3
     (and (straight? hand) (not (straight-flush? hand))) 4
